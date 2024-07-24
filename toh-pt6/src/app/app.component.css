@@ -1,0 +1,14 @@
+h1 {
+  margin-bottom: 0;
+}
+
+.navbar {
+  margin-bottom: 20px;
+}
+
+.navbar-nav .nav-link {
+  display: flex;
+  align-items: center;
+}
+
+
