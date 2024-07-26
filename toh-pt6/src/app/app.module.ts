@@ -17,6 +17,8 @@ import { SignComponent } from './sign/sign.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UsersComponent } from './users/users.component';
 import { UserSearchComponent } from './user-search/user-search.component';
+import { RoleComponent } from './role/role.component';
+import { ProfileComponent } from './profile/profile.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -42,8 +44,9 @@ import { UserSearchComponent } from './user-search/user-search.component';
     UserSearchComponent,
     MessagesComponent,
     LoginComponent,
-    SignComponent
-
+    SignComponent,
+    RoleComponent,
+    ProfileComponent
   ],
   bootstrap: [ AppComponent ]
 })

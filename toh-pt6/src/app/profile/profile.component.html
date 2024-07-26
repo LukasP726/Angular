@@ -21,11 +21,6 @@
       <label for="user-email">Email: </label>
       <input id="user-email" type="email" [(ngModel)]="user.email" placeholder="Email"/>
     </div>
-    <div>
-      <label for="user-role">Role: </label>
-      <input id="user-role" [value]="roleName" placeholder="Role" readonly />
-    </div>
     <button type="button" (click)="goBack()">go back</button>
     <button type="button" (click)="save()">save</button>
   </div>
-  

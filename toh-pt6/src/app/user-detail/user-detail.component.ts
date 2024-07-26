@@ -2,7 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { UserService } from '../user.service';
-import { User } from '../user';
+import { Role, User } from '../user';
+import { RoleService } from '../role.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -11,11 +12,14 @@ import { User } from '../user';
 })
 export class UserDetailComponent implements OnInit{
   @Input() user?: User;
+  roleName: string | undefined ;
 
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
-    private location: Location  ){}
+    private location: Location,
+    private roleService: RoleService  
+  ){}
 
   ngOnInit(): void {
     this.getUser();
@@ -36,6 +40,12 @@ export class UserDetailComponent implements OnInit{
       this.userService.updateUser(this.user)
       .subscribe(() => this.goBack());
     }
+  }
+
+  getRole(roleId: number): void {
+    this.roleService.getRole(roleId).subscribe(role => {
+      this.roleName = role.name;
+    });
   }
 
 }

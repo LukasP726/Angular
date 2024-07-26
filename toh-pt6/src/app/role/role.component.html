@@ -1,0 +1,3 @@
+<select [(ngModel)]="selectedRole" name="role" required>
+    <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
+  </select>

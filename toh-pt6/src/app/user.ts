@@ -1,11 +1,11 @@
 export interface User {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   login: string;
   password: string;
   email: string;
-  role: Role;
+  idRole: number;
 }
 
 export interface Role {

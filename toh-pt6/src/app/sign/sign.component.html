@@ -58,4 +58,10 @@
     </div>
     <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Register</button>
   </form>
+  <div *ngIf="registrationSuccess" class="alert alert-success">
+    Registration was successful!
+  </div>
+  <div *ngIf="registrationFailed" class="alert alert-danger">
+    Registration failed. Please try again.
+  </div>
 </div>

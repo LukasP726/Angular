@@ -1,6 +1,6 @@
 <div class="login-container">
   <h2><i class="fa fa-sign-in"></i> Login</h2>
-  <form (ngSubmit)="logUser()">
+  <form (ngSubmit)="login()">
     <div class="form-group">
       <label for="userName">Name:</label>
       <input
@@ -24,5 +24,6 @@
       />
     </div>
     <button type="submit" class="btn btn-primary"><i class="fa fa-check"></i> Login</button>
+    <div *ngIf="loginFailed" class="error">Login failed. Please check your username and password.</div>
   </form>
 </div>

@@ -29,8 +29,12 @@ export class UserService {
     return this.http.get<User>(url);
   }
 
+
+
   addUser(user: User): Observable<User> {
-    return this.http.post<User>(this.usersUrl, user, this.httpOptions);
+    return this.http.post<User>(this.usersUrl, user, this.httpOptions).pipe(
+      catchError(this.handleError<User>('addUser'))
+    );
   }
 
   updateUser(user: User): Observable<any> {
@@ -79,5 +83,9 @@ export class UserService {
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
+  }
+
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(`${this.usersUrl}/me`);
   }
 }

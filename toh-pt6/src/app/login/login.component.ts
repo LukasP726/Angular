@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
+import { catchError, of, tap } from 'rxjs';
 
 
 @Component({
@@ -10,17 +12,28 @@ import { AuthService } from '../auth.service';
 export class LoginComponent {
   username: string = '';
   password: string = '';
+  loginFailed: boolean= false;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
-  logUser(): void {
-    this.authService.login({ username: this.username, password: this.password })
-      .subscribe(response => {
+  login(): void {
+    this.authService.login(this.username, this.password).pipe(
+      tap(response => {
         if (response && response.token) {
-          // Přihlášení bylo úspěšné
+          this.loginFailed = false;
+          this.router.navigate(['/dashboard']); // Redirect to the dashboard or any other route
         } else {
-          // Přihlášení selhalo
+          this.loginFailed = true;
         }
-      });
+      }),
+      catchError(error => {
+        this.loginFailed = true;
+        return of(null);
+      })
+    ).subscribe({
+      next: () => {},
+      error: () => { this.loginFailed = true; },
+      complete: () => {}
+    });
   }
 }
