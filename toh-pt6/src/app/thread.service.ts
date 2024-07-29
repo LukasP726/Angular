@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Thread } from "./thread";
@@ -16,6 +16,7 @@ export class ThreadService {
   }
 
   createThread(thread: Thread): Observable<Thread> {
-    return this.http.post<Thread>(this.baseUrl, thread);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this.http.post<Thread>(this.baseUrl, thread, { headers });
   }
 }

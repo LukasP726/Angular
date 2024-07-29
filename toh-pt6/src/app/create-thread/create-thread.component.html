@@ -1,0 +1,9 @@
+<div>
+    <h2>Create New Thread</h2>
+    <form [formGroup]="threadForm" (ngSubmit)="onSubmit()">
+      <label for="name">Thread Name:</label>
+      <input id="name" formControlName="name">
+      <button type="submit" [disabled]="threadForm.invalid">Create</button>
+    </form>
+  </div>
+  

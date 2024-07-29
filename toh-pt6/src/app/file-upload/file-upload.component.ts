@@ -30,7 +30,7 @@ export class FileUploadComponent {
     const uploadData = new FormData();
     uploadData.append('file', this.selectedFile, this.selectedFile.name);
 
-    this.http.post('http://localhost:8080/api/upload', uploadData, { responseType: 'text' })
+    this.http.post('http://localhost:8080/api/uploads', uploadData, { responseType: 'text' })
       .pipe(
         tap(response => {
           // Zpracování odpovědi

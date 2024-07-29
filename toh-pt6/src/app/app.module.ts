@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CreateThreadComponent } from './create-thread/create-thread.component';
 
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 //import { InMemoryDataService } from './in-memory-data.service';
@@ -48,7 +49,8 @@ import { ProfileComponent } from './profile/profile.component';
     LoginComponent,
     SignComponent,
     RoleComponent,
-    ProfileComponent
+    ProfileComponent,
+    CreateThreadComponent
   ],
   bootstrap: [ AppComponent ]
 })
