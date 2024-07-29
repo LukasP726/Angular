@@ -11,6 +11,7 @@ import { MessageService } from './message.service';
 export class UserService {
   //private usersUrl = `${environment.apiUrl}/users`;
   private usersUrl = 'http://localhost:8080/api/users';
+  
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -35,6 +36,7 @@ export class UserService {
     return this.http.post<User>(this.usersUrl, user, this.httpOptions).pipe(
       catchError(this.handleError<User>('addUser'))
     );
+    
   }
 
   updateUser(user: User): Observable<any> {
@@ -87,5 +89,9 @@ export class UserService {
 
   getCurrentUser(): Observable<User> {
     return this.http.get<User>(`${this.usersUrl}/me`);
+  }
+
+  getUserByUsername(username: string): Observable<User> {
+    return this.http.get<User>(`${this.usersUrl}/username/${username}`);
   }
 }

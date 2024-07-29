@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { SignComponent } from './sign/sign.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { ProfileComponent } from './profile/profile.component';
+import { FileUploadComponent } from './file-upload/file-upload.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'sign', component: SignComponent},
   { path: 'profile', component: ProfileComponent},
+  { path: 'upload', component: FileUploadComponent},
 
 ];
 

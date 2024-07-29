@@ -7,9 +7,10 @@ import { AuthService } from './auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'My blog';
+  title = 'My forum';
 
   isLoggedIn: boolean = false;
+  isLoggedAsAdmin: boolean = false;
 
   constructor(private authService: AuthService) { }
 
@@ -17,6 +18,11 @@ export class AppComponent {
     this.authService.isLoggedIn().subscribe(status => {
       this.isLoggedIn = status;
     });
+
+    this.authService.isLoggedAsAdmin().subscribe(isAdmin => {
+      this.isLoggedAsAdmin = isAdmin;
+    });
+    
   }
 
   logout(): void {

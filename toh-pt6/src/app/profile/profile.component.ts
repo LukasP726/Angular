@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../user.service';
 import { RoleService } from '../role.service';
 import { Location } from '@angular/common';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -12,7 +13,7 @@ import { Location } from '@angular/common';
 })
 export class ProfileComponent {
 
-  user: User | null = null;
+  user$: Observable<User> | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,26 +23,13 @@ export class ProfileComponent {
   ){}
 
   ngOnInit(): void {
-    this.getUser();
+    this.user$ = this.userService.getCurrentUser();
   }
 
-  getUser(): void {
-    this.userService.getCurrentUser().subscribe(
-      (user) => this.user = user,
-      (error) => console.error('Error fetching user:', error)
-    );
-  }
 
-  goBack():void{
-    this.location.back();
-  }
 
-  save(): void {
-    if (this.user) {
-      this.userService.updateUser(this.user)
-      .subscribe(() => this.goBack());
-    }
-  }
+
+
 
 
 

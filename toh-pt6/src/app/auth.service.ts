@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { User } from './user';
 
 
@@ -72,6 +72,18 @@ export class AuthService {
 
   isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
+  }
+
+  isLoggedAsAdmin(): Observable<boolean> {
+    return this.http.get<any>('/api/users/me').pipe(
+      map(user => {
+        return user.roles.some((role: any) => role.name === 'Admin');
+      }),
+      catchError(error => {
+        console.error('Error fetching user info:', error);
+        return of(false); // Pokud dojde k chybě, vrátíme false
+      })
+    );
   }
 
   register(user: User): Observable<User> {

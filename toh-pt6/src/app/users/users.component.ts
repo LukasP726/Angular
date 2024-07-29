@@ -59,6 +59,7 @@ export class UsersComponent implements OnInit {
     this.userService.addUser(newUser)
       .subscribe(user => {
         this.users.push(user);
+        window.location.reload();
       });
   }
   
