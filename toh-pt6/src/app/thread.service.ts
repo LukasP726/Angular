@@ -7,6 +7,8 @@ import { Thread } from "./thread";
   providedIn: 'root'
 })
 export class ThreadService {
+
+
   private baseUrl = 'http://localhost:8080/api/threads';
 
   constructor(private http: HttpClient) { }
@@ -18,5 +20,17 @@ export class ThreadService {
   createThread(thread: Thread): Observable<Thread> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.post<Thread>(this.baseUrl, thread, { headers });
+  }
+  
+  getThreadById(id: number): Observable<Thread> {
+    return this.http.get<Thread>(`${this.baseUrl}/${id}`);
+  }
+
+  getThreads(): Observable<Thread[]> {
+    return this.http.get<Thread[]>(this.baseUrl);
+  }
+
+  deleteThread(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

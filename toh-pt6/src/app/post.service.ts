@@ -7,6 +7,7 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class PostService {
+
   private baseUrl = 'http://localhost:8080/api/posts';
 
   constructor(private http: HttpClient) { }
@@ -21,5 +22,9 @@ export class PostService {
 
   createPost(post: Post): Observable<Post> {
     return this.http.post<Post>(this.baseUrl, post);
+  }
+
+  getPostsByThreadId(threadId: number): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.baseUrl}/thread/${threadId}`);
   }
 }

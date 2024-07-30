@@ -21,6 +21,8 @@ import { UsersComponent } from './users/users.component';
 import { UserSearchComponent } from './user-search/user-search.component';
 import { RoleComponent } from './role/role.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ThreadListComponent } from './thread-list/thread-list.component';
+import { ThreadDetailComponent } from './thread-detail/thread-detail.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -50,7 +52,9 @@ import { ProfileComponent } from './profile/profile.component';
     SignComponent,
     RoleComponent,
     ProfileComponent,
-    CreateThreadComponent
+    CreateThreadComponent,
+    ThreadListComponent,
+    ThreadDetailComponent,
   ],
   bootstrap: [ AppComponent ]
 })
