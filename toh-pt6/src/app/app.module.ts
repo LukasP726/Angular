@@ -23,6 +23,8 @@ import { RoleComponent } from './role/role.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ThreadListComponent } from './thread-list/thread-list.component';
 import { ThreadDetailComponent } from './thread-detail/thread-detail.component';
+import { CreatePostComponent } from "./create-post/create-post.component";
+import { FileUploadComponent } from './file-upload/file-upload.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -30,14 +32,8 @@ import { ThreadDetailComponent } from './thread-detail/thread-detail.component';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-
-    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-    // and returns simulated server responses.
-    // Remove it when a real server is ready to receive requests.
-    /*HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )*/
-  ],
+    CreatePostComponent
+],
   declarations: [
     AppComponent,
     DashboardComponent,
@@ -55,6 +51,7 @@ import { ThreadDetailComponent } from './thread-detail/thread-detail.component';
     CreateThreadComponent,
     ThreadListComponent,
     ThreadDetailComponent,
+    FileUploadComponent,
   ],
   bootstrap: [ AppComponent ]
 })

@@ -39,7 +39,7 @@ export class FileUploadComponent {
         catchError(error => {
           // Zpracování chyby
           console.error('Upload error:', error);
-          return of(''); // Vrátí prázdný řetězec nebo jinou hodnotu, která bude vhodná pro tvoje použití
+          return of(''); // Vrátí prázdný řetězec nebo jinou hodnotu, která bude vhodná pro použití
         })
       )
       .subscribe(); // Je stále platné, ale pouze pro spouštění Observable

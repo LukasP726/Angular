@@ -24,6 +24,13 @@ export class ProfileComponent {
 
   ngOnInit(): void {
     this.user$ = this.userService.getCurrentUser();
+    this.user$.subscribe(user => {
+      if (user) {
+        console.log('User loaded:', user);
+      } else {
+        console.log('No user data available.');
+      }
+    });
   }
 
 

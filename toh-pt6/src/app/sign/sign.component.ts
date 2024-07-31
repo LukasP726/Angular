@@ -48,23 +48,20 @@ export class SignComponent implements OnInit {
 
       this.authService.register(newUser).pipe(
         tap(response => {
-          if (response && response.id) {
-            // Registrace byla úspěšná
+          if (response) {
+            // Zkontrolujte, zda je odpověď z backendu validní
             this.registrationSuccess = true;
             this.registrationFailed = false;
-          } else {
-            // Registrace selhala
-            this.registrationSuccess = false;
-            this.registrationFailed = true;
           }
         }),
         catchError(error => {
-          // Registrace selhala
+          console.error('Registration error:', error);
           this.registrationSuccess = false;
           this.registrationFailed = true;
           return of(null);
         })
       ).subscribe();
+      
     } else {
       this.registrationFailed = true;
     }

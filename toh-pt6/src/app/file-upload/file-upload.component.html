@@ -1,5 +1,17 @@
-<div>
-    <input type="file" (change)="onFileSelected($event)">
-    <button (click)="onUpload()">Upload</button>
+<div class="container mt-4">
+  <div class="mb-3">
+    <label for="fileInput" class="form-label"><i class="fas fa-file-upload"></i> Choose file to upload</label>
+    <input 
+      type="file" 
+      id="fileInput" 
+      class="form-control" 
+      (change)="onFileSelected($event)"
+    >
   </div>
-  
+  <button 
+    class="btn btn-success" 
+    (click)="onUpload()"
+  >
+    <i class="fas fa-upload"></i> Upload
+  </button>
+</div>

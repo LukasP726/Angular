@@ -9,6 +9,8 @@ import { Upload } from "./upload";
 export class UploadService {
   private baseUrl = 'http://localhost:8080/api/uploads';
 
+  private selectedFile: File | null = null;
+
   constructor(private http: HttpClient) { }
 
   getUploadsByFilename(filename: string): Observable<Upload[]> {
@@ -19,6 +21,7 @@ export class UploadService {
     return this.http.get<Upload[]>(`${this.baseUrl}/user/${userId}`);
   }
 
+/*
   uploadFile(file: File, postId: number, userId: number): Observable<Upload> {
     const formData: FormData = new FormData();
     formData.append('file', file);
@@ -28,4 +31,18 @@ export class UploadService {
 
     
   }
+*/
+
+  setFile(file: File | null) {
+    this.selectedFile = file;
+  }
+
+  getFile(): File | null {
+    return this.selectedFile;
+  }
+
+  clearFile() {
+    this.selectedFile = null;
+  }
+
 }
