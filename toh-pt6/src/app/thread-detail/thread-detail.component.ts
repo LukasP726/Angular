@@ -7,6 +7,7 @@ import { PostService } from '../post.service';
 import { UploadService } from '../upload.service';
 import { catchError, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Upload } from '../upload';
 
 
 @Component({
@@ -18,12 +19,15 @@ export class ThreadDetailComponent implements OnInit {
 [x: string]: any;
 
   
-
+  uploads: Upload[] = [];
+  postId: number = 1;
   thread: Thread | undefined;
   posts: Post[] = [];
   newPostContent: string = '';
   currentThreadId: number | undefined;
   selectedFile: File | null = null;
+  currentUserId: number = 1;
+  newPostId: number | undefined;
  
 
 
@@ -31,7 +35,8 @@ export class ThreadDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private threadService: ThreadService,
     private postService: PostService,
-    private http: HttpClient
+    private http: HttpClient,
+    private uploadService: UploadService
   ) {}
 
   ngOnInit(): void {
@@ -39,6 +44,7 @@ export class ThreadDetailComponent implements OnInit {
       this.currentThreadId = +params['id'];
       this.loadThread();
       this.loadPosts();
+      this.loadUploads();
     });
   }
 
@@ -66,13 +72,29 @@ export class ThreadDetailComponent implements OnInit {
         content: this.newPostContent,
         idUser: 1, // Zde by mělo být ID přihlášeného uživatele
         idThread: this.currentThreadId!,
-        createdAt: new Date()
+        createdAt: new Date(),
+        idUpload: null // Pokud nahrání souboru může být volitelné
       };
-
+  
       this.postService.createPost(newPost).subscribe(
         (post: Post) => {
+          if (post.id !== undefined) {
+            this.newPostId = post.id; // Přístup k ID nově vytvořeného příspěvku
+            this.currentUserId = post.idUser;
+          } else {
+            console.error('Post creation response does not contain an ID');
+          }
           this.posts.push(post);
           this.newPostContent = '';
+  
+          // Získání ID nově vytvořeného postu
+          //this.newPostId = post.id;
+          
+  
+          // Volání onUpload pro nahrání souboru
+          if (this.selectedFile) {
+            this.onUpload();
+          }
         },
         (error: any) => console.error('Error creating post:', error)
       );
@@ -92,29 +114,44 @@ export class ThreadDetailComponent implements OnInit {
   }
   
 
-  onUpload() {
-    if (!this.selectedFile) {
-      console.log('No file selected');
+  onUpload(): void {
+    if (!this.selectedFile || !this.newPostId) {
+      console.log('No file selected or newPostId not available');
       return;
     }
-
+  
     const uploadData = new FormData();
     uploadData.append('file', this.selectedFile, this.selectedFile.name);
-
+  
+    // Přidání dalších informací do formulářových dat
+    uploadData.append('idUser', this.currentUserId.toString());
+    uploadData.append('idPost', this.newPostId.toString());
+  
     this.http.post('http://localhost:8080/api/uploads', uploadData, { responseType: 'text' })
       .pipe(
         tap(response => {
-          // Zpracování odpovědi
           console.log('Upload successful:', response);
         }),
         catchError(error => {
-          // Zpracování chyby
           console.error('Upload error:', error);
-          return of(''); // Vrátí prázdný řetězec nebo jinou hodnotu, která bude vhodná pro použití
+          return of(''); // Zpracování chyby
         })
       )
-      .subscribe(); // Je stále platné, ale pouze pro spouštění Observable
-    }
+      .subscribe();
+  }
+
+
+  loadUploads(): void {
+    this.uploadService.getUploadsForPost(this.postId).subscribe(
+      uploads => this.uploads = uploads,
+      error => console.error('Error loading uploads:', error)
+    );
+  }
+
+  getFileUrl(uploadId: number): string {
+    return `http://localhost:8080/api/uploads/download/${uploadId}`;
+  }
+  
 
 
 

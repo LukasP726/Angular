@@ -7,13 +7,34 @@
       <small class="text-muted">
         <i class="fas fa-user"></i> Posted by user {{ post.idUser }} at {{ post.createdAt | date:'short' }}
       </small>
+      
       <!--
       <div *ngIf="post.idUpload">
         <hr>
         <p class="mb-0"><strong>Attachment:</strong></p>
         <a *ngIf="getFileName(post.idUpload)" [href]="getFileUrl(post.idUpload)" target="_blank">{{ getFileName(post.idUpload) }}</a>
       </div>
-    -->
+      onUpload();
+    
+
+    <div *ngIf="post.idUpload">
+      <hr>
+      <p class="mb-0"><strong>Attachment:</strong></p>
+      <a *ngFor="let upload of getUploadsForPost(post.id)" [href]="getFileUrl(upload.filename)" target="_blank">
+        {{ upload.filename }}
+      </a>
+    </div>
+ -->
+
+    <div *ngIf="uploads.length">
+      <h3>Uploads</h3>
+      <ul>
+        <li *ngFor="let upload of uploads">
+          <a [href]="getFileUrl(upload.id)" target="_blank">{{ upload.filename }}</a>
+        </li>
+      </ul>
+    </div>
+
     </div>
   </div>
 
@@ -33,7 +54,7 @@
           #fileInput
         >
       </div>
-      <button class="btn btn-primary" (click)="addPost(); onUpload(); fileInput.value=''">
+      <button class="btn btn-primary" (click)="addPost();  fileInput.value=''">
         <i class="fas fa-paper-plane"></i> Post
       </button>
     </div>

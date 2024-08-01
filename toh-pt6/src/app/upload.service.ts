@@ -45,4 +45,10 @@ export class UploadService {
     this.selectedFile = null;
   }
 
+  getUploadsForPost(postId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/${postId}`);
+  }
+
+ 
+
 }
