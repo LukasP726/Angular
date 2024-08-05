@@ -23,6 +23,8 @@ export class AuthService {
     this.checkToken();
    }
 
+   
+
    private checkToken(): void {
     if (this.hasToken()) {
       this.loggedIn.next(true);
@@ -31,6 +33,15 @@ export class AuthService {
 
   private hasToken(): boolean {
     return !!localStorage.getItem('auth_token');
+  }
+
+   checkAuthentication() {
+    const token = localStorage.getItem('auth_token'); // Předpokládejme, že token je uložen v localStorage
+
+    if (!token) {
+        // Není přihlášený, přesměrujte na přihlašovací stránku
+        window.location.href = '/login';
+    }
   }
 
 
@@ -42,8 +53,11 @@ export class AuthService {
       .pipe(
         tap(response => {
           if (response && response.token) {
+            
             localStorage.setItem('auth_token', response.token);
             this.loggedIn.next(true);
+
+           
           }
         }),
         catchError(this.handleError<any>('login'))
@@ -57,6 +71,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('auth_token');
     this.loggedIn.next(false);
+    window.location.href="/login"
     // Optionally, inform the server about the logout
   }
   /*
@@ -73,6 +88,7 @@ export class AuthService {
   isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
   }
+
 
   isLoggedAsAdmin(): Observable<boolean> {
     return this.http.get<any>('/api/users/me').pipe(

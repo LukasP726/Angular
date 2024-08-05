@@ -30,9 +30,11 @@
   <div class="form-group mb-3">
     <label for="userRole">Role:</label>
     <select id="userRole" [(ngModel)]="selectedRole" name="role" required>
+      <option [ngValue]="null" disabled selected>-- Select role --</option>
       <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
     </select>
   </div>
+  
 
   <button type="button" class="btn btn-primary" (click)="add(userFirstName.value, userLastName.value, userLogin.value, userPassword.value, userEmail.value, selectedRole.id)">
     Add User

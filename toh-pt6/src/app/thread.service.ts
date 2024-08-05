@@ -9,6 +9,13 @@ import { Thread } from "./thread";
 export class ThreadService {
 
 
+
+
+  searchThreads(term: string): any {
+    throw new Error('Method not implemented.');
+  }
+
+
   private baseUrl = 'http://localhost:8080/api/threads';
 
   constructor(private http: HttpClient) { }
@@ -32,5 +39,10 @@ export class ThreadService {
 
   deleteThread(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  getThread(id: number): Observable<Thread> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.get<Thread>(url);
   }
 }

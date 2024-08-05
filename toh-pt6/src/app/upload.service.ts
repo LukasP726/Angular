@@ -7,6 +7,7 @@ import { Upload } from "./upload";
   providedIn: 'root'
 })
 export class UploadService {
+
   private baseUrl = 'http://localhost:8080/api/uploads';
 
   private selectedFile: File | null = null;

@@ -46,7 +46,7 @@ export class UserService {
   deleteUser(id: number): Observable<User> {
     const url = `${this.usersUrl}/${id}`;
     return this.http.delete<User>(url, this.httpOptions);
-  }
+  }  
 
   searchUsers(term: string):Observable<User[]> {
     if (!term.trim()) {
@@ -93,5 +93,10 @@ export class UserService {
 
   getUserByUsername(username: string): Observable<User> {
     return this.http.get<User>(`${this.usersUrl}/username/${username}`);
+  }
+
+  
+  getTopUsers(): Observable<any> {
+    return this.http.get<any>(`${this.usersUrl}/top-users`);
   }
 }

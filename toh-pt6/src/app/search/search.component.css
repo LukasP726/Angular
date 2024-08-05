@@ -45,3 +45,10 @@ label {
     margin-top: 0;
     padding-left: 0;
   }
+
+  #search-options button.active {
+    background-color: #007bff;
+    color: white;
+  }
+
+  

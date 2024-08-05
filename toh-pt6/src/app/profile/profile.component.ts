@@ -23,6 +23,7 @@ export class ProfileComponent {
   ){}
 
   ngOnInit(): void {
+    this.checkAuthentication();
     this.user$ = this.userService.getCurrentUser();
     this.user$.subscribe(user => {
       if (user) {
@@ -31,7 +32,18 @@ export class ProfileComponent {
         console.log('No user data available.');
       }
     });
+
+    
   }
+
+ private checkAuthentication() {
+    const token = localStorage.getItem('auth_token'); // Předpokládejme, že token je uložen v localStorage
+
+    if (!token) {
+        // Není přihlášený, přesměrujte na přihlašovací stránku
+        window.location.href = '/login';
+    }
+}
 
 
 

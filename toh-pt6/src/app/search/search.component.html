@@ -1,0 +1,58 @@
+<div id="search-component" class="container mt-4">
+  <label for="search-box" class="form-label">Search</label>
+  <input 
+    #searchBox 
+    id="search-box" 
+    class="form-control mb-3" 
+    (input)="search(searchBox.value)" 
+    placeholder="Type to search..." 
+  />
+
+  <div id="search-options" class="btn-group mb-3" role="group">
+    <button 
+      type="button" 
+      class="btn btn-outline-primary" 
+      [ngClass]="{ 'active': searchType === 'users' }"
+      (click)="setSearchType('users')">
+      <i class="fas fa-user"></i> Users
+    </button>
+    <button 
+      type="button" 
+      class="btn btn-outline-primary" 
+      [ngClass]="{ 'active': searchType === 'posts' }"
+      (click)="setSearchType('posts')">
+      <i class="fas fa-file-alt"></i> Posts
+    </button>
+    <button 
+      type="button" 
+      class="btn btn-outline-primary" 
+      [ngClass]="{ 'active': searchType === 'threads' }"
+      (click)="setSearchType('threads')">
+      <i class="fas fa-comments"></i> Threads
+    </button>
+    <button 
+      type="button" 
+      class="btn btn-outline-primary" 
+      [ngClass]="{ 'active': searchType === 'uploads' }"
+      (click)="setSearchType('uploads')">
+      <i class="fas fa-upload"></i> Uploads
+    </button>
+  </div>
+
+  <ul class="list-group">
+    <li *ngFor="let result of results$ | async" class="list-group-item">
+      <a *ngIf="searchType === 'users'" routerLink="/detail/{{result.id}}">
+        <i class="fas fa-user"></i> {{result.login}}
+      </a>
+      <a *ngIf="searchType === 'posts'" routerLink="/posts/{{result.id}}">
+        <i class="fas fa-file-alt"></i> {{result.content}}
+      </a>
+      <a *ngIf="searchType === 'threads'" routerLink="/threads/{{result.id}}">
+        <i class="fas fa-comments"></i> {{result.name}}
+      </a>
+      <a *ngIf="searchType === 'uploads'" routerLink="/uploads/{{result.id}}">
+        <i class="fas fa-file-upload"></i> {{result.filename}}
+      </a>
+    </li>
+  </ul>
+</div>

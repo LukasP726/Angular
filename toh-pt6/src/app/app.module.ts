@@ -18,13 +18,15 @@ import { LoginComponent } from './login/login.component';
 import { SignComponent } from './sign/sign.component';
 import { UserDetailComponent } from './user-detail/user-detail.component';
 import { UsersComponent } from './users/users.component';
-import { UserSearchComponent } from './user-search/user-search.component';
+import { SearchComponent } from './search/search.component';
 import { RoleComponent } from './role/role.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ThreadListComponent } from './thread-list/thread-list.component';
 import { ThreadDetailComponent } from './thread-detail/thread-detail.component';
 import { CreatePostComponent } from "./create-post/create-post.component";
 import { FileUploadComponent } from './file-upload/file-upload.component';
+import { PostDetailComponent } from './post-detail/post-detail.component';
+import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -42,7 +44,7 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
     //HeroSearchComponent,
     UsersComponent,
     UserDetailComponent,
-    UserSearchComponent,
+    SearchComponent,
     MessagesComponent,
     LoginComponent,
     SignComponent,
@@ -51,7 +53,10 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
     CreateThreadComponent,
     ThreadListComponent,
     ThreadDetailComponent,
+    PostDetailComponent,
     FileUploadComponent,
+    UserStatisticsComponent,
+    ThreadDetailComponent,
   ],
   bootstrap: [ AppComponent ]
 })

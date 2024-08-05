@@ -1,7 +1,7 @@
 export interface Upload {
   id: number;
   filename: string;
-  userId: number;
-  postId: number;
+  idUser: number;
+  idPost: number;
   createdAt: Date;
 }

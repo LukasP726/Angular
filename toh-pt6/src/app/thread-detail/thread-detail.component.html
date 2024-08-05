@@ -1,42 +1,31 @@
 <div *ngIf="thread" class="container mt-4">
   <h2 class="mb-4"><i class="fas fa-comments"></i> {{ thread.name }}</h2>
 
-  <div *ngFor="let post of posts" class="card mb-3">
+  <div *ngFor="let post of posts" [id]="'post-' + post.id" class="card mb-3" [ngClass]="{'highlighted': post.id === highlightedPostId}">
     <div class="card-body">
       <p class="card-text">{{ post.content }}</p>
       <small class="text-muted">
         <i class="fas fa-user"></i> Posted by user {{ post.idUser }} at {{ post.createdAt | date:'short' }}
       </small>
       
-      <!--
-      <div *ngIf="post.idUpload">
+      <div *ngIf="post.id !== undefined && uploads[post.id]?.length">
         <hr>
         <p class="mb-0"><strong>Attachment:</strong></p>
-        <a *ngIf="getFileName(post.idUpload)" [href]="getFileUrl(post.idUpload)" target="_blank">{{ getFileName(post.idUpload) }}</a>
+        <ul>
+          <li *ngFor="let upload of uploads[post.id]">
+            <ng-container *ngIf="isImage(upload.filename); else fileLink">
+              <img [src]="getFileUrl(upload.id)" alt="Image" style="max-width: 200px; max-height: 200px;">
+            </ng-container>
+            <ng-template #fileLink>
+              <a [href]="getFileUrl(upload.id)" target="_blank">{{ upload.filename }}</a>
+            </ng-template>
+          </li>
+        </ul>
       </div>
-      onUpload();
-    
-
-    <div *ngIf="post.idUpload">
-      <hr>
-      <p class="mb-0"><strong>Attachment:</strong></p>
-      <a *ngFor="let upload of getUploadsForPost(post.id)" [href]="getFileUrl(upload.filename)" target="_blank">
-        {{ upload.filename }}
-      </a>
-    </div>
- -->
-
-    <div *ngIf="uploads.length">
-      <h3>Uploads</h3>
-      <ul>
-        <li *ngFor="let upload of uploads">
-          <a [href]="getFileUrl(upload.id)" target="_blank">{{ upload.filename }}</a>
-        </li>
-      </ul>
-    </div>
-
     </div>
   </div>
+  
+  
 
   <div class="mt-4">
     <h3><i class="fas fa-plus-circle"></i> Add a new post</h3>

@@ -14,11 +14,15 @@ export class DashboardComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-   this.getUsers();
+   //this.getUsers();
+   this.getTopUsers();
   }
 
   getUsers():void{
     this.userService.getUsers()
     .subscribe(users =>this.users = users.slice(1,5))
+  }
+  getTopUsers():void{
+    this.userService.getTopUsers().subscribe(users => this.users = users)
   }
 }

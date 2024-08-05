@@ -11,6 +11,8 @@ import { FileUploadComponent } from './file-upload/file-upload.component';
 import { CreateThreadComponent } from './create-thread/create-thread.component';
 import { ThreadDetailComponent } from './thread-detail/thread-detail.component';
 import { ThreadListComponent } from './thread-list/thread-list.component';
+import { PostDetailComponent } from './post-detail/post-detail.component';
+import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -23,7 +25,10 @@ const routes: Routes = [
   { path: 'upload', component: FileUploadComponent},
   { path: 'create-thread', component: CreateThreadComponent },
   { path: 'threads/:id', component: ThreadDetailComponent },
+  { path: 'statistics/:id', component: UserStatisticsComponent },
+  { path: 'posts/:id', component: PostDetailComponent },
   { path: 'thread-list', component: ThreadListComponent },
+  
 
 ];
 
