@@ -10,6 +10,7 @@
       
       <div *ngIf="post.id !== undefined && uploads[post.id]?.length">
         <hr>
+<!--
         <p class="mb-0"><strong>Attachment:</strong></p>
         <ul>
           <li *ngFor="let upload of uploads[post.id]">
@@ -20,7 +21,23 @@
               <a [href]="getFileUrl(upload.id)" target="_blank">{{ upload.filename }}</a>
             </ng-template>
           </li>
-        </ul>
+          </ul>
+-->
+<p class="mb-0"><strong>Attachment:</strong></p>
+<ul>
+  <li *ngFor="let upload of uploads[post.id]">
+    <ng-container *ngIf="isImage(upload.filename); else fileLink">
+      <a [href]="getFileUrl(upload.id)" target="_blank" rel="noopener noreferrer">
+        <img [src]="getFileUrl(upload.id)" alt="Image" style="max-width: 200px; max-height: 200px;">
+      </a>
+    </ng-container>
+    <ng-template #fileLink>
+      <a [href]="getFileUrl(upload.id)" target="_blank" rel="noopener noreferrer">{{ upload.filename }}</a>
+    </ng-template>
+  </li>
+</ul>
+
+
       </div>
     </div>
   </div>

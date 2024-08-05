@@ -28,7 +28,13 @@ export class UserDetailComponent implements OnInit{
   getUser():void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     this.userService.getUser(id)
-      .subscribe(user => this.user = user);
+      .subscribe(user => {this.user = user;
+
+        if (user) {
+          this.getRole(user.idRole); // Zavolání metody getRole
+        }
+
+      });
   }
 
   goBack():void{

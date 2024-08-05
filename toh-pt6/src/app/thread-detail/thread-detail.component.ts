@@ -20,7 +20,7 @@ export class ThreadDetailComponent implements OnInit {
 
 highlightedPostId: number | null = null;
 uploads: { [postId: number]: Upload[] } = {}; // Mapa uploadů podle postId
-idPost: number = 1;
+//idPost: number = 1;
 thread: Thread | undefined;
 posts: Post[] = [];
 newPostContent: string = '';

@@ -45,4 +45,9 @@ export class ThreadService {
     const url = `${this.baseUrl}/${id}`;
     return this.http.get<Thread>(url);
   }
+
+  getThreadsByIdUser(userId: number): Observable<Thread[]> {
+    return this.http.get<Thread[]>(`${this.baseUrl}/user/${userId}`);
+  }
+
 }

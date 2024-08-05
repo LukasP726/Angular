@@ -1,1 +1,8 @@
-<p>user-statistics works!</p>
+<div *ngIf="user">
+    <h2>Statistiky uživatele {{ user.login }}</h2>
+    <p>Počet příspěvků: {{ frequency }}</p>
+    <p>Počet vláken: {{ threadsCount }}</p>
+    <p>Počet uploadů: {{ uploadsCount }}</p>
+    <button (click)="goBack()">Zpět</button>
+  </div>
+  

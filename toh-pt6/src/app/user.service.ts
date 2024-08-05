@@ -86,9 +86,19 @@ export class UserService {
       return of(result as T);
     };
   }
-
+/*
   getCurrentUser(): Observable<User> {
     return this.http.get<User>(`${this.usersUrl}/me`);
+  }
+*/
+  getCurrentUser(): Observable<User> {
+    const token = localStorage.getItem('auth_token');
+    //console.log('token loaded:', token);
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+    console.log('Request headers:', headers);
+    return this.http.get<User>(`${this.usersUrl}/me`, { headers });
   }
 
   getUserByUsername(username: string): Observable<User> {
