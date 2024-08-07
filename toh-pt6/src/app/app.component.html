@@ -10,10 +10,12 @@
           <a id="dashboard" class="nav-link" routerLink="/dashboard"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
         </li>
         <li  class="nav-item">
-          <a id="users" class="nav-link" routerLink="/users"><i class="fa fa-users"></i> Users</a>
+          <!--*ngIf="isLoggedAsAdmin"-->
+          <a *ngIf="isLoggedAsAdmin"  id="users" class="nav-link" routerLink="/users"><i class="fa fa-users"></i> Users</a>
         </li>
         <li  class="nav-item">
-          <a id="threads" class="nav-link" routerLink="/thread-list"><i class="fa fa-comments"></i> Theads</a>
+          <!--*ngIf="isLoggedAsEditor" -->
+          <a *ngIf="isLoggedAsEditor" id="threads" class="nav-link" routerLink="/thread-list"><i class="fa fa-comments"></i> Threads</a>
         </li>
       </ul>
       <ul class="navbar-nav">

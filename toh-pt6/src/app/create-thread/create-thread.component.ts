@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ThreadService } from '../thread.service';
 import { Thread } from '../thread';
 import { tap } from 'rxjs/operators';
+import { UserService } from '../user.service';
+import { User } from '../user';
 
 @Component({
   selector: 'app-create-thread',
@@ -11,23 +13,34 @@ import { tap } from 'rxjs/operators';
 })
 export class CreateThreadComponent {
   threadForm: FormGroup;
+  user: User | null=null;
+
 
   constructor(
     private fb: FormBuilder,
-    private threadService: ThreadService
+    private threadService: ThreadService,
+    private userService: UserService
   ) {
     this.threadForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       userId: [null] //,Validators.required]
     });
   }
+  
+
+  ngOnInit(): void {
+    this.userService.getCurrentUser().subscribe(user => this.user = user);
+    
+  }
+
 
   onSubmit(): void {
     if (this.threadForm.valid) {
+      console.log("id: ",this.user?.id!);
       const newThread: Thread = {
-        id: 1,
+        id: 2,
         name: this.threadForm.get('name')?.value,
-        userId: 1,//this.threadForm.get('userId')?.value,
+        idUser: this.user?.id!, //1,//this.threadForm.get('userId')?.value,
         createdAt: new Date()
       };
 

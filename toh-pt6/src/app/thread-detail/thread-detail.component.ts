@@ -46,11 +46,15 @@ newPostId: number | undefined;
       this.loadThread();
       this.loadPosts();
       //this.loadUploads();
-    }); 
+      
 
+    }); 
+    /*
     this.route.queryParams.subscribe(params => {
       this.highlightedPostId = +params['postId'] || null;
     });
+    */
+   
   }
 
   getThread():void {

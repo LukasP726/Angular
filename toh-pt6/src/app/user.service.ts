@@ -109,4 +109,58 @@ export class UserService {
   getTopUsers(): Observable<any> {
     return this.http.get<any>(`${this.usersUrl}/top-users`);
   }
+
+
+
+
+
+  verifyCurrentPassword(currentPassword: string): Observable<boolean> {
+    const url = `${this.usersUrl}/verify-password`;
+    const token = localStorage.getItem('auth_token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  
+    return this.http.post<boolean>(url, { password: currentPassword }, { headers }).pipe(
+      catchError(this.handleError<boolean>('verifyCurrentPassword', false))
+    );
+  }
+
+/*
+
+  updatePassword(newPassword: string): Observable<any> {
+    const url = `${this.usersUrl}/change-password`;
+    const token = localStorage.getItem('auth_token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  
+    return this.http.post<any>(url, { password: newPassword }, { headers }).pipe(
+      catchError(this.handleError<any>('updatePassword'))
+    );
+  }
+  */
+
+  updatePassword(currentPassword: string, newPassword: string, confirmNewPassword: string): Observable<any> {
+    const url = `${this.usersUrl}/change-password`;
+    const token = localStorage.getItem('auth_token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    });
+  
+    const body = {
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+      confirmNewPassword: confirmNewPassword
+    };
+  
+    return this.http.post<any>(url, body, { headers }).pipe(
+      catchError(this.handleError<any>('updatePassword'))
+    );
+  }
+  
+  
 }

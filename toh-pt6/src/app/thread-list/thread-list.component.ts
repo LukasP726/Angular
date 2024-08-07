@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ThreadService } from '../thread.service';
 import { Thread } from '../thread';
+import { UserService } from '../user.service';
 
 
 @Component({
@@ -11,17 +12,27 @@ import { Thread } from '../thread';
 export class ThreadListComponent implements OnInit {
   threads: Thread[] = [];
 
-  constructor(private threadService: ThreadService) {}
+  constructor(private threadService: ThreadService, private userService: UserService) {}
 
   ngOnInit(): void {
+    
     this.loadThreads();
   }
-
+/*
   loadThreads(): void {
     this.threadService.getThreads().subscribe(
       (data: Thread[]) => this.threads = data,
       (error: any) => console.error('Error fetching threads:', error)
     );
+  }
+    */
+
+  loadThreads(): void {
+    this.userService.getCurrentUser().subscribe(user => {
+    this.threadService.getThreadsByIdUser(user.id!).subscribe(
+      (data: Thread[]) => this.threads = data,
+      (error: any) => console.error('Error fetching threads:', error)
+    );})
   }
 
   delete(thread: Thread): void {

@@ -12,6 +12,11 @@ import { Upload } from '../upload';
   styleUrls: ['./search.component.css']
 })
 export class SearchComponent implements OnInit {
+
+  getFileUrl(uploadId: number): string {
+    return `http://localhost:8080/api/uploads/download/${uploadId}`;
+  }
+
   results$!: Observable<any[]>;
   private searchTerms = new Subject<string>();
   searchType: 'users' | 'posts' | 'threads' | 'uploads' = 'users';

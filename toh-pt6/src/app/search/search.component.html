@@ -50,9 +50,12 @@
       <a *ngIf="searchType === 'threads'" routerLink="/threads/{{result.id}}">
         <i class="fas fa-comments"></i> {{result.name}}
       </a>
-      <a *ngIf="searchType === 'uploads'" routerLink="/uploads/{{result.id}}">
+      <!--routerLink="/uploads/{{result.id}}"-->
+      <a [href]="getFileUrl(result.id)" *ngIf="searchType === 'uploads'" >
         <i class="fas fa-file-upload"></i> {{result.filename}}
       </a>
     </li>
   </ul>
 </div>
+
+

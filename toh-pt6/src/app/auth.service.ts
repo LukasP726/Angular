@@ -6,10 +6,14 @@ import { User } from './user';
 
 
 
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
+  
+  
   private loginUrl = 'http://localhost:8080/api/auth/login';  
   private registerUrl = 'http://localhost:8080/api/register';  
 
@@ -89,7 +93,26 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
+  isLoggedAsAdmin(): Observable<boolean> {
+    const token = localStorage.getItem('auth_token'); // Získání tokenu z localStorage
 
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.get<any>('http://localhost:8080/api/users/me', { headers }).pipe(
+      map(user => {
+        return user.idRole.some((role: any) => role.name === 'Admin');
+      }),
+      catchError(error => {
+        console.error('Error fetching user info:', error);
+        return of(false); // Pokud dojde k chybě, vrátíme false
+      })
+    );
+  }
+
+/*
   isLoggedAsAdmin(): Observable<boolean> {
     return this.http.get<any>('/api/users/me').pipe(
       map(user => {
@@ -101,7 +124,18 @@ export class AuthService {
       })
     );
   }
+    */
+  /*
 
+  isAdmin(): boolean {
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      return decodedToken && decodedToken.role === 'ADMIN';
+    }
+    return false;
+  }
+*/
   register(user: User): Observable<User> {
     return this.http.post<User>(this.registerUrl, user);
   }
@@ -112,4 +146,7 @@ export class AuthService {
       return of(result as T);
     };
   }
+
+
+
 }

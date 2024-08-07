@@ -1,8 +1,98 @@
 <div *ngIf="user$ | async as user; else loading">
   <h2>Welcome, {{ user.firstName }} {{ user.lastName }}</h2>
-  <p>Email: {{ user.email }}</p>
-  <p>Login: {{ user.login }}</p>
+  
+  <div class="border p-3 mb-3">
+    <h3>Credentials</h3>
+    <div class="mb-3">
+      <label for="user-login" class="form-label">
+        <i class="fa fa-user"></i> Login:
+      </label>
+      <input 
+        *ngIf="editableUser && editableUser.login !== null" 
+        id="user-login" 
+        class="form-control" 
+        [(ngModel)]="editableUser.login" 
+        placeholder="Login">
+    </div>
+
+    <div class="mb-3">
+      <label for="user-email" class="form-label">
+        <i class="fa fa-envelope"></i> Email:
+      </label>
+      <input 
+        *ngIf="editableUser && editableUser.email !== null" 
+        id="user-email" 
+        type="email" 
+        class="form-control" 
+        [(ngModel)]="editableUser.email" 
+        placeholder="Email">
+    </div>
+
+    <div class="d-flex justify-content-between mt-3">
+      <button type="button" class="btn btn-primary" (click)="save()">
+        <i class="fa fa-save"></i> Save
+      </button>
+    </div>
+  </div>
+
+  <div class="border p-3 mb-3">
+    <h3>Password Change</h3>
+    <form (ngSubmit)="onSubmit()" #passwordForm="ngForm">
+      <div class="mb-3">
+        <label for="current-password" class="form-label">
+          <i class="fa fa-lock"></i> Current Password:
+        </label>
+        <input 
+          id="current-password" 
+          type="password" 
+          class="form-control" 
+          [(ngModel)]="currentPassword" 
+          name="currentPassword" 
+          required
+        />
+      </div>
+      
+      <div class="mb-3">
+        <label for="new-password" class="form-label">
+          <i class="fa fa-key"></i> New Password:
+        </label>
+        <input 
+          id="new-password" 
+          type="password" 
+          class="form-control" 
+          [(ngModel)]="newPassword" 
+          name="newPassword" 
+          required
+        />
+      </div>
+      
+      <div class="mb-3">
+        <label for="confirm-password" class="form-label">
+          <i class="fa fa-check"></i> Confirm New Password:
+        </label>
+        <input 
+          id="confirm-password" 
+          type="password" 
+          class="form-control" 
+          [(ngModel)]="confirmPassword" 
+          name="confirmPassword" 
+          required
+        />
+      </div>
+      
+      <button type="submit" class="btn btn-primary" [disabled]="!passwordForm.form.valid">
+        <i class="fa fa-exchange-alt"></i> Change Password
+      </button>
+    </form>
+  </div>
+
+  <div class="d-flex justify-content-between mt-3">
+    <button type="button" class="btn btn-secondary" (click)="goBack()">
+      <i class="fa fa-arrow-left"></i> Go Back
+    </button>
+  </div>
 </div>
+
 <ng-template #loading>
-  <p>Loading...</p>
+  <p><i class="fa fa-spinner fa-spin"></i> Loading...</p>
 </ng-template>

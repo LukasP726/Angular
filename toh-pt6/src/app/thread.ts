@@ -1,7 +1,7 @@
 export interface Thread {
     id: number;
     name: string;
-    userId: number;
+    idUser: number;
     createdAt: Date;
   }
   
