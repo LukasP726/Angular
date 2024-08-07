@@ -10,40 +10,31 @@
       
       <div *ngIf="post.id !== undefined && uploads[post.id]?.length">
         <hr>
-<!--
         <p class="mb-0"><strong>Attachment:</strong></p>
         <ul>
           <li *ngFor="let upload of uploads[post.id]">
-            <ng-container *ngIf="isImage(upload.filename); else fileLink">
-              <img [src]="getFileUrl(upload.id)" alt="Image" style="max-width: 200px; max-height: 200px;">
+            <ng-container *ngIf="isImage(upload.filename); else notImage">
+              <a [href]="getFileUrl(upload.id)" target="_blank" rel="noopener noreferrer">
+                <img [src]="getFileUrl(upload.id)" alt="Image" style="max-width: 200px; max-height: 200px;">
+              </a>
             </ng-container>
-            <ng-template #fileLink>
-              <a [href]="getFileUrl(upload.id)" target="_blank">{{ upload.filename }}</a>
+            <ng-template #notImage>
+              <ng-container *ngIf="isAudio(upload.filename); else fileLink">
+                <audio controls>
+                  <source [src]="getFileUrl(upload.id)" type="audio/mpeg">
+                  Your browser does not support the audio element.
+                </audio>
+              </ng-container>
+              <ng-template #fileLink>
+                <a [href]="getFileUrl(upload.id)" target="_blank" rel="noopener noreferrer">{{ upload.filename }}</a>
+              </ng-template>
             </ng-template>
           </li>
-          </ul>
--->
-<p class="mb-0"><strong>Attachment:</strong></p>
-<ul>
-  <li *ngFor="let upload of uploads[post.id]">
-    <ng-container *ngIf="isImage(upload.filename); else fileLink">
-      <a [href]="getFileUrl(upload.id)" target="_blank" rel="noopener noreferrer">
-        <img [src]="getFileUrl(upload.id)" alt="Image" style="max-width: 200px; max-height: 200px;">
-      </a>
-    </ng-container>
-    <ng-template #fileLink>
-      <a [href]="getFileUrl(upload.id)" target="_blank" rel="noopener noreferrer">{{ upload.filename }}</a>
-    </ng-template>
-  </li>
-</ul>
-
-
+        </ul>
       </div>
     </div>
   </div>
   
-  
-
   <div class="mt-4">
     <h3><i class="fas fa-plus-circle"></i> Add a new post</h3>
     <div class="form-group">
@@ -56,11 +47,22 @@
           type="file" 
           id="fileInput" 
           class="form-control" 
-          (change)="onFileSelected($event)"
+          (change)="onFilesSelected($event)"
           #fileInput
+          multiple
         >
       </div>
-      <button class="btn btn-primary" (click)="addPost();  fileInput.value=''">
+      <div *ngIf="filePreviews.length > 0">
+        <h4>Files to be uploaded:</h4>
+        <ul>
+          <li *ngFor="let filePreview of filePreviews; let i = index">
+            <span>{{ filePreview.file.name }}</span>
+            <button (click)="removeFile(i)">Remove</button>
+          </li>
+        </ul>
+        <button class="btn btn-secondary mt-3" (click)="clearSelectedFiles()">Clear all files</button>
+      </div>
+      <button class="btn btn-primary" (click)="addPost(); fileInput.value=''">
         <i class="fas fa-paper-plane"></i> Post
       </button>
     </div>

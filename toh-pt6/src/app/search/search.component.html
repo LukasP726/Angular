@@ -41,7 +41,7 @@
 
   <ul class="list-group">
     <li *ngFor="let result of results$ | async" class="list-group-item">
-      <a *ngIf="searchType === 'users'" routerLink="/detail/{{result.id}}">
+      <a *ngIf="searchType === 'users'" routerLink="/statistics/{{result.id}}">
         <i class="fas fa-user"></i> {{result.login}}
       </a>
       <a *ngIf="searchType === 'posts'" routerLink="/posts/{{result.id}}">
