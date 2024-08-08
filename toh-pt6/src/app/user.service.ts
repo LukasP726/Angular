@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, of, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { User } from './user';
 import { environment } from './environments/environment';
 import { MessageService } from './message.service';
@@ -91,15 +91,29 @@ export class UserService {
     return this.http.get<User>(`${this.usersUrl}/me`);
   }
 */
-  getCurrentUser(): Observable<User> {
-    const token = localStorage.getItem('auth_token');
-    //console.log('token loaded:', token);
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    console.log('Request headers:', headers);
-    return this.http.get<User>(`${this.usersUrl}/me`, { headers });
+getCurrentUser(): Observable<User | null> {
+  const token = localStorage.getItem('auth_token');
+  
+  // Pokud není token přítomen, vrátí prázdného uživatele
+  if (!token) {
+    return of(null);
   }
+
+  // Příprava hlaviček pro API požadavek
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${token}`
+  });
+
+  // Volání API a zpracování chyby
+  return this.http.get<User>(`${this.usersUrl}/me`, { headers }).pipe(
+    map(user => user),
+    catchError(error => {
+      console.error('Error fetching current user:', error);
+      // Vrátí prázdného uživatele v případě chyby
+      return of(null);
+    })
+  );
+}
 
   getUserByUsername(username: string): Observable<User> {
     return this.http.get<User>(`${this.usersUrl}/username/${username}`);

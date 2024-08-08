@@ -50,9 +50,8 @@ ngOnInit(): void {
     this.cdRef.detectChanges(); // Přidáno pro detekci změn
 
     this.userService.getCurrentUser().subscribe(user => {
-      this.user = user;
-  
-      if (this.user) {
+      if (user) {
+        this.user = user;
         switch(user.idRole){
           case 1: 
             this.isLoggedAsAdmin = true;

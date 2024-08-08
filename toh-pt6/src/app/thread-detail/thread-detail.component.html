@@ -1,7 +1,42 @@
 <div *ngIf="thread" class="container mt-4">
   <h2 class="mb-4"><i class="fas fa-comments"></i> {{ thread.name }}</h2>
 
-  <div *ngFor="let post of posts" [id]="'post-' + post.id" class="card mb-3" [ngClass]="{'highlighted': post.id === highlightedPostId}">
+  <!-- Formulář pro přidání nového příspěvku -->
+  <div class="mt-4" *ngIf="(isLoggedIn$ | async) as isLoggedIn">
+    <h3><i class="fas fa-plus-circle"></i> Add a new post</h3>
+    <div class="form-group">
+      <textarea class="form-control mb-3" rows="3" [(ngModel)]="newPostContent" placeholder="Write your post here..."></textarea>
+      <div class="mb-3">
+        <label for="fileInput" class="form-label">
+          <i class="fas fa-paperclip"></i> Attach file
+        </label>
+        <input 
+          type="file" 
+          id="fileInput" 
+          class="form-control" 
+          (change)="onFilesSelected($event)"
+          #fileInput
+          multiple
+        >
+      </div>
+      <div *ngIf="filePreviews.length > 0">
+        <h4>Files to be uploaded:</h4>
+        <ul>
+          <li *ngFor="let filePreview of filePreviews; let i = index">
+            <span>{{ filePreview.file.name }}</span>
+            <button (click)="removeFile(i)">Remove</button>
+          </li>
+        </ul>
+        <button class="btn btn-secondary mt-3" (click)="clearSelectedFiles()">Clear all files</button>
+      </div>
+      <button class="btn btn-primary" (click)="addPost(); fileInput.value=''">
+        <i class="fas fa-paper-plane"></i> Post
+      </button>
+    </div>
+  </div>
+
+  <!-- Zobrazení příspěvků od nejnovějšího po nejstarší -->
+  <div *ngFor="let post of posts | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }" [id]="'post-' + post.id" class="card mb-3" [ngClass]="{'highlighted': post.id === highlightedPostId}">
     <div class="card-body">
       <p class="card-text">{{ post.content }}</p>
       <small class="text-muted">
@@ -34,37 +69,7 @@
       </div>
     </div>
   </div>
-  
-  <div class="mt-4">
-    <h3><i class="fas fa-plus-circle"></i> Add a new post</h3>
-    <div class="form-group">
-      <textarea class="form-control mb-3" rows="3" [(ngModel)]="newPostContent" placeholder="Write your post here..."></textarea>
-      <div class="mb-3">
-        <label for="fileInput" class="form-label">
-          <i class="fas fa-paperclip"></i> Attach file
-        </label>
-        <input 
-          type="file" 
-          id="fileInput" 
-          class="form-control" 
-          (change)="onFilesSelected($event)"
-          #fileInput
-          multiple
-        >
-      </div>
-      <div *ngIf="filePreviews.length > 0">
-        <h4>Files to be uploaded:</h4>
-        <ul>
-          <li *ngFor="let filePreview of filePreviews; let i = index">
-            <span>{{ filePreview.file.name }}</span>
-            <button (click)="removeFile(i)">Remove</button>
-          </li>
-        </ul>
-        <button class="btn btn-secondary mt-3" (click)="clearSelectedFiles()">Clear all files</button>
-      </div>
-      <button class="btn btn-primary" (click)="addPost(); fileInput.value=''">
-        <i class="fas fa-paper-plane"></i> Post
-      </button>
-    </div>
-  </div>
+
+  <!-- Stránkování -->
+  <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
 </div>

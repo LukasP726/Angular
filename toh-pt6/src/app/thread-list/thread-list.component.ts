@@ -29,10 +29,11 @@ export class ThreadListComponent implements OnInit {
 
   loadThreads(): void {
     this.userService.getCurrentUser().subscribe(user => {
-    this.threadService.getThreadsByIdUser(user.id!).subscribe(
-      (data: Thread[]) => this.threads = data,
-      (error: any) => console.error('Error fetching threads:', error)
-    );})
+      if(user!=null){
+        this.threadService.getThreadsByIdUser(user.id!).subscribe(
+          (data: Thread[]) => this.threads = data,
+          (error: any) => console.error('Error fetching threads:', error)
+    );}})
   }
 
   delete(thread: Thread): void {

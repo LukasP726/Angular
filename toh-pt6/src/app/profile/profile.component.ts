@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class ProfileComponent {
 
-  user$: Observable<User> | null = null;
+  user$: Observable<User | null> | null = null;
   editableUser: User | null = null;
 
   currentPassword: string = '';
@@ -30,6 +30,7 @@ export class ProfileComponent {
   ngOnInit(): void {
     this.checkAuthentication();
     this.user$ = this.userService.getCurrentUser();
+    if(this.user$ !=null){
     this.user$.subscribe(user => {
       if (user) {
         this.editableUser = { ...user, 
@@ -43,7 +44,7 @@ export class ProfileComponent {
         console.log('No user data available.');
       }
     });
-
+  }
     
   }
 

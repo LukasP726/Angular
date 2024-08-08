@@ -32,6 +32,10 @@ export class ThreadDetailComponent implements OnInit {
   newPostId: number | undefined;
   isLoggedIn$: Observable<boolean>;
 
+  // Stránkovací proměnné
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+
   constructor(
     private route: ActivatedRoute,
     private threadService: ThreadService,
@@ -45,28 +49,25 @@ export class ThreadDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoggedIn$.subscribe(isLoggedIn => {
+      if (isLoggedIn) {
+        this.userService.getCurrentUser().subscribe(user => {
+          this.currentUserId = user?.id;
+        })
+      } 
+    });
+
+    // Načtení ID vlákna z parametrů URL
     this.route.params.subscribe(params => {
       this.currentThreadId = +params['id'];
-      this.highlightedPostId = +params['id'];
       this.loadThread();
       this.loadPosts();
     });
 
-     
+    // Načtení ID zvýrazněného příspěvku z parametrů URL
     this.route.queryParams.subscribe(params => {
       this.highlightedPostId = +params['postId'] || null;
     });
-    
-
-    this.userService.getCurrentUser().subscribe(user => {
-      this.currentUserId = user?.id; // Nastav aktuální ID uživatele
-    });
-  }
-
-  getThread(): void {
-    const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-    this.threadService.getThread(id)
-      .subscribe(thread => this.thread = thread);
   }
 
   loadThread(): void {
@@ -95,7 +96,7 @@ export class ThreadDetailComponent implements OnInit {
     if (this.newPostContent.trim()) {
       if (this.currentUserId === undefined) {
         console.error('Current user ID is not defined');
-        return; // Ukonči funkci, pokud není uživatelské ID
+        return;
       }
       const newPost: Post = {
         content: this.newPostContent,
@@ -109,14 +110,13 @@ export class ThreadDetailComponent implements OnInit {
         (post: Post) => {
           if (post.id !== undefined) {
             this.newPostId = post.id;
+            this.posts.unshift(post);  // Přidání nového příspěvku na začátek seznamu
+            this.newPostContent = '';
+            if (this.selectedFiles.length > 0) {
+              this.onUpload();
+            }
           } else {
             console.error('Post creation response does not contain an ID');
-          }
-          this.posts.push(post);
-          this.newPostContent = '';
-
-          if (this.selectedFiles.length > 0) {
-            this.onUpload();
           }
         },
         (error: any) => console.error('Error creating post:', error)
@@ -159,7 +159,6 @@ export class ThreadDetailComponent implements OnInit {
     this.selectedFiles.forEach(file => {
       const uploadData = new FormData();
       if (this.currentUserId === undefined) {
-        // Informuj uživatele nebo vykonej jinou akci
         console.error('Current user ID is not defined');
         return;
       }

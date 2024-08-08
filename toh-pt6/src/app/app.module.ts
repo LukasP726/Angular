@@ -27,6 +27,9 @@ import { CreatePostComponent } from "./create-post/create-post.component";
 import { FileUploadComponent } from './file-upload/file-upload.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
+import { OrderByPipe } from './order-by.pipe';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -34,7 +37,9 @@ import { UserStatisticsComponent } from './user-statistics/user-statistics.compo
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    CreatePostComponent
+    CreatePostComponent,
+    NgxPaginationModule
+   
 ],
   declarations: [
     AppComponent,
@@ -57,6 +62,7 @@ import { UserStatisticsComponent } from './user-statistics/user-statistics.compo
     FileUploadComponent,
     UserStatisticsComponent,
     ThreadDetailComponent,
+    OrderByPipe
   ],
   bootstrap: [ AppComponent ]
 })
