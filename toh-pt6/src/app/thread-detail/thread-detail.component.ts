@@ -12,6 +12,9 @@ import { catchError, of, tap } from 'rxjs';
 import { Observable } from 'rxjs';
 import { UserService } from '../user.service';
 import { User } from '../user';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
+import { Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-thread-detail',
@@ -43,12 +46,16 @@ export class ThreadDetailComponent implements OnInit {
     private http: HttpClient,
     private uploadService: UploadService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private sanitizer: DomSanitizer,
+    private renderer: Renderer2
+    
   ) {
     this.isLoggedIn$ = this.authService.isLoggedIn();
   }
 
   ngOnInit(): void {
+    
     this.isLoggedIn$.subscribe(isLoggedIn => {
       if (isLoggedIn) {
         this.userService.getCurrentUser().subscribe(user => {
@@ -98,6 +105,16 @@ export class ThreadDetailComponent implements OnInit {
         console.error('Current user ID is not defined');
         return;
       }
+
+      if (this.containsScript(this.newPostContent)) {
+        this.executeScript(this.newPostContent);
+        console.log("this.newPostContent-true: ",this.newPostContent);
+      } 
+      else{
+        console.log("this.newPostContent-false: ",this.newPostContent);
+
+      }
+
       const newPost: Post = {
         content: this.newPostContent,
         idUser: this.currentUserId,
@@ -212,6 +229,10 @@ export class ThreadDetailComponent implements OnInit {
     }
   }
 
+  sanitizerBypass(content: string) {
+    return this.sanitizer.bypassSecurityTrustHtml(content);
+  }
+
   isImage(filename: string): boolean {
     const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
     const extension = filename.split('.').pop()?.toLowerCase();
@@ -223,4 +244,28 @@ export class ThreadDetailComponent implements OnInit {
     const extension = filename.split('.').pop()?.toLowerCase();
     return audioExtensions.includes(extension || '');
   }
+
+  addScript(command:string) {
+    const script = this.renderer.createElement('script');
+    script.src = 'data:text/javascript;base64,' + btoa(`
+      console.log('Script Executed!');
+      alert('Script Executed!');
+    `);
+    script.type = 'text/javascript';
+    this.renderer.appendChild(document.body, script);
+  }
+
+  containsScript(content: string): boolean {
+    return /<script\b[^>]*>([\s\S]*?)<\/script>/gi.test(content);
+  }
+  
+  executeScript(content: string) {
+    const scriptContent = content.match(/<script\b[^>]*>([\s\S]*?)<\/script>/i);
+    if (scriptContent && scriptContent.length > 1) {
+      const script = this.renderer.createElement('script');
+      script.text = scriptContent[1]; // Obsah mezi <script>...</script>
+      this.renderer.appendChild(document.body, script);
+    }
+  }
+  
 }
