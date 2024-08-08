@@ -50,8 +50,13 @@ export class ThreadDetailComponent implements OnInit {
       this.highlightedPostId = +params['id'];
       this.loadThread();
       this.loadPosts();
-
     });
+
+     
+    this.route.queryParams.subscribe(params => {
+      this.highlightedPostId = +params['postId'] || null;
+    });
+    
 
     this.userService.getCurrentUser().subscribe(user => {
       this.currentUserId = user?.id; // Nastav aktuální ID uživatele
