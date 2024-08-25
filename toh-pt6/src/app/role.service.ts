@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, Observable, of } from 'rxjs';
 import { Role } from './user'; 
+import { environment } from './environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoleService {
-  private baseUrl = 'http://localhost:8080/api/roles'; // Změňte URL na odpovídající backend API
+  private baseUrl =`${environment.apiUrl}/roles`;
+  //private baseUrl = 'http://localhost:8080/api/roles'; 
 
   constructor(private http: HttpClient) { }
 

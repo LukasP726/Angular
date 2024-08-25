@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from './user';
+import { environment } from './environments/environment';
 
 
 
@@ -13,9 +14,10 @@ import { User } from './user';
 export class AuthService {
 
   
-  
-  private loginUrl = 'http://localhost:8080/api/auth/login';  
-  private registerUrl = 'http://localhost:8080/api/register';  
+  private loginUrl =`${environment.apiUrl}/auth/login`;
+  private registerUrl =`${environment.apiUrl}/register`;
+  //private loginUrl = 'http://localhost:8080/api/auth/login';  
+  //private registerUrl = 'http://localhost:8080/api/register';  
 
   private loggedIn = new BehaviorSubject<boolean>(false);
 
@@ -100,8 +102,8 @@ export class AuthService {
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-
-    return this.http.get<any>('http://localhost:8080/api/users/me', { headers }).pipe(
+//'http://localhost:8080/api/users/me'
+    return this.http.get<any>(`${environment.apiUrl}/users/me`, { headers }).pipe(
       map(user => {
         return user.idRole.some((role: any) => role.name === 'Admin');
       }),

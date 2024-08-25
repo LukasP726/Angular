@@ -29,6 +29,8 @@ import { PostDetailComponent } from './post-detail/post-detail.component';
 import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
 import { OrderByPipe } from './order-by.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CommandComponent } from './command/command.component';
+
 
 @NgModule({
   imports: [
@@ -62,7 +64,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FileUploadComponent,
     UserStatisticsComponent,
     ThreadDetailComponent,
-    OrderByPipe
+    OrderByPipe,
+    CommandComponent
   ],
   bootstrap: [ AppComponent ]
 })

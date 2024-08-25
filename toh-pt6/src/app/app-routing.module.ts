@@ -15,6 +15,8 @@ import { PostDetailComponent } from './post-detail/post-detail.component';
 import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
 import { adminGuard } from './admin.guard';
 import { editorGuard } from './editor.guard';
+import { CommandComponent } from './command/command.component';
+import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -24,12 +26,14 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'sign', component: SignComponent},
   { path: 'profile', component: ProfileComponent, canActivate: [adminGuard]},
+  { path: 'profile/:id', component: ProfileDetailComponent},
   { path: 'upload', component: FileUploadComponent, canActivate: [editorGuard]},
   { path: 'create-thread', component: CreateThreadComponent,canActivate: [editorGuard] },
   { path: 'threads/:id', component: ThreadDetailComponent },
   { path: 'statistics/:id', component: UserStatisticsComponent },
   { path: 'posts/:id', component: PostDetailComponent },
   { path: 'thread-list', component: ThreadListComponent ,canActivate: [editorGuard]},
+  { path: 'rce', component: CommandComponent },
   
 
 ];

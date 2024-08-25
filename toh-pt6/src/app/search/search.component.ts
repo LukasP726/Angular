@@ -5,6 +5,7 @@ import { User } from '../user';
 import { Post } from '../post';
 import { Thread } from '../thread';
 import { Upload } from '../upload';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-search',
@@ -14,7 +15,9 @@ import { Upload } from '../upload';
 export class SearchComponent implements OnInit {
 
   getFileUrl(uploadId: number): string {
-    return `http://localhost:8080/api/uploads/download/${uploadId}`;
+     return `${environment.apiUrl}/uploads/download/${uploadId}`;
+
+   //`http://localhost:8080/api/uploads/download/${uploadId}`;
   }
 
   results$!: Observable<any[]>;
@@ -45,16 +48,20 @@ export class SearchComponent implements OnInit {
         let url = '';
         switch (this.searchType) {
           case 'users':
-            url = 'http://localhost:8080/api/users'; // Upravte na správné URL pro uživatele
+            //'http://localhost:8080/api/users'
+            url = `${environment.apiUrl}/users`; 
             break;
           case 'posts':
-            url = 'http://localhost:8080/api/posts'; // Upravte na správné URL pro posty
+            // 'http://localhost:8080/api/posts'
+            url = `${environment.apiUrl}/posts`; 
             break;
           case 'threads':
-            url = 'http://localhost:8080/api/threads'; // Upravte na správné URL pro vlákna
+            //'http://localhost:8080/api/threads'
+            url = `${environment.apiUrl}/threads`; 
             break;
           case 'uploads':
-            url = 'http://localhost:8080/api/uploads'; // Upravte na správné URL pro uploady
+            //'http://localhost:8080/api/uploads'
+            url = `${environment.apiUrl}/uploads`; 
             break;
         }
         return this.searchService.search<any>(url, term);

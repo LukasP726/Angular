@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-file-upload',
@@ -29,8 +30,8 @@ export class FileUploadComponent {
 
     const uploadData = new FormData();
     uploadData.append('file', this.selectedFile, this.selectedFile.name);
-
-    this.http.post('http://localhost:8080/api/uploads', uploadData, { responseType: 'text' })
+    //'http://localhost:8080/api/uploads'
+    this.http.post(`${environment.apiUrl}/uploads`, uploadData, { responseType: 'text' })
       .pipe(
         tap(response => {
           // Zpracování odpovědi

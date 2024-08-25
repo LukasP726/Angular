@@ -9,8 +9,8 @@ import { MessageService } from './message.service';
   providedIn: 'root'
 })
 export class UserService {
-  //private usersUrl = `${environment.apiUrl}/users`;
-  private usersUrl = 'http://localhost:8080/api/users';
+  private usersUrl = `${environment.apiUrl}/users`;
+  //private usersUrl = 'http://localhost:8080/api/users';
   
 
   httpOptions = {
