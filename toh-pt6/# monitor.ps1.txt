@@ -1,0 +1,29 @@
+# monitor.ps1
+# Skript pro monitorování systémových prostředků
+
+Write-Output "Monitorování systémových zdrojů..."
+
+# Získání top 5 procesů podle využití CPU
+$topProcesses = Get-Process | Sort-Object CPU -Descending | Select-Object -First 5
+
+# Výpis informací o procesech
+$topProcesses | ForEach-Object {
+    Write-Output "Proces: $($_.ProcessName), CPU: $($_.CPU), Paměť: $($_.WorkingSet / 1MB) MB"
+}
+
+Write-Output "Monitorování dokončeno."
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

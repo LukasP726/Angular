@@ -40,6 +40,7 @@
     <div class="card-body">
       <!--<p class="card-text">{{ post.content }}</p>-->
        <!-- XSS VULNERABILITY -->
+      <!--<p class="card-text" [innerHTML]="sanitizerBypass(post.content)"></p>-->
       <p class="card-text" [innerHTML]="sanitizerBypass(post.content)"></p>
       <small class="text-muted">
         <i class="fas fa-user"></i> Posted by user {{ post.idUser }} at {{ post.createdAt | date:'short' }}

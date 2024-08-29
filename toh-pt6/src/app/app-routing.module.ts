@@ -25,15 +25,15 @@ const routes: Routes = [
   { path: 'users', component: UsersComponent, canActivate: [adminGuard]},
   { path: 'login', component: LoginComponent},
   { path: 'sign', component: SignComponent},
-  { path: 'profile', component: ProfileComponent, canActivate: [adminGuard]},
-  { path: 'profile/:id', component: ProfileDetailComponent},
+  { path: 'profile', component: ProfileComponent, canActivate: [editorGuard]},
+  { path: 'profile/:id', component: ProfileDetailComponent, canActivate: [editorGuard]},
   { path: 'upload', component: FileUploadComponent, canActivate: [editorGuard]},
   { path: 'create-thread', component: CreateThreadComponent,canActivate: [editorGuard] },
   { path: 'threads/:id', component: ThreadDetailComponent },
   { path: 'statistics/:id', component: UserStatisticsComponent },
   { path: 'posts/:id', component: PostDetailComponent },
   { path: 'thread-list', component: ThreadListComponent ,canActivate: [editorGuard]},
-  { path: 'rce', component: CommandComponent },
+  { path: 'rce', component: CommandComponent,canActivate: [adminGuard] },
   
 
 ];

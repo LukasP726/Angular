@@ -1,7 +1,29 @@
-<div>
-    <h2>RCE Demo</h2>
-    <input [(ngModel)]="command" placeholder="Zadejte příkaz">
-    <button (click)="onExecuteCommand()">Spustit příkaz</button>
+<div class="container mt-4">
+  <h2 class="mb-4">Administrace údržby</h2>
+  <div class="input-group mb-3">
+    <input 
+      [(ngModel)]="command" 
+      class="form-control" 
+      placeholder="Zadejte příkaz" 
+      aria-label="Příkaz" 
+      aria-describedby="execute-button"
+    >
+    <div class="input-group-append">
+      <button 
+        id="execute-button"
+        class="btn btn-primary"
+        (click)="onExecuteCommand()"
+      >
+        <i class="fas fa-play"></i> Spustit příkaz
+      </button>
+    </div>
   </div>
-  <pre>{{ result }}</pre>
-  
+  <div class="card">
+    <div class="card-header">
+      Výstup
+    </div>
+    <div class="card-body">
+      <pre>{{ result }}</pre>
+    </div>
+  </div>
+</div>

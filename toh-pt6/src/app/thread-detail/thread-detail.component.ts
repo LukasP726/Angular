@@ -8,7 +8,7 @@ import { AuthService } from '../auth.service';
 import { Thread } from '../thread';
 import { Post } from '../post';
 import { Upload } from '../upload';
-import { catchError, of, tap } from 'rxjs';
+import { catchError, of, tap, forkJoin } from 'rxjs';
 import { Observable } from 'rxjs';
 import { UserService } from '../user.service';
 import { User } from '../user';
@@ -22,6 +22,9 @@ import { Renderer2 } from '@angular/core';
   styleUrls: ['./thread-detail.component.css']
 })
 export class ThreadDetailComponent implements OnInit {
+  userNames: Map<number, string> = new Map();
+
+
   highlightedPostId: number | null = null;
   uploads: { [postId: number]: Upload[] } = {};
   thread: Thread | undefined;
@@ -36,8 +39,10 @@ export class ThreadDetailComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
 
   // Stránkovací proměnné
-  currentPage: number = 1;
   itemsPerPage: number = 10;
+  currentPage: number = 1;
+
+
 
   constructor(
     private route: ActivatedRoute,
@@ -75,6 +80,8 @@ export class ThreadDetailComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.highlightedPostId = +params['postId'] || null;
     });
+
+    
   }
 
   loadThread(): void {
@@ -98,6 +105,13 @@ export class ThreadDetailComponent implements OnInit {
       );
     }
   }
+
+
+
+
+  
+
+  
 
   addPost(): void {
     if (this.newPostContent.trim()) {
@@ -266,6 +280,15 @@ export class ThreadDetailComponent implements OnInit {
       script.text = scriptContent[1]; // Obsah mezi <script>...</script>
       this.renderer.appendChild(document.body, script);
     }
+  }
+
+
+  getUserName(userId: number): string {
+    let userName = '';
+    this.userService.getUser(userId).subscribe((user: User) => {
+      userName = user.login;
+    });
+    return userName;
   }
   
 }

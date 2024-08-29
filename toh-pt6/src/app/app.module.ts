@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateThreadComponent } from './create-thread/create-thread.component';
 
+
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 //import { InMemoryDataService } from './in-memory-data.service';
 
@@ -30,7 +31,7 @@ import { UserStatisticsComponent } from './user-statistics/user-statistics.compo
 import { OrderByPipe } from './order-by.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CommandComponent } from './command/command.component';
-
+import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
 
 @NgModule({
   imports: [
@@ -65,7 +66,8 @@ import { CommandComponent } from './command/command.component';
     UserStatisticsComponent,
     ThreadDetailComponent,
     OrderByPipe,
-    CommandComponent
+    CommandComponent,
+    ProfileDetailComponent
   ],
   bootstrap: [ AppComponent ]
 })

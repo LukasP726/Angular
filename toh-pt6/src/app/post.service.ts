@@ -23,6 +23,10 @@ export class PostService {
   }
 
 
+  getPosts(page: number, itemsPerPage: number): Observable<Post[]> {
+    return this.http.get<Post[]>(`${this.baseUrl}?page=${page}&limit=${itemsPerPage}`);
+  }
+
   createPost(post: Post): Observable<Post> {
     return this.http.post<Post>(this.baseUrl, post);
   }

@@ -1,0 +1,21 @@
+# backup.ps1
+# Skript pro zálohování složky
+Param (
+    [string]$sourcePath = "C:\SourceFolder",  # Cesta k zálohované složce
+    [string]$backupPath = "C:\BackupFolder"   # Cesta k záložnímu adresáři
+)
+
+# Kontrola, zda zdrojová složka existuje
+if (-Not (Test-Path -Path $sourcePath)) {
+    Write-Output "Zdrojová složka neexistuje: $sourcePath"
+    exit
+}
+
+# Vytvoření záložního adresáře, pokud neexistuje
+if (-Not (Test-Path -Path $backupPath)) {
+    New-Item -ItemType Directory -Path $backupPath | Out-Null
+}
+
+# Kopírování souborů a složek
+Copy-Item -Path "$sourcePath\*" -Destination $backupPath -Recurse
+Write-Output "Zálohování dokončeno: $sourcePath -> $backupPath"
