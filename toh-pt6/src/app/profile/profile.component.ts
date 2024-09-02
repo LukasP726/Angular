@@ -5,6 +5,7 @@ import { UserService } from '../user.service';
 import { RoleService } from '../role.service';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,14 +22,14 @@ export class ProfileComponent {
   confirmPassword: string = '';
 
   constructor(
-    private route: ActivatedRoute,
     private userService: UserService,
     private location: Location,
-    private roleService: RoleService  
+    private authService: AuthService
   ){}
 
   ngOnInit(): void {
-    this.checkAuthentication();
+    this.authService.checkAuthentication();
+    //this.checkAuthentication();
     this.user$ = this.userService.getCurrentUser();
     if(this.user$ !=null){
     this.user$.subscribe(user => {
@@ -48,14 +49,7 @@ export class ProfileComponent {
     
   }
 
- private checkAuthentication() {
-    const token = localStorage.getItem('auth_token'); // Předpokládejme, že token je uložen v localStorage
 
-    if (!token) {
-        // Není přihlášený, přesměrujte na přihlašovací stránku
-        window.location.href = '/login';
-    }
-}
 
 
 save(): void {

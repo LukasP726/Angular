@@ -10,6 +10,7 @@ import { NgZone } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+// app.component.ts
 export class AppComponent {
   title = 'My forum';
 
@@ -19,61 +20,44 @@ export class AppComponent {
   user: User | null = null;
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private userService: UserService,
-    private cdr: ChangeDetectorRef,
     private cdRef: ChangeDetectorRef,
     private zone: NgZone
   ) { }
-  
-  // Po aktualizaci hodnot
-  /*
+
   ngOnInit(): void {
     this.authService.isLoggedIn().subscribe(status => {
       this.isLoggedIn = status;
-    });
-  
-    this.userService.getCurrentUser().subscribe(user => {
-      this.zone.run(() => {
-        this.user = user;
-        this.isLoggedAsAdmin = user && user.idRole === 1;
-        this.isLoggedAsEditor = user && user.idRole <= 2;
-        this.cdr.detectChanges();
-      });
-    });
-  }
-*/
+      this.cdRef.detectChanges(); // Přidáno pro detekci změn
 
-ngOnInit(): void {
-  this.authService.isLoggedIn().subscribe(status => {
-    this.isLoggedIn = status;
-    this.cdRef.detectChanges(); // Přidáno pro detekci změn
-
-    this.userService.getCurrentUser().subscribe(user => {
-      if (user) {
-        this.user = user;
-        switch(user.idRole){
-          case 1: 
-            this.isLoggedAsAdmin = true;
-            this.isLoggedAsEditor = true;
-            break;
-          case 2:
-            this.isLoggedAsEditor = true;
-            break;
-          default:
-            this.isLoggedAsAdmin = false;
-            this.isLoggedAsEditor = false;
-            break;
-        }
-        this.cdRef.detectChanges(); // Přidáno pro detekci změn
+      if (this.isLoggedIn) {
+        this.userService.getCurrentUser().subscribe(user => {
+          if (user) {
+            this.user = user;
+            switch (user.idRole) {
+              case 1:
+                this.isLoggedAsAdmin = true;
+                this.isLoggedAsEditor = true;
+                break;
+              case 2:
+                this.isLoggedAsEditor = true;
+                break;
+              default:
+                this.isLoggedAsAdmin = false;
+                this.isLoggedAsEditor = false;
+                break;
+            }
+            this.cdRef.detectChanges(); // Přidáno pro detekci změn
+          }
+        });
+      } else {
+        this.isLoggedAsAdmin = false;
+        this.isLoggedAsEditor = false;
       }
     });
+  }
 
-
-  });
-
-
-}
   logout(): void {
     this.authService.logout();
   }

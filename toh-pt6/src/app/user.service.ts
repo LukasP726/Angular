@@ -4,177 +4,149 @@ import { catchError, map, Observable, of, tap } from 'rxjs';
 import { User } from './user';
 import { environment } from './environments/environment';
 import { MessageService } from './message.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   private usersUrl = `${environment.apiUrl}/users`;
-  //private usersUrl = 'http://localhost:8080/api/users';
-  
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+    withCredentials: true
   };
 
-  constructor(private http: HttpClient,
-    private messageService: MessageService
-  ) { }
+  constructor(private http: HttpClient, private messageService: MessageService, private authService: AuthService) {}
 
+  // Získání všech uživatelů
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.usersUrl);
+    return this.http.get<User[]>(this.usersUrl).pipe(
+      catchError(this.handleError<User[]>('getUsers', []))
+    );
   }
 
+  // Získání uživatele podle ID
   getUser(id: number): Observable<User> {
     const url = `${this.usersUrl}/${id}`;
-    return this.http.get<User>(url);
+    return this.http.get<User>(url).pipe(
+      catchError(this.handleError<User>('getUser'))
+    );
   }
 
-
-
+  // Přidání nového uživatele
   addUser(user: User): Observable<User> {
     return this.http.post<User>(this.usersUrl, user, this.httpOptions).pipe(
       catchError(this.handleError<User>('addUser'))
     );
-    
   }
 
+  // Aktualizace uživatele
   updateUser(user: User): Observable<any> {
-    return this.http.put(`${this.usersUrl}/${user.id}`, user, this.httpOptions);
+    return this.http.put(`${this.usersUrl}/${user.id}`, user, this.httpOptions).pipe(
+      catchError(this.handleError<any>('updateUser'))
+    );
   }
 
+  // Smazání uživatele
   deleteUser(id: number): Observable<User> {
     const url = `${this.usersUrl}/${id}`;
-    return this.http.delete<User>(url, this.httpOptions);
-  }  
+    return this.http.delete<User>(url, this.httpOptions).pipe(
+      catchError(this.handleError<User>('deleteUser'))
+    );
+  }
 
-  searchUsers(term: string):Observable<User[]> {
+  // Vyhledávání uživatelů podle jména
+  searchUsers(term: string): Observable<User[]> {
     if (!term.trim()) {
-      // if not search term, return empty hero array.
       return of([]);
     }
     return this.http.get<User[]>(`${this.usersUrl}/?name=${term}`).pipe(
       tap(x => x.length ?
-         this.log(`found users matching "${term}"`) :
-         this.log(`no users matching "${term}"`)),
+        this.log(`found users matching "${term}"`) :
+        this.log(`no users matching "${term}"`)),
       catchError(this.handleError<User[]>('searchUsers', []))
     );
   }
 
-    /** Log a HeroService message with the MessageService */
-    private log(message: string) {
-      this.messageService.add(`UserService: ${message}`);
-    }
+  // Logování zpráv přes MessageService
+  private log(message: string) {
+    this.messageService.add(`UserService: ${message}`);
+  }
 
-     /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   *
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
+  // Obsluha chyb
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
+      console.error(error);
       this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
       return of(result as T);
     };
   }
-/*
-  getCurrentUser(): Observable<User> {
-    return this.http.get<User>(`${this.usersUrl}/me`);
+
+  // Získání aktuálního uživatele (nyní pomocí cookies, bez JWT tokenu)
+  /*
+  getCurrentUser(): Observable<User | null> {
+    return this.http.get<User>(`${this.usersUrl}/me`).pipe(
+      map(user => user),
+      catchError(error => {
+        console.error('Error fetching current user:', error);
+        return of(null);
+      })
+    );
   }
 */
 getCurrentUser(): Observable<User | null> {
-  const token = localStorage.getItem('auth_token');
-  
-  // Pokud není token přítomen, vrátí prázdného uživatele
-  if (!token) {
-    return of(null);
-  }
-
-  // Příprava hlaviček pro API požadavek
-  const headers = new HttpHeaders({
-    'Authorization': `Bearer ${token}`
-  });
-
-  // Volání API a zpracování chyby
-  return this.http.get<User>(`${this.usersUrl}/me`, { headers }).pipe(
-    map(user => user),
-    catchError(error => {
-      console.error('Error fetching current user:', error);
-      // Vrátí prázdného uživatele v případě chyby
-      return of(null);
-    })
-  );
+  return this.authService.getCurrentUser();
 }
 
+  // Získání uživatele podle jména uživatele
   getUserByUsername(username: string): Observable<User> {
-    return this.http.get<User>(`${this.usersUrl}/username/${username}`);
+    return this.http.get<User>(`${this.usersUrl}/username/${username}`).pipe(
+      catchError(this.handleError<User>('getUserByUsername'))
+    );
   }
 
-  
+  // Získání top uživatelů
   getTopUsers(): Observable<any> {
-    return this.http.get<any>(`${this.usersUrl}/top-users`);
+    return this.http.get<any>(`${this.usersUrl}/top-users`).pipe(
+      catchError(this.handleError<any>('getTopUsers'))
+    );
   }
 
-
-
-
-
+  // Verifikace aktuálního hesla
   verifyCurrentPassword(currentPassword: string): Observable<boolean> {
     const url = `${this.usersUrl}/verify-password`;
-    const token = localStorage.getItem('auth_token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
-  
-    return this.http.post<boolean>(url, { password: currentPassword }, { headers }).pipe(
+    return this.http.post<boolean>(url, { password: currentPassword }, this.httpOptions).pipe(
       catchError(this.handleError<boolean>('verifyCurrentPassword', false))
     );
   }
 
-/*
-
-  updatePassword(newPassword: string): Observable<any> {
-    const url = `${this.usersUrl}/change-password`;
-    const token = localStorage.getItem('auth_token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
-  
-    return this.http.post<any>(url, { password: newPassword }, { headers }).pipe(
-      catchError(this.handleError<any>('updatePassword'))
-    );
-  }
-  */
-
+  // Aktualizace hesla
   updatePassword(currentPassword: string, newPassword: string, confirmNewPassword: string): Observable<any> {
     const url = `${this.usersUrl}/change-password`;
-    const token = localStorage.getItem('auth_token');
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    });
-  
     const body = {
       currentPassword: currentPassword,
       newPassword: newPassword,
       confirmNewPassword: confirmNewPassword
     };
-  
-    return this.http.post<any>(url, body, { headers }).pipe(
+    return this.http.post<any>(url, body,this.httpOptions).pipe(
       catchError(this.handleError<any>('updatePassword'))
     );
   }
-  
-  
+
+  // Přihlášení uživatele (session-based autentizace)
+  login(username: string, password: string): Observable<any> {
+    const loginUrl = `${environment.apiUrl}/auth/login`;
+    return this.http.post(loginUrl, { username, password }, this.httpOptions ).pipe(
+      catchError(this.handleError<any>('login'))
+    );
+  }
+
+  // Odhlášení uživatele (invalidace session)
+  logout(): Observable<any> {
+    const logoutUrl = `${environment.apiUrl}/auth/logout`;
+    return this.http.post(logoutUrl, {},this.httpOptions).pipe(
+      catchError(this.handleError<any>('logout'))
+    );
+  }
 }
