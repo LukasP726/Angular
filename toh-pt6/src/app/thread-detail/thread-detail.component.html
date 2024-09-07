@@ -45,6 +45,11 @@
       <small class="text-muted">
         <i class="fas fa-user"></i> Posted by user {{ post.idUser }} at {{ post.createdAt | date:'short' }}
       </small>
+
+      <div *ngIf="isAdmin$ | async">
+        <button class="btn btn-warning btn-sm" (click)="editPost(post)">Edit</button>
+        <button class="btn btn-danger btn-sm" (click)="deletePost(post.id!)">Delete</button>
+      </div>
       
       <div *ngIf="post.id !== undefined && uploads[post.id]?.length">
         <hr>

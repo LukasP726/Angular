@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 })
 export class UserService {
   private usersUrl = `${environment.apiUrl}/users`;
+  private roleUrl = `${environment.apiUrl}/roles`;
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -148,5 +149,9 @@ getCurrentUser(): Observable<User | null> {
     return this.http.post(logoutUrl, {},this.httpOptions).pipe(
       catchError(this.handleError<any>('logout'))
     );
+  }
+
+  getRoleWeightById(idRole: number): Observable<number> {
+    return this.http.get<number>(`${this.roleUrl}/weight/${idRole}`);
   }
 }

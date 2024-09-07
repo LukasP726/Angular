@@ -14,6 +14,7 @@ export class AuthService {
   private statusUrl = `${environment.apiUrl}/auth/status`;
   private logoutUrl = `${environment.apiUrl}/auth/logout`;
   private registerUrl = `${environment.apiUrl}/register`;
+  private isAdminUrl = `${environment.apiUrl}/users/is-admin`;
 
   private loggedIn = new BehaviorSubject<boolean>(false);
 
@@ -30,7 +31,9 @@ export class AuthService {
    * Metoda pro kontrolu autentizace při načtení aplikace
    * Ověří, zda je uživatel přihlášen na základě session cookie
    */
+ 
   checkAuthentication(): void {
+    //možná to budu moct vyměnit za endpoint status ať nefetchuju celýho uživatele
     this.getCurrentUser().subscribe(user => {
       console.log("User fetched during authentication check: ", user); // Pro ladění
 //!!user
@@ -40,7 +43,20 @@ export class AuthService {
       this.loggedIn.next(false);
     });
   }
-  
+ 
+ /*
+  checkAuthentication(): void {
+    this.http.get<boolean>(this.statusUrl).pipe(
+      catchError(error => {
+        console.error('Error checking authentication status:', error);
+        return of(false); // Pokud dojde k chybě, vrátíme false
+      })
+    ).subscribe(isLoggedIn => {
+      console.log("Authentication status fetched: ", isLoggedIn); // Pro ladění
+      this.loggedIn.next(isLoggedIn);
+    });
+  }
+     */
 
   /**
    * Přihlášení uživatele (session-based autentizace)
@@ -86,15 +102,27 @@ export class AuthService {
   /**
    * Ověření, zda je přihlášený uživatel administrátor
    */
+
   isLoggedAsAdmin(): Observable<boolean> {
     return this.getCurrentUser().pipe(
-      map(user => user ? user.idRole === 1 : false), // Upravit '1' na ID, které odpovídá adminovi
+      map(user => user ? user.idRole === 1 : false), // Upravit 
       catchError(error => {
         console.error('Error fetching user info:', error);
         return of(false); // Pokud dojde k chybě, vrátíme false
       })
     );
   }
+
+  /*
+  isLoggedAsAdmin(): Observable<boolean> {
+    return this.http.get<boolean>(this.isAdminUrl).pipe(
+      catchError(error => {
+        console.error('Error fetching admin status:', error);
+        return of(false); // Pokud dojde k chybě, vrátíme false
+      })
+    );
+  }
+        */
   
 
   /**

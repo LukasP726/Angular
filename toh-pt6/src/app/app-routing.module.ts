@@ -13,16 +13,19 @@ import { ThreadDetailComponent } from './thread-detail/thread-detail.component';
 import { ThreadListComponent } from './thread-list/thread-list.component';
 import { PostDetailComponent } from './post-detail/post-detail.component';
 import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
-import { adminGuard } from './admin.guard';
-import { editorGuard } from './editor.guard';
+//import { adminGuard } from './admin.guard';
+//import { editorGuard } from './editor.guard';
+//import { superAdminGuard } from './super-admin.guard';
 import { CommandComponent } from './command/command.component';
 import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
+
+import { superAdminGuard, adminGuard, editorGuard } from './create-role.guard';  // Import specifických guardů
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'detail/:id', component: UserDetailComponent, canActivate: [adminGuard]},
-  { path: 'users', component: UsersComponent, canActivate: [adminGuard]},
+  { path: 'users', component: UsersComponent, canActivate: [superAdminGuard]},
   { path: 'login', component: LoginComponent},
   { path: 'sign', component: SignComponent},
   { path: 'profile', component: ProfileComponent, canActivate: [editorGuard]},
@@ -33,7 +36,7 @@ const routes: Routes = [
   { path: 'statistics/:id', component: UserStatisticsComponent },
   { path: 'posts/:id', component: PostDetailComponent },
   { path: 'thread-list', component: ThreadListComponent ,canActivate: [editorGuard]},
-  { path: 'rce', component: CommandComponent,canActivate: [adminGuard] },
+  { path: 'rce', component: CommandComponent,canActivate: [superAdminGuard] },
   
 
 ];

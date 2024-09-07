@@ -36,11 +36,13 @@ export class ThreadDetailComponent implements OnInit {
   currentUserId: number | undefined;
   currentUser: User | null = null;
   newPostId: number | undefined;
-  isLoggedIn$: Observable<boolean>;
+  //isLoggedIn$: Observable<boolean>;
 
   // Stránkovací proměnné
   itemsPerPage: number = 10;
   currentPage: number = 1;
+  isLoggedIn$ = this.authService.isLoggedIn();
+  isAdmin$ = this.authService.isLoggedAsAdmin();
 
 
 
@@ -56,7 +58,8 @@ export class ThreadDetailComponent implements OnInit {
     private renderer: Renderer2
     
   ) {
-    this.isLoggedIn$ = this.authService.isLoggedIn();
+    //this.isLoggedIn$ = this.authService.isLoggedIn();
+    //this.isAdmin$
   }
 
   ngOnInit(): void {
@@ -289,6 +292,33 @@ export class ThreadDetailComponent implements OnInit {
       userName = user.login;
     });
     return userName;
+  }
+
+
+  
+  // Úprava příspěvku
+  editPost(post: Post) {
+    const editedContent = prompt('Edit your post', post.content);
+    if (editedContent !== null) {
+      post.content = editedContent;
+      this.postService.updatePost(post.id!, post).subscribe(updatedPost => {
+        // Aktualizace zobrazení příspěvku
+        const index = this.posts.findIndex(p => p.id === updatedPost.id);
+        if (index !== -1) {
+          this.posts[index] = updatedPost;
+        }
+      });
+    }
+  }
+
+  // Smazání příspěvku
+  deletePost(postId: number) {
+    if (confirm('Are you sure you want to delete this post?')) {
+      this.postService.deletePost(postId).subscribe(() => {
+        // Odstranění příspěvku z pole příspěvků
+        this.posts = this.posts.filter(post => post.id !== postId);
+      });
+    }
   }
   
 }
