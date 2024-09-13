@@ -1,21 +1,16 @@
 <h2>Top Users</h2>
-<div class="user-menu">
-  <!--
-  <a *ngFor="let user of users"
-      routerLink="/detail/{{user.id}}">
-      {{user.lastName}}
-  </a>
-  -->
-
+<div class="user-menu mb-5"> <!-- Přidána třída pro spodní margin -->
   <a *ngFor="let user of users"
       routerLink="/statistics/{{user.id}}">
       {{user.login}}
   </a>
-
- 
-
 </div>
 
-<app-slideshow></app-slideshow>
+<!-- Přidán margin nad slideshow -->
+<div class="slideshow-container">
+  <app-slideshow></app-slideshow>
+</div>
 
+<!--
 <app-search></app-search>
+-->

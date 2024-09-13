@@ -1,6 +1,6 @@
 <div *ngIf="thread" class="container mt-4">
   <h2 class="mb-4"><i class="fas fa-comments"></i> {{ thread.name }}</h2>
-  <h4 class="mb-4"><i class="fas fa-comments"></i> owner: {{ threadOwner }}</h4>
+  <h4 class="mb-4"><i class="fas fa-user"></i> owner: {{ threadOwner }}</h4>
 
   <!-- Formulář pro přidání nového příspěvku -->
   <div class="mt-4" *ngIf="(isLoggedIn$ | async) as isLoggedIn">

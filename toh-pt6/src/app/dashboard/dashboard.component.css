@@ -2,6 +2,7 @@
 
 h2 {
   text-align: center;
+  margin-bottom: 20px; 
 }
 
 .user-menu {
@@ -20,6 +21,16 @@ h2 {
   justify-content: space-around;
   align-content: flex-start;
   align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+
+
+/* Zarovnání obsahu uživatelů a mezery mezi odkazy */
+.user-menu a {
+  display: block;
+  padding: 5px 0;
+  text-decoration: none;
 }
 
 a {
@@ -52,3 +63,9 @@ a {
 a:hover {
   background-color: black;
 }
+
+.slideshow-container {
+  margin-top: 20px; /* Prostor nad slideshow */
+}
+
+

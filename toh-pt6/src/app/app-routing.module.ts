@@ -20,6 +20,7 @@ import { CommandComponent } from './command/command.component';
 import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
 
 import { superAdminGuard, adminGuard, editorGuard } from './create-role.guard';  // Import specifických guardů
+import { SearchComponent } from './search/search.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -37,6 +38,7 @@ const routes: Routes = [
   { path: 'posts/:id', component: PostDetailComponent },
   { path: 'thread-list', component: ThreadListComponent ,canActivate: [editorGuard]},
   { path: 'rce', component: CommandComponent,canActivate: [superAdminGuard] },//superAdminGuard
+  { path: 'search', component: SearchComponent},
   
 
 ];

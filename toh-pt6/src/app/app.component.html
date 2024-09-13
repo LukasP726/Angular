@@ -1,5 +1,5 @@
-<h1 class="text-center">{{title}}</h1>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -9,12 +9,13 @@
         <li class="nav-item">
           <a id="dashboard" class="nav-link" routerLink="/dashboard"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
         </li>
-        <li  class="nav-item">
-          <!--*ngIf="isLoggedAsAdmin"-->
-          <a *ngIf="isLoggedAsAdmin"  id="users" class="nav-link" routerLink="/users"><i class="fa fa-users"></i> Users</a>
+        <li class="nav-item">
+          <a id="search" class="nav-link" routerLink="/search"><i class="fa fa-search"></i> Search</a>
         </li>
         <li  class="nav-item">
-          <!--*ngIf="isLoggedAsEditor" -->
+          <a *ngIf="isLoggedAsAdmin" id="users" class="nav-link" routerLink="/users"><i class="fa fa-users"></i> Users</a>
+        </li>
+        <li  class="nav-item">
           <a *ngIf="isLoggedAsEditor" id="threads" class="nav-link" routerLink="/thread-list"><i class="fa fa-comments"></i> Threads</a>
         </li>
       </ul>
@@ -35,5 +36,9 @@
     </div>
   </div>
 </nav>
-<router-outlet></router-outlet>
-<app-messages></app-messages>
+
+<!-- Odsazení pro obsah kvůli fixovanému navbaru -->
+<div style="margin-top: 80px;">
+  <router-outlet></router-outlet>
+  <app-messages></app-messages>
+</div>

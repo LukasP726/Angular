@@ -1,7 +1,13 @@
+// slideshow.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Upload } from '../upload';
 import { environment } from '../environments/environment';
+
+interface Upload {
+  id: number;
+  filename: string;
+  // další vlastnosti dle potřeby
+}
 
 @Component({
   selector: 'app-slideshow',
@@ -9,10 +15,10 @@ import { environment } from '../environments/environment';
   styleUrls: ['./slideshow.component.css']
 })
 export class SlideshowComponent implements OnInit {
-  private baseUrl = `${environment.apiUrl}/uploads/latest-images`;
+  private imagesUrl = `${environment.apiUrl}/uploads/latest-images`;
+  private uploadsUrl =`${environment.apiUrl}/uploads`;
 
   images: Upload[] = [];
-  currentIndex: number = 0;
 
   constructor(private http: HttpClient) {}
 
@@ -21,17 +27,18 @@ export class SlideshowComponent implements OnInit {
   }
 
   loadImages(): void {
-    this.http.get<Upload[]>(this.baseUrl)
-      .subscribe((data: Upload[]) => {
+    this.http.get<Upload[]>(this.imagesUrl).subscribe(
+      (data) => {
         this.images = data;
-      });
+      },
+      (error) => {
+        console.error('Chyba při načítání obrázků:', error);
+      }
+    );
   }
 
-  nextImage(): void {
-    this.currentIndex = (this.currentIndex + 1) % this.images.length;
-  }
+  getFileUrl(id: number): string {
+    return `${this.uploadsUrl}/download/${id}`;
 
-  previousImage(): void {
-    this.currentIndex = (this.currentIndex - 1 + this.images.length) % this.images.length;
   }
 }

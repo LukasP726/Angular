@@ -1,4 +1,32 @@
+<!-- slideshow.component.html -->
 <div *ngIf="images.length > 0">
+  <h2>Recently uploaded images</h2>
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+  <div class="carousel-inner">
+    <div class="carousel-item" *ngFor="let img of images; let i = index" [ngClass]="{'active': i === 0}">
+      <img [src]="getFileUrl(img.id)" class="d-block w-100" alt="Image {{i+1}}">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+</div>
+
+
+
+<!--
+c
     <img [src]="'/uploads/' + images[currentIndex].filename" alt="Image" width="600" height="400">
     <div>
       <button (click)="previousImage()">Previous</button>
@@ -6,4 +34,4 @@
     </div>
   </div>
   <p *ngIf="images.length === 0">No images to display.</p>
-  
+  -->

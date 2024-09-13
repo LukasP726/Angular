@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CreateThreadComponent } from './create-thread/create-thread.component';
 
 
+
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 //import { InMemoryDataService } from './in-memory-data.service';
 
@@ -42,7 +43,8 @@ import { SlideshowComponent } from './slideshow/slideshow.component';
     HttpClientModule,
     ReactiveFormsModule,
     CreatePostComponent,
-    NgxPaginationModule
+    NgxPaginationModule,
+  
    
 ],
   declarations: [

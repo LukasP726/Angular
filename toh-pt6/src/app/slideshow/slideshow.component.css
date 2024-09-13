@@ -7,3 +7,12 @@ img {
     margin: 5px;
   }
   
+  
+
+  .carousel-item img {
+    width: 100%;  /* Nastaví šířku obrázků na 100% šířky rodiče */
+    height: 400px; /* Nastaví pevnou výšku obrázků, přizpůsobte dle potřeby */
+    object-fit: cover; /* Zajistí, že obrázky budou pokrývat oblast bez zkreslení */
+  }
+  
+ 
