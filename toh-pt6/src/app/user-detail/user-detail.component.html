@@ -1,11 +1,11 @@
 <div *ngIf="user" class="container mt-3">
   <h2 class="text-center mb-4">{{ user.firstName | uppercase }} {{ user.lastName | uppercase }} Details</h2>
-  
+  <!--
   <div class="mb-3">
     <label for="user-id" class="form-label">ID:</label>
     <input type="text" id="user-id" class="form-control" [value]="user.id" readonly>
   </div>
-  
+  -->
   <div class="mb-3">
     <label for="user-firstname" class="form-label">First Name:</label>
     <input id="user-firstname" class="form-control" [(ngModel)]="user.firstName" placeholder="First Name">
@@ -20,12 +20,12 @@
     <label for="user-login" class="form-label">Login:</label>
     <input id="user-login" class="form-control" [(ngModel)]="user.login" placeholder="Login">
   </div>
-  
+  <!--
   <div class="mb-3">
     <label for="user-password" class="form-label">Password:</label>
     <input id="user-password" type="password" class="form-control" [(ngModel)]="user.password" placeholder="Password">
   </div>
-  
+  -->
   <div class="mb-3">
     <label for="user-email" class="form-label">Email:</label>
     <input id="user-email" type="email" class="form-control" [(ngModel)]="user.email" placeholder="Email">

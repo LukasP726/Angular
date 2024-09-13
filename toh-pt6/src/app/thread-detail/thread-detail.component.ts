@@ -15,6 +15,7 @@ import { User } from '../user';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { Renderer2 } from '@angular/core';
+import { PostDTO } from '../postDTO';
 
 @Component({
   selector: 'app-thread-detail',
@@ -28,7 +29,9 @@ export class ThreadDetailComponent implements OnInit {
   highlightedPostId: number | null = null;
   uploads: { [postId: number]: Upload[] } = {};
   thread: Thread | undefined;
-  posts: Post[] = [];
+  threadOwner: string | undefined;
+  //posts: Post[] = [];
+  posts: PostDTO[] = [];
   newPostContent: string = '';
   currentThreadId: number | undefined;
   selectedFiles: File[] = [];
@@ -84,6 +87,8 @@ export class ThreadDetailComponent implements OnInit {
       this.highlightedPostId = +params['postId'] || null;
     });
 
+    this.getOwnerOfThread(this.currentThreadId!);
+
     
   }
 
@@ -99,7 +104,7 @@ export class ThreadDetailComponent implements OnInit {
   loadPosts(): void {
     if (this.currentThreadId !== undefined) {
       this.postService.getPostsByThreadId(this.currentThreadId).subscribe(
-        (posts: Post[]) => {
+        (posts: PostDTO[]) => {
           this.posts = posts;
           this.scrollToHighlightedPost();
           this.loadUploadsForPosts();
@@ -319,6 +324,18 @@ export class ThreadDetailComponent implements OnInit {
         this.posts = this.posts.filter(post => post.id !== postId);
       });
     }
+  }
+
+  getOwnerOfThread(idThread: number): void {
+    this.threadService.getOwnerOfThread(idThread).subscribe({
+      next: (ownerName: string) => {
+        this.threadOwner = ownerName;
+        console.log('Thread Owner Name:', ownerName);
+      },
+      error: (error) => {
+        console.error('Chyba při získávání jména vlastníka vlákna:', error);
+      }
+    });
   }
   
 }

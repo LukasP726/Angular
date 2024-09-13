@@ -10,6 +10,13 @@ import { RoleService } from '../role.service';
 })
 export class UsersComponent implements OnInit {
 
+unbanUser(_t50: User) {
+throw new Error('Method not implemented.');
+}
+banUser(_t50: User) {
+throw new Error('Method not implemented.');
+}
+
   users: User[]  = [];
   roles: Role[] = [];
   //selectedRole!: Role;
@@ -37,7 +44,10 @@ export class UsersComponent implements OnInit {
   getRoles(): void {
     this.roleService.getRoles().subscribe(roles => {
       //console.log('Roles:', roles);
-      this.roles = roles;
+      const roleWithMaxWeight = roles.reduce((prev, current) => (prev.weight > current.weight) ? prev : current);
+
+      // Odstranění role s největší váhou
+      this.roles = roles.filter(role => role.id !== roleWithMaxWeight.id);
     });
   }
 

@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { Post } from "./post";
 import { catchError, Observable, of, tap } from "rxjs";
 import { environment } from "./environments/environment";
+import { PostDTO } from "./postDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -30,10 +31,19 @@ export class PostService {
   createPost(post: Post): Observable<Post> {
     return this.http.post<Post>(this.baseUrl, post);
   }
-
+/*
   getPostsByThreadId(threadId: number): Observable<Post[]> {
     return this.http.get<Post[]>(`${this.baseUrl}/thread/${threadId}`);
   }
+
+  */
+
+  getPostsByThreadId(threadId: number): Observable<PostDTO[]> {
+    return this.http.get<PostDTO[]>(`${this.baseUrl}/thread/${threadId}`);
+  }
+
+
+
 
 
 

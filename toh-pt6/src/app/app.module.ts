@@ -32,6 +32,7 @@ import { OrderByPipe } from './order-by.pipe';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CommandComponent } from './command/command.component';
 import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
+import { SlideshowComponent } from './slideshow/slideshow.component';
 
 @NgModule({
   imports: [
@@ -67,7 +68,8 @@ import { ProfileDetailComponent } from './profile-detail/profile-detail.componen
     ThreadDetailComponent,
     OrderByPipe,
     CommandComponent,
-    ProfileDetailComponent
+    ProfileDetailComponent,
+    SlideshowComponent
   ],
   bootstrap: [ AppComponent ]
 })

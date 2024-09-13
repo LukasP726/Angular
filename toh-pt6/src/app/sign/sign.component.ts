@@ -41,7 +41,7 @@ export class SignComponent implements OnInit {
         login: this.registrationForm.value.username,
         password: this.registrationForm.value.password,
         email: this.registrationForm.value.email,
-        idRole: 1 // Assign role ID, name a weight budou nahrazeny při backend operaci
+        idRole: 2 // Assign role ID, name a weight budou nahrazeny při backend operaci
       };
       
       console.log('Registering user:', newUser);

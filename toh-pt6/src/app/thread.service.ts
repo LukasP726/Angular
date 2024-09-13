@@ -51,4 +51,9 @@ export class ThreadService {
     return this.http.get<Thread[]>(`${this.baseUrl}/user/${userId}`);
   }
 
+  getOwnerOfThread(idThread: number): Observable<string> {
+    return this.http.get(`${this.baseUrl}/${idThread}/owner`, { responseType: 'text' });
+    //return this.http.get<string>(`${this.baseUrl}/${idThread}/owner`);
+  }
+
 }

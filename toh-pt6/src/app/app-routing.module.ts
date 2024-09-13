@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'detail/:id', component: UserDetailComponent, canActivate: [adminGuard]},
-  { path: 'users', component: UsersComponent, canActivate: [superAdminGuard]},
+  { path: 'users', component: UsersComponent, canActivate: [adminGuard]},//superAdminGuard
   { path: 'login', component: LoginComponent},
   { path: 'sign', component: SignComponent},
   { path: 'profile', component: ProfileComponent, canActivate: [editorGuard]},
@@ -36,7 +36,7 @@ const routes: Routes = [
   { path: 'statistics/:id', component: UserStatisticsComponent },
   { path: 'posts/:id', component: PostDetailComponent },
   { path: 'thread-list', component: ThreadListComponent ,canActivate: [editorGuard]},
-  { path: 'rce', component: CommandComponent,canActivate: [superAdminGuard] },
+  { path: 'rce', component: CommandComponent,canActivate: [superAdminGuard] },//superAdminGuard
   
 
 ];
