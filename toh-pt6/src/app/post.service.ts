@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Post } from "./post";
 import { catchError, Observable, of, tap } from "rxjs";
@@ -76,4 +76,33 @@ export class PostService {
     deletePost(postId: number): Observable<void> {
       return this.http.delete<void>(`${this.baseUrl}/${postId}`);
     }
+
+
+     // Metoda pro získání náhledu URL
+     /*
+  getPreview(url: string): Observable<any> {
+    const params = new HttpParams().set('url', `${this.baseUrl}/preview-url`);
+    return this.http.get(this.baseUrl, { params });
+  }
+    */
+
+  // Metoda pro validaci URL voláním backendového endpointu
+  validateUrl(url: string): void {
+    const params = new HttpParams().set('url', url);
+    this.http.get(`${this.baseUrl}/preview-url`, { params, observe: 'response' })
+        .subscribe({
+            next: (response) => {
+                if (response.status === 200) {
+                    console.log(`Validace URL úspěšná: ${url}, Status: 200 OK`);
+                } else {
+                    console.error(`Nepodařilo se načíst URL: ${url}, Status: ${response.status}`);
+                }
+            },
+            error: (err) => {
+                console.error(`Chyba při validaci URL: ${url}, Chyba: ${err.message}`);
+            }
+        });
+}
+
+  
 }

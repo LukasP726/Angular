@@ -84,18 +84,6 @@ export class UserService {
     };
   }
 
-  // Získání aktuálního uživatele (nyní pomocí cookies, bez JWT tokenu)
-  /*
-  getCurrentUser(): Observable<User | null> {
-    return this.http.get<User>(`${this.usersUrl}/me`).pipe(
-      map(user => user),
-      catchError(error => {
-        console.error('Error fetching current user:', error);
-        return of(null);
-      })
-    );
-  }
-*/
 getCurrentUser(): Observable<User | null> {
   return this.authService.getCurrentUser();
 }

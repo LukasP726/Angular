@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ThreadService } from '../thread.service';
 import { PostService } from '../post.service';
 import { UploadService } from '../upload.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { AuthService } from '../auth.service';
 import { Thread } from '../thread';
 import { Post } from '../post';
@@ -120,7 +120,7 @@ export class ThreadDetailComponent implements OnInit {
   
 
   
-
+/*
   addPost(): void {
     if (this.newPostContent.trim()) {
       if (this.currentUserId === undefined) {
@@ -162,6 +162,55 @@ export class ThreadDetailComponent implements OnInit {
       );
     }
   }
+*/
+addPost(): void {
+  if (this.newPostContent.trim()) {
+    if (this.currentUserId === undefined) {
+      console.error('Current user ID is not defined');
+      return;
+    }
+
+    // Identifikace URL v obsahu
+    const urlPattern = /https?:\/\/[^\s]+/g;
+    const urls = this.newPostContent.match(urlPattern);
+
+    if (urls && urls.length > 0) {
+      // Zavolej backend pro validaci každé URL
+      urls.forEach((url) => {
+        this.postService.validateUrl(url);
+      });
+    }
+
+    // Vytvoření příspěvku po validaci URL
+    const newPost: Post = {
+      content: this.newPostContent,
+      idUser: this.currentUserId,
+      idThread: this.currentThreadId!,
+      createdAt: new Date(),
+      idUpload: null
+    };
+
+    this.postService.createPost(newPost).subscribe(
+      (post: Post) => {
+        if (post.id !== undefined) {
+          this.newPostId = post.id;
+          this.posts.unshift(post);
+          this.newPostContent = '';
+          if (this.selectedFiles.length > 0) {
+            this.onUpload();
+          }
+        } else {
+          console.error('Post creation response does not contain an ID');
+        }
+      },
+      (error: any) => console.error('Error creating post:', error)
+    );
+  }
+}
+
+
+
+
 
   onFilesSelected(event: Event) {
     const input = event.target as HTMLInputElement;
