@@ -1,26 +1,26 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { UsersComponent } from './users/users.component';
-import { LoginComponent } from './login/login.component';
-import { SignComponent } from './sign/sign.component';
-import { UserDetailComponent } from './user-detail/user-detail.component';
-import { ProfileComponent } from './profile/profile.component';
-import { FileUploadComponent } from './file-upload/file-upload.component';
-import { CreateThreadComponent } from './create-thread/create-thread.component';
-import { ThreadDetailComponent } from './thread-detail/thread-detail.component';
-import { ThreadListComponent } from './thread-list/thread-list.component';
-import { PostDetailComponent } from './post-detail/post-detail.component';
-import { UserStatisticsComponent } from './user-statistics/user-statistics.component';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { UsersComponent } from './features/users/users.component';
+import { LoginComponent } from './features/login/login.component';
+import { SignComponent } from './features/sign/sign.component';
+import { UserDetailComponent } from './features/user-detail/user-detail.component';
+import { ProfileComponent } from './features/profile/profile.component';
+import { FileUploadComponent } from './features/file-upload/file-upload.component';
+import { CreateThreadComponent } from './features/create-thread/create-thread.component';
+import { ThreadDetailComponent } from './features/thread-detail/thread-detail.component';
+import { ThreadListComponent } from './features/thread-list/thread-list.component';
+import { PostDetailComponent } from './features/post-detail/post-detail.component';
+import { UserStatisticsComponent } from './features/user-statistics/user-statistics.component';
 //import { adminGuard } from './admin.guard';
 //import { editorGuard } from './editor.guard';
 //import { superAdminGuard } from './super-admin.guard';
-import { CommandComponent } from './command/command.component';
-import { ProfileDetailComponent } from './profile-detail/profile-detail.component';
+import { CommandComponent } from './features/command/command.component';
+import { ProfileDetailComponent } from './features/profile-detail/profile-detail.component';
 
-import { superAdminGuard, adminGuard, editorGuard } from './create-role.guard';  // Import specifických guardů
-import { SearchComponent } from './search/search.component';
+import { superAdminGuard, adminGuard, editorGuard } from './core/guards/create-role.guard';  // Import specifických guardů
+import { SearchComponent } from './features/search/search.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { AuthService } from './auth.service';
-import { UserService } from './user.service';
-import { User } from './user';
+import { AuthService } from './core/services/auth.service';
+import { UserService } from './core/services/user.service';
+import { User } from './core/models/user';
 import { ChangeDetectorRef } from '@angular/core';
 import { NgZone } from '@angular/core';
 
