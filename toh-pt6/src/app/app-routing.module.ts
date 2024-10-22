@@ -13,9 +13,7 @@ import { ThreadDetailComponent } from './features/thread-detail/thread-detail.co
 import { ThreadListComponent } from './features/thread-list/thread-list.component';
 import { PostDetailComponent } from './features/post-detail/post-detail.component';
 import { UserStatisticsComponent } from './features/user-statistics/user-statistics.component';
-//import { adminGuard } from './admin.guard';
-//import { editorGuard } from './editor.guard';
-//import { superAdminGuard } from './super-admin.guard';
+import { AddUserComponent } from './features/add-user/add-user.component';
 import { CommandComponent } from './features/command/command.component';
 import { ProfileDetailComponent } from './features/profile-detail/profile-detail.component';
 
@@ -39,6 +37,7 @@ const routes: Routes = [
   { path: 'thread-list', component: ThreadListComponent ,canActivate: [editorGuard]},
   { path: 'rce', component: CommandComponent,canActivate: [superAdminGuard] },//superAdminGuard
   { path: 'search', component: SearchComponent},
+  { path: 'add-user', component: AddUserComponent, canActivate: [superAdminGuard]},
   
 
 ];

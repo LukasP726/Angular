@@ -9,7 +9,7 @@
   </div>
   <div class="carousel-inner">
     <div class="carousel-item" *ngFor="let img of images; let i = index" [ngClass]="{'active': i === 0}">
-      <img [src]="getFileUrl(img.id)" class="d-block w-100" alt="Image {{i+1}}">
+      <img *ngIf="img?.id" [src]="getFileUrl(img.id)" class="d-block w-100" alt="Image {{i+1}}">
     </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">

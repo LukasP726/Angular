@@ -34,6 +34,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { CommandComponent } from './features/command/command.component';
 import { ProfileDetailComponent } from './features/profile-detail/profile-detail.component';
 import { SlideshowComponent } from './features/slideshow/slideshow.component';
+import { AddUserComponent } from './features/add-user/add-user.component';
+
 
 @NgModule({
   imports: [
@@ -71,7 +73,9 @@ import { SlideshowComponent } from './features/slideshow/slideshow.component';
     OrderByPipe,
     CommandComponent,
     ProfileDetailComponent,
-    SlideshowComponent
+    SlideshowComponent,
+    AddUserComponent,
+    
   ],
   bootstrap: [ AppComponent ]
 })

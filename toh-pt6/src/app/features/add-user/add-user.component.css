@@ -1,0 +1,16 @@
+.form-container {
+    border: 1px solid #ced4da; /* Rámeček kolem formuláře */
+    border-radius: 0.25rem; /* Zaoblení rohů */
+    padding: 20px; /* Vnitřní odsazení */
+    background-color: #f8f9fa; /* Světle šedé pozadí */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Stín pro hloubku */
+  }
+  
+  .alert {
+    margin-bottom: 20px; /* Mezery pod hlášením */
+  }
+  
+  .btn-block {
+    width: 100%; /* Tlačítko na celou šířku */
+  }
+  

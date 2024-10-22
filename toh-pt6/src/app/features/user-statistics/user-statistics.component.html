@@ -1,8 +1,13 @@
-<div *ngIf="user">
-    <h2>Statistiky uživatele {{ user.login }}</h2>
-    <p>Počet příspěvků: {{ frequency }}</p>
-    <p>Počet vláken: {{ threadsCount }}</p>
-    <p>Počet uploadů: {{ uploadsCount }}</p>
-    <button (click)="goBack()">Zpět</button>
+<div *ngIf="user" class="statistics-container container mt-4">
+  <h2 class="text-center my-4">Statistics of user <strong>{{ user.login }}</strong></h2>
+  <div class="card">
+      <div class="card-body">
+          <p class="card-text"><strong>Number of posts:</strong> {{ frequency }}</p>
+          <p class="card-text"><strong>Number of threads:</strong> {{ threadsCount }}</p>
+          <p class="card-text"><strong>Number of uploads:</strong> {{ uploadsCount }}</p>
+          <button class="btn btn-secondary" (click)="goBack()">
+              <i class="fa fa-arrow-left"></i> Back
+          </button>
+      </div>
   </div>
-  
+</div>

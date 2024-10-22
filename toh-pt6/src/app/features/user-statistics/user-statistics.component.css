@@ -1,0 +1,21 @@
+.statistics-container {
+    margin-top: 20px; /* Přidání mezery nad sekci */
+}
+
+.card {
+    border: 1px solid #ced4da; /* Rámeček kolem karty */
+    border-radius: 0.25rem; /* Zaoblení rohů */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Stín pro hloubku */
+}
+
+.card-body {
+    padding: 20px; /* Vnitřní odsazení pro kartu */
+}
+
+.card-text {
+    font-size: 1.2em; /* Zvýšení velikosti textu pro statistiky */
+}
+
+.btn {
+    margin-top: 15px; /* Přidání mezery nad tlačítko */
+}

@@ -1,14 +1,86 @@
-h1 {
-  margin-bottom: 0;
+/* Global styles for dark theme */
+
+
+html {
+  height: 100%; /* Zajistí, že tělo zabere celou výšku */
+  margin: 0; /* Odstraní výchozí odsazení */
+  padding: 0; /* Odstraní výchozí padding */
 }
 
+body {
+  
+  background-color: linear-gradient(135deg, #1f1f1f, #121212); 
+  color: #e0e0e0; 
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  
+}
+
+
+.main {
+  /*background-color: rgba(255, 255, 255, 0.1); /* Poloprůhledné bílé pozadí pro .main */
+  /*
+  margin-top:100%;
+  padding:100%;
+  */
+  margin-top: 80px; /* Odsazení od navbaru */
+  height: calc(100vh - 80px);
+  width: 100%;
+  margin-top: 80px;
+  padding: 20px;
+  
+  /* Můžete přidat i další vlastnosti pro .main, jako padding atd. */
+}
+
+
+
+/* Navbar styles */
 .navbar {
-  margin-bottom: 20px;
+  background-color: #212529; /* Tmavá barva pro navbar */
+  border-bottom: 2px solid #444; /* Jemný oddělovací prvek */
 }
 
-.navbar-nav .nav-link {
-  display: flex;
-  align-items: center;
+.navbar .nav-link {
+  color: #e0e0e0;
+  transition: color 0.3s ease;
+}
+
+.navbar .nav-link:hover {
+  color: #ffffff; /* Změna barvy na bílou při hoveru */
+}
+
+.navbar .nav-link.active {
+  color: #f8f9fa; /* Zvýraznění aktivního odkazu */
+  background-color: rgba(255, 255, 255, 0.1); /* Jemné podbarvení */
+  border-radius: 5px; /* Zaoblené rohy */
+}
+
+/* Tlačítka v navbaru */
+.navbar-toggler {
+  border-color: #ffffff;
+}
+
+.navbar-toggler-icon {
+  background-color: #ffffff;
 }
 
 
+/* Jemná animace tlačítek */
+button, .nav-link {
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover, .nav-link:hover {
+  background-color: #6200ea; /* Primární barva při hoveru */
+  transform: translateY(-2px); /* Jemný efekt nadzvednutí */
+}
+
+/* Footer */
+footer {
+  background-color: #121212;
+  color: #e0e0e0;
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #444;
+}

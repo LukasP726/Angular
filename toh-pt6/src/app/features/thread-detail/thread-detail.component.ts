@@ -105,6 +105,8 @@ export class ThreadDetailComponent implements OnInit {
     if (this.currentThreadId !== undefined) {
       this.postService.getPostsByThreadId(this.currentThreadId).subscribe(
         (posts: PostDTO[]) => {
+          // Seřazení příspěvků podle createdAt od nejnovějšího po nejstarší
+          //this.posts = posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
           this.posts = posts;
           this.scrollToHighlightedPost();
           this.loadUploadsForPosts();
@@ -113,6 +115,8 @@ export class ThreadDetailComponent implements OnInit {
       );
     }
   }
+  
+  
 
 
 
@@ -301,6 +305,7 @@ addPost(): void {
   }
 
   sanitizerBypass(content: string) {
+    console.log(this.sanitizer.bypassSecurityTrustHtml(content));
     return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 

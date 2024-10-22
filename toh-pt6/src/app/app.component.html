@@ -1,4 +1,3 @@
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,38 +6,55 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a id="dashboard" class="nav-link" routerLink="/dashboard"><i class="fa fa-tachometer-alt"></i> Dashboard</a>
+          <a id="dashboard" class="nav-link" routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa fa-tachometer-alt"></i> Dashboard
+          </a>
         </li>
         <li class="nav-item">
-          <a id="search" class="nav-link" routerLink="/search"><i class="fa fa-search"></i> Search</a>
+          <a id="search" class="nav-link" routerLink="/search" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa fa-search"></i> Search
+          </a>
         </li>
-        <li  class="nav-item">
-          <a *ngIf="isLoggedAsAdmin" id="users" class="nav-link" routerLink="/users"><i class="fa fa-users"></i> Users</a>
+        <li class="nav-item" *ngIf="isLoggedAsAdmin">
+          <a id="users" class="nav-link" routerLink="/users" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa fa-users"></i> Users
+          </a>
         </li>
-        <li  class="nav-item">
-          <a *ngIf="isLoggedAsEditor" id="threads" class="nav-link" routerLink="/thread-list"><i class="fa fa-comments"></i> Threads</a>
+        <li class="nav-item" *ngIf="isLoggedAsEditor">
+          <a id="threads" class="nav-link" routerLink="/thread-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa fa-comments"></i> Threads
+          </a>
         </li>
       </ul>
       <ul class="navbar-nav">
-        <li *ngIf="!isLoggedIn" class="nav-item">
-          <a id="sign" class="nav-link" routerLink="/sign"><i class="fa fa-pencil-alt"></i> Sign in</a>
+        <li class="nav-item" *ngIf="!isLoggedIn">
+          <a id="sign" class="nav-link" routerLink="/sign" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa fa-pencil-alt"></i> Sign in
+          </a>
         </li>
-        <li *ngIf="!isLoggedIn" class="nav-item">
-          <a id="login" class="nav-link" routerLink="/login"><i class="fa fa-sign-in-alt"></i> Log in</a>
+        <li class="nav-item" *ngIf="!isLoggedIn">
+          <a id="login" class="nav-link" routerLink="/login" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa fa-sign-in-alt"></i> Log in
+          </a>
         </li>
-        <li *ngIf="isLoggedIn" class="nav-item">
-          <a id="sign" class="nav-link" routerLink="/profile"><i class="fa fa-pencil-alt"></i> Profile</a>
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a id="profile" class="nav-link" routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+            <i class="fa fa-user"></i> Profile
+          </a>
         </li>
-        <li *ngIf="isLoggedIn" class="nav-item">
-          <a id="login" class="nav-link" (click)="logout()"><i class="fa fa-sign-in-alt"></i> Log out</a>
+        <li class="nav-item" *ngIf="isLoggedIn">
+          <a id="logout" class="nav-link" (click)="logout()">
+            <i class="fa fa-sign-out-alt"></i> Log out
+          </a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 
+
 <!-- Odsazení pro obsah kvůli fixovanému navbaru -->
-<div style="margin-top: 80px;">
+<div class="main" >
   <router-outlet></router-outlet>
   <app-messages></app-messages>
 </div>

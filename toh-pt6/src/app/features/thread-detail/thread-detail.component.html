@@ -43,6 +43,8 @@
        <!-- XSS VULNERABILITY -->
       <!--<p class="card-text" [innerHTML]="sanitizerBypass(post.content)"></p>-->
       <p class="card-text" [innerHTML]="sanitizerBypass(post.content)"></p>
+     
+
       <small class="text-muted">
         <i class="fas fa-user"></i> Posted by user {{ post.owner }} at {{ post.createdAt | date:'short' }}
       </small>
