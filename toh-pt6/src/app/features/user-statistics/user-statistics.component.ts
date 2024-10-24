@@ -10,6 +10,7 @@ import { ThreadService } from '../../core/services/thread.service';
 import { Upload } from '../../core/models/upload'; 
 import { Post } from '../../core/models/post';
 import { Thread } from '../../core/models/thread';
+import { FriendService } from '../../core/services/friend.service';
 
 @Component({
   selector: 'app-user-statistics',
@@ -27,6 +28,8 @@ export class UserStatisticsComponent {
   uploadsCount: number = 0;
   threadsCount: number = 0;
 
+  isFriend: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -35,13 +38,25 @@ export class UserStatisticsComponent {
     private uploadService: UploadService,
     private postService: PostService,
     private threadService: ThreadService,
+    private friendService: FriendService,
   ){}
 
   ngOnInit(): void {
+    this.checkIfFriend();
     this.getUser();
     this.getUploads();
     this.getPosts();
     this.getThreads();
+   
+  }
+
+
+  checkIfFriend(): void {
+    if(this.user != undefined && this.user.id != undefined ){
+      this.friendService.checkIfFriend(this.user.id).subscribe((result: boolean) => {
+        this.isFriend = result;
+      })
+  }
   }
 
   getUser(): void {
@@ -80,5 +95,20 @@ export class UserStatisticsComponent {
   goBack(): void {
     this.location.back();
   }
+
+
+  sendFriendRequest(userId: number): void {
+    this.friendService.sendFriendRequest(userId).subscribe(
+      response => {
+        alert('Friend request sent!');
+        //this.checkIfFriend(); // Aktualizace stavu
+      },
+      error => {
+        alert('Failed to send friend request');
+        console.error(error);
+      }
+    );
+  }
+
 
 }

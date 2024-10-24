@@ -1,13 +1,28 @@
 <div *ngIf="user" class="statistics-container container mt-4">
-  <h2 class="text-center my-4">Statistics of user <strong>{{ user.login }}</strong></h2>
-  <div class="card">
-      <div class="card-body">
-          <p class="card-text"><strong>Number of posts:</strong> {{ frequency }}</p>
-          <p class="card-text"><strong>Number of threads:</strong> {{ threadsCount }}</p>
-          <p class="card-text"><strong>Number of uploads:</strong> {{ uploadsCount }}</p>
-          <button class="btn btn-secondary" (click)="goBack()">
-              <i class="fa fa-arrow-left"></i> Back
-          </button>
-      </div>
+    <h2 class="text-center my-4">Statistics of user <strong>{{ user.login }}</strong></h2>
+    <div class="card">
+        <div class="card-body">
+            <p class="card-text"><strong>Number of posts:</strong> {{ frequency }}</p>
+            <p class="card-text"><strong>Number of threads:</strong> {{ threadsCount }}</p>
+            <p class="card-text"><strong>Number of uploads:</strong> {{ uploadsCount }}</p>
+            
+            <!-- Kontrola, zda už je uživatel přítel -->
+            <div *ngIf="!isFriend; else alreadyFriend">
+              <!-- --> <button 
+                        class="btn btn-primary" 
+                        (click)="user.id !== undefined ? sendFriendRequest(user.id) : null">
+                        <i class="fa fa-user-plus"></i> Send Friend Request
+                </button>
+            </div>
+            <!-- Zpráva, že už je uživatel přítel -->
+            <ng-template #alreadyFriend>
+                <p class="text-success">You are already friends with {{ user.login }}</p>
+            </ng-template>
+  
+            <button class="btn btn-secondary mt-3" (click)="goBack()">
+                <i class="fa fa-arrow-left"></i> Back
+            </button>
+        </div>
+    </div>
   </div>
-</div>
+  

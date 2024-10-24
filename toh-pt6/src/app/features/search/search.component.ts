@@ -36,6 +36,11 @@ export class SearchComponent implements OnInit {
     this.searchTerms.next(''); // Vymaže aktuální výsledky
     this.search('');
   }
+   
+
+ 
+  
+  
 
   ngOnInit(): void {
     this.results$ = this.searchTerms.pipe(

@@ -1,0 +1,11 @@
+<div>
+    <h2>Friend requests</h2>
+    <ul>
+      <li *ngFor="let request of friendRequests$ | async">
+        {{ request.fromUserId }} <!-- Upravte podle toho, jak získáte informace o uživateli -->
+        <span>{{ request.createdAt | date: 'short' }}</span> <!-- Zobrazí datum vytvoření žádosti -->
+        <button (click)="acceptRequest(request.id)">Accept</button>
+      </li>
+    </ul>
+  </div>
+  

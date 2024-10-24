@@ -19,6 +19,7 @@ import { ProfileDetailComponent } from './features/profile-detail/profile-detail
 
 import { superAdminGuard, adminGuard, editorGuard } from './core/guards/create-role.guard';  // Import specifických guardů
 import { SearchComponent } from './features/search/search.component';
+import { FriendsListComponent } from './features/friends-list/friends-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -38,6 +39,9 @@ const routes: Routes = [
   { path: 'rce', component: CommandComponent,canActivate: [superAdminGuard] },//superAdminGuard
   { path: 'search', component: SearchComponent},
   { path: 'add-user', component: AddUserComponent, canActivate: [superAdminGuard]},
+  { path: 'friend-list', component: FriendsListComponent, canActivate: [editorGuard]},
+
+  
   
 
 ];

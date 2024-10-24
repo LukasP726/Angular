@@ -35,6 +35,8 @@ import { CommandComponent } from './features/command/command.component';
 import { ProfileDetailComponent } from './features/profile-detail/profile-detail.component';
 import { SlideshowComponent } from './features/slideshow/slideshow.component';
 import { AddUserComponent } from './features/add-user/add-user.component';
+import { FriendsListComponent } from './features/friends-list/friends-list.component';
+import { FriendRequestsComponent } from './features/friend-requests/friend-requests.component';
 
 
 @NgModule({
@@ -75,6 +77,9 @@ import { AddUserComponent } from './features/add-user/add-user.component';
     ProfileDetailComponent,
     SlideshowComponent,
     AddUserComponent,
+    FriendRequestsComponent,
+    FriendsListComponent,
+    
     
   ],
   bootstrap: [ AppComponent ]
