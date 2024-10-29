@@ -48,17 +48,14 @@
     <a routerLink="/detail/{{user.id}}" class="text-decoration-none">
       <span class="badge bg-primary rounded-pill">{{user.id}}</span> {{user.firstName}} {{user.lastName}}
     </a>
-    <button type="button" class="btn btn-danger btn-sm" title="delete user" (click)="delete(user)">
-      <i class="fa fa-trash"></i>
-    </button>
-
-<!--
     <button *ngIf="!user.isBanned" type="button" class="btn btn-warning btn-sm" title="ban user" (click)="banUser(user)">
       <i class="fa fa-ban"></i> Ban User
     </button>
     <button *ngIf="user.isBanned" type="button" class="btn btn-success btn-sm" title="unban user" (click)="unbanUser(user)">
       <i class="fa fa-check"></i> Unban User
     </button>
--->
+    <button type="button" class="btn btn-danger btn-sm" title="delete user" (click)="delete(user)">
+      <i class="fa fa-trash"></i>
+    </button>
   </li>
 </ul>

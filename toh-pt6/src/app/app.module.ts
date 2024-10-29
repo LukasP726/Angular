@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CreateThreadComponent } from './features/create-thread/create-thread.component';
 
@@ -37,9 +37,19 @@ import { SlideshowComponent } from './features/slideshow/slideshow.component';
 import { AddUserComponent } from './features/add-user/add-user.component';
 import { FriendsListComponent } from './features/friends-list/friends-list.component';
 import { FriendRequestsComponent } from './features/friend-requests/friend-requests.component';
+import { ErrorInterceptor } from './shared/interceptors/error.interceptor';
+import { ErrorComponent } from './features/error/error.component';
 
 
 @NgModule({
+
+  providers: [
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: ErrorInterceptor,
+        multi: true,
+    },
+],
   imports: [
     BrowserModule,
     FormsModule,
@@ -79,6 +89,7 @@ import { FriendRequestsComponent } from './features/friend-requests/friend-reque
     AddUserComponent,
     FriendRequestsComponent,
     FriendsListComponent,
+    ErrorComponent,
     
     
   ],

@@ -10,11 +10,31 @@ import { RoleService } from '../../core/services/role.service';
 })
 export class UsersComponent implements OnInit {
 
-unbanUser(_t50: User) {
-throw new Error('Method not implemented.');
-}
-banUser(_t50: User) {
-throw new Error('Method not implemented.');
+  unbanUser(user: User): void {
+    user.isBanned = false;
+    this.userService.updateUser(user).subscribe({
+      next: () => {
+        console.log(`User ${user.id} unbanned successfully.`);
+      },
+      error: (err) => {
+        console.error(`Failed to unban user ${user.id}:`, err);
+        user.isBanned = true; // vrácení stavu, pokud aktualizace selže
+      }
+    });
+  }
+
+
+banUser(user: User): void {
+  user.isBanned = true;
+  this.userService.updateUser(user).subscribe({
+    next: () => {
+      console.log(`User ${user.id} banned successfully.`);
+    },
+    error: (err) => {
+      console.error(`Failed to ban user ${user.id}:`, err);
+      user.isBanned = false; // vrácení stavu, pokud aktualizace selže
+    }
+  });
 }
 
   users: User[]  = [];
@@ -51,34 +71,7 @@ throw new Error('Method not implemented.');
     });
   }
 
-  add(firstName: string, lastName: string, login: string, password: string, email: string, idRole: number): void {
-    firstName = firstName.trim();
-    lastName = lastName.trim();
-    login = login.trim();
-    password = password.trim();
-    email = email.trim();
-  
-    if (!firstName || !lastName || !login || !password || !email || !idRole) { 
-      console.error('All fields must be filled in.');
-      return; 
-    }
-  
-    const newUser: User = { 
-      id: undefined, 
-      firstName, 
-      lastName, 
-      login, 
-      password, 
-      email, 
-      idRole 
-    };
-  
-    this.userService.addUser(newUser)
-      .subscribe(user => {
-        this.users.push(user);
-        window.location.reload();
-      });
-  }
+
   
 
   delete(user: User): void {

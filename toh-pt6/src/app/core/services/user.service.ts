@@ -22,7 +22,7 @@ export class UserService {
 
   // Získání všech uživatelů
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.usersUrl).pipe(
+    return this.http.get<User[]>(this.usersUrl,this.httpOptions).pipe(
       catchError(this.handleError<User[]>('getUsers', []))
     );
   }

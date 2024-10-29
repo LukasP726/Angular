@@ -1,11 +1,21 @@
-<div>
-    <h2>Friend requests</h2>
-    <ul>
-      <li *ngFor="let request of friendRequests$ | async">
-        {{ request.fromUserId }} <!-- Upravte podle toho, jak získáte informace o uživateli -->
-        <span>{{ request.createdAt | date: 'short' }}</span> <!-- Zobrazí datum vytvoření žádosti -->
-        <button (click)="acceptRequest(request.id)">Accept</button>
+<!-- Friend Requests -->
+<ng-container *ngIf="(friendRequests$ | async) as friendRequests">
+  <div *ngIf="friendRequests!.length > 0">
+    <h2 class="text-success mb-3">
+      <i class="fas fa-user-friends"></i> Friend Requests
+    </h2>
+    <ul class="list-group">
+      <li *ngFor="let request of friendRequests" 
+          class="list-group-item d-flex justify-content-between align-items-center">
+        <div>
+          <strong>{{ request?.fromUserId }}</strong>
+          <br>
+          <small class="text-muted">{{ request?.createdAt | date: 'short' }}</small>
+        </div>
+        <button class="btn btn-success btn-sm" (click)="acceptRequest(request!.id)">
+          <i class="fas fa-check"></i> Accept
+        </button>
       </li>
     </ul>
   </div>
-  
+</ng-container>

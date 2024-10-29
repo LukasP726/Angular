@@ -39,7 +39,7 @@ const routes: Routes = [
   { path: 'rce', component: CommandComponent,canActivate: [superAdminGuard] },//superAdminGuard
   { path: 'search', component: SearchComponent},
   { path: 'add-user', component: AddUserComponent, canActivate: [superAdminGuard]},
-  { path: 'friend-list', component: FriendsListComponent, canActivate: [editorGuard]},
+  { path: 'friends-list', component: FriendsListComponent, canActivate: [editorGuard]},
 
   
   

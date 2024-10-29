@@ -9,7 +9,9 @@ import { User } from '../../core/models/user';
   styleUrls: ['./friends-list.component.css']
 })
 export class FriendsListComponent implements OnInit {
-  friends$: User[] | undefined;
+  friends$: Observable<User[]> | undefined;
+  //friends$: User[] | undefined;
+
 
   constructor(private friendService: FriendService) { }
 
@@ -20,10 +22,13 @@ export class FriendsListComponent implements OnInit {
 
   loadFriends() {
     
-    //this.friends$ = this.friendService.getFriends(); // Předpokládáme, že máte metodu pro získání přátel
+    this.friends$ = this.friendService.getFriends(); // Předpokládáme, že máte metodu pro získání přátel
+    /*
     this.friendService.getFriends().subscribe(friends => {
       this.friends$ = friends;
       console.log(friends);
     });
+     */
   }
+   
 }

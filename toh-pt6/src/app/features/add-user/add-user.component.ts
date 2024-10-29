@@ -34,7 +34,7 @@ export class AddUserComponent {
     });
   }
 
-  add(firstName: string, lastName: string, login: string, password: string, email: string, idRole: number): void {
+  add(firstName: string, lastName: string, login: string, password: string, email: string, idRole: number, isBanned: boolean): void {
     firstName = firstName.trim();
     lastName = lastName.trim();
     login = login.trim();
@@ -53,7 +53,8 @@ export class AddUserComponent {
       login, 
       password, 
       email, 
-      idRole 
+      idRole,
+      isBanned
     };
   
     this.userService.addUser(newUser)
