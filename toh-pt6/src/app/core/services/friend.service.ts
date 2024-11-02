@@ -9,6 +9,7 @@ import { FriendRequest } from '../models/friend-request';
   providedIn: 'root'
 })
 export class FriendService {
+
   private apiUrl =`${environment.apiUrl}/friends`;
 
   httpOptions = {
@@ -50,6 +51,11 @@ export class FriendService {
   getFriendRequests(): Observable<FriendRequest[]> {
     return this.http.get<FriendRequest[]>(`${this.apiUrl}/requests`, this.httpOptions); // Endpoint pro získání žádostí
   }
+
+  removeFriend(friendId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${friendId}`);
+  }
+  
 
   
 }

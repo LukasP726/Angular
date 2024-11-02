@@ -1,61 +1,31 @@
-<!--
-<h2 class="text-center my-4"><i class="fa fa-users"></i> My Users</h2>
-<h1 *ngIf="roles.length > 0">{{ roles[0].name }}</h1>
-<div *ngIf="roles.length === 0">No roles available</div>
-<div class="form-container container">
-  <div class="form-group mb-3">
-    <label for="new-user-firstname">First Name: </label>
-    <input id="new-user-firstname" #userFirstName class="form-control" />
+<div class="container">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>User Management</h2>
+    <button class="btn btn-primary" [routerLink]="['/add-user']">
+      <i class="fa fa-plus"></i> Add New User
+    </button>
   </div>
 
-  <div class="form-group mb-3">
-    <label for="new-user-lastname">Last Name: </label>
-    <input id="new-user-lastname" #userLastName class="form-control" />
-  </div>
+  <ul class="list-group mt-4">
+    <li *ngFor="let user of users" class="list-group-item d-flex justify-content-between align-items-center">
+      <div class="user-info d-flex align-items-center">
+        <span class="badge bg-primary rounded-pill me-2">{{user.id}}</span>
+        <a routerLink="/detail/{{user.id}}" class="text-decoration-none text-dark">
+          {{user.firstName}} {{user.lastName}}
+        </a>
+      </div>
 
-  <div class="form-group mb-3">
-    <label for="new-user-login">Login: </label>
-    <input id="new-user-login" #userLogin class="form-control" />
-  </div>
-
-  <div class="form-group mb-3">
-    <label for="new-user-password">Password: </label>
-    <input id="new-user-password" type="password" #userPassword class="form-control" />
-  </div>
-
-  <div class="form-group mb-3">
-    <label for="new-user-email">Email: </label>
-    <input id="new-user-email" type="email" #userEmail class="form-control" />
-  </div>
-  
-  <div class="form-group mb-3">
-    <label for="userRole">Role:</label>
-    <select id="userRole" [(ngModel)]="selectedRole" name="role" required>
-      <option [ngValue]="null" disabled selected>-- Select role --</option>
-      <option *ngFor="let role of roles" [ngValue]="role">{{role.name}}</option>
-    </select>
-  </div>
-
-  <button type="button" class="btn btn-primary" (click)="add(userFirstName.value, userLastName.value, userLogin.value, userPassword.value, userEmail.value, selectedRole.id)">
-    Add User
-  </button>
+      <div class="user-actions d-flex">
+        <button *ngIf="!user.isBanned" type="button" class="btn btn-warning btn-sm me-1" title="Ban User" (click)="banUser(user)">
+          <i class="fa fa-ban"></i> Ban
+        </button>
+        <button *ngIf="user.isBanned" type="button" class="btn btn-success btn-sm me-1" title="Unban User" (click)="unbanUser(user)">
+          <i class="fa fa-check"></i> Unban
+        </button>
+        <button type="button" class="btn btn-danger btn-sm" title="Delete User" (click)="delete(user)">
+          <i class="fa fa-trash"></i> Delete
+        </button>
+      </div>
+    </li>
+  </ul>
 </div>
--->
-<button class="btn btn-primary" [routerLink]="['/add-user']">
-  <i class="fa fa-plus"></i>Add new user</button>
-<ul class="list-group mt-4">
-  <li *ngFor="let user of users" class="list-group-item d-flex justify-content-between align-items-center">
-    <a routerLink="/detail/{{user.id}}" class="text-decoration-none">
-      <span class="badge bg-primary rounded-pill">{{user.id}}</span> {{user.firstName}} {{user.lastName}}
-    </a>
-    <button *ngIf="!user.isBanned" type="button" class="btn btn-warning btn-sm" title="ban user" (click)="banUser(user)">
-      <i class="fa fa-ban"></i> Ban User
-    </button>
-    <button *ngIf="user.isBanned" type="button" class="btn btn-success btn-sm" title="unban user" (click)="unbanUser(user)">
-      <i class="fa fa-check"></i> Unban User
-    </button>
-    <button type="button" class="btn btn-danger btn-sm" title="delete user" (click)="delete(user)">
-      <i class="fa fa-trash"></i>
-    </button>
-  </li>
-</ul>

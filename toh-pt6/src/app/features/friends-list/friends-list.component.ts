@@ -30,5 +30,18 @@ export class FriendsListComponent implements OnInit {
     });
      */
   }
+
+  removeFriend(friendId: number): void {
+    this.friendService.removeFriend(friendId).subscribe({
+      next: () => {
+        // Aktualizace seznamu přátel po úspěšném odstranění
+        this.friends$ = this.friendService.getFriends();
+      },
+      error: (err) => {
+        console.error("Error removing friend:", err);
+      }
+    });
+  }
+  
    
 }

@@ -6,23 +6,29 @@
             <p class="card-text"><strong>Number of threads:</strong> {{ threadsCount }}</p>
             <p class="card-text"><strong>Number of uploads:</strong> {{ uploadsCount }}</p>
             
-            <!-- Kontrola, zda už je uživatel přítel -->
-            <div *ngIf="!isFriend; else alreadyFriend">
-              <!-- --> <button 
+            <!-- Kontrola, zda uživatel není přihlášený uživatel sám a není již přítel -->
+             <div *ngIf="currentUserId != -1">
+                <div *ngIf="(!isFriend && user.id !== currentUserId && currentUserId != -1); else alreadyFriend">
+                    <button 
                         class="btn btn-primary" 
                         (click)="user.id !== undefined ? sendFriendRequest(user.id) : null">
                         <i class="fa fa-user-plus"></i> Send Friend Request
-                </button>
+                    </button>
+                </div>
+                
+                <!-- Zpráva, že už je uživatel přítel -->
+                <ng-template #alreadyFriend>
+                    <p class="text-success" *ngIf="user.id !== currentUserId">
+                        You are already friends with {{ user.login }}
+                    </p>
+                </ng-template>
             </div>
-            <!-- Zpráva, že už je uživatel přítel -->
-            <ng-template #alreadyFriend>
-                <p class="text-success">You are already friends with {{ user.login }}</p>
-            </ng-template>
-  
-            <button class="btn btn-secondary mt-3" (click)="goBack()">
-                <i class="fa fa-arrow-left"></i> Back
-            </button>
+        
+                <button class="btn btn-secondary mt-3" (click)="goBack()">
+                    <i class="fa fa-arrow-left"></i> Back
+                </button>
+            
+            
         </div>
     </div>
-  </div>
-  
+</div>

@@ -30,7 +30,7 @@ export class UserService {
   // Získání uživatele podle ID
   getUser(id: number): Observable<User> {
     const url = `${this.usersUrl}/${id}`;
-    return this.http.get<User>(url).pipe(
+    return this.http.get<User>(url, this.httpOptions).pipe(
       catchError(this.handleError<User>('getUser'))
     );
   }
