@@ -39,7 +39,7 @@ export class AuthService {
 //!!user
       this.loggedIn.next(!!user);
     }, error => {
-      console.error('Error during authentication check:', error);
+      //console.error('Error during authentication check:', error);
       this.loggedIn.next(false);
     });
   }
@@ -155,4 +155,21 @@ export class AuthService {
       return of(result as T);
     };
   }
+
+
+  isAuthenticated(): Observable<boolean> {
+    return this.http.get<User>(`${environment.apiUrl}/users/me`, this.httpOptions).pipe(
+      map(user => !!user), // Převádí objekt uživatele na true, pokud je přihlášený
+      catchError(error => {
+        if (error.status === 401) {
+          // Uživatele považujeme za nepřihlášeného bez vyhození chyby
+          return of(false);
+        } else {
+          //console.error('Neočekávaná chyba:', error);
+          return of(false);
+        }
+      })
+    );
+  }
+  
 }

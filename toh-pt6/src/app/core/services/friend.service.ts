@@ -53,7 +53,7 @@ export class FriendService {
   }
 
   removeFriend(friendId: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${friendId}`);
+    return this.http.delete<void>(`${this.apiUrl}/${friendId}`,this.httpOptions);
   }
   
 
