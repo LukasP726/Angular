@@ -12,20 +12,21 @@ export class CommandComponent {
   result: string = '';
   logPath: string = '';
 
+  // Předem definovaný seznam logů
+  availableLogs: string[] = ['application.log'];
+
   constructor(private commandService: CommandService) {}
 
   onExecuteCommand() {
-    /*
-    this.commandService.executeCommand(this.command).subscribe(
-      (response) => this.result = response,
-      (error) => this.result = 'Error executing command'
-    );
-    */
+    if (!this.logPath) {
+      this.result = 'Vyberte prosím log z nabídky.';
+      return;
+    }
 
+    // Zavolá readLog s vybraným logem
     this.commandService.readLog(this.logPath).subscribe(
       (response) => this.result = response,
       (error) => this.result = 'Error executing command'
     );
   }
-    
 }

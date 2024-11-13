@@ -1,29 +1,42 @@
-<div class="container mt-4">
-  <h2 class="mb-4">Administrace údržby</h2>
-  <div class="input-group mb-3">
-    <input 
+<div class="container mt-5 p-4 border rounded bg-light">
+  <h2 class="text-center mb-4 text-primary">
+    <i class="fas fa-tools me-2"></i>Administrace údržby
+  </h2>
+
+  <!-- Formulář s rozevíracím seznamem a tlačítkem pro spuštění příkazu -->
+  <div class="input-group mb-4 shadow-sm">
+    <label class="input-group-text bg-primary text-white" for="logSelect">
+      <i class="fas fa-file-alt"></i>
+    </label>
+    <select 
+      id="logSelect"
       [(ngModel)]="logPath" 
-      class="form-control" 
-      placeholder="Zadejte příkaz" 
-      aria-label="Příkaz" 
+      class="form-select" 
+      aria-label="Vyberte log"
       aria-describedby="execute-button"
     >
-    <div class="input-group-append">
-      <button 
-        id="execute-button"
-        class="btn btn-primary"
-        (click)="onExecuteCommand()"
-      >
-        <i class="fas fa-play"></i> Spustit příkaz
-      </button>
-    </div>
+      <option value="" disabled selected>Vyberte log...</option>
+      <option *ngFor="let log of availableLogs" [value]="log">{{ log }}</option>
+    </select>
+
+    <!-- Tlačítko pro spuštění příkazu -->
+    <button 
+      id="execute-button"
+      class="btn btn-primary"
+      (click)="onExecuteCommand()"
+      [disabled]="!logPath"
+    >
+      <i class="fas fa-play-circle"></i> Spustit příkaz
+    </button>
   </div>
-  <div class="card">
-    <div class="card-header">
-      Výstup
+
+  <!-- Výstupní karta pro zobrazení výsledku -->
+  <div class="card shadow-sm">
+    <div class="card-header bg-secondary text-white">
+      <i class="fas fa-terminal"></i> Výstup
     </div>
-    <div class="card-body">
-      <pre>{{ result }}</pre>
+    <div class="card-body bg-dark text-white">
+      <pre class="mb-0">{{ result || 'Zde se zobrazí výsledek po spuštění příkazu...' }}</pre>
     </div>
   </div>
 </div>

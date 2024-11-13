@@ -12,6 +12,7 @@ import { FriendRequest } from '../../core/models/friend-request';
 export class FriendRequestsComponent implements OnInit {
   friendRequests$: Observable<FriendRequest[]> | undefined;
 
+
   constructor(private friendService: FriendService) { }
 
   ngOnInit(): void {
@@ -27,7 +28,8 @@ export class FriendRequestsComponent implements OnInit {
       console.log(friendRequests);
     });
 */
-    this.friendRequests$ = this.friendService.getFriendRequests(); // Předpokládáme, že máte metodu pro získání žádostí
+    this.friendRequests$ = this.friendService.getFriendRequests(); 
+    
   }
 
   acceptRequest(requestId: number) {

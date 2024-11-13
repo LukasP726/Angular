@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { User } from '../models/user';
 import { environment } from '../../environments/environment';
@@ -68,7 +68,10 @@ export class AuthService {
       tap(() => {
         this.loggedIn.next(true);
       }),
-      catchError(this.handleError<any>('login'))
+      catchError(error => {
+        //console.error('Chyba při přihlašování v authService:', error);
+        return throwError(error); // Předání chyby dál
+      })
     );
   }
 

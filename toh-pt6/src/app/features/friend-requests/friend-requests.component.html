@@ -8,6 +8,7 @@
       <li *ngFor="let request of friendRequests" 
           class="list-group-item d-flex justify-content-between align-items-center">
         <div>
+        
           <strong>{{ request?.fromUserId }}</strong>
           <br>
           <small class="text-muted">{{ request?.createdAt | date: 'short' }}</small>

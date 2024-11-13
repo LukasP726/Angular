@@ -20,13 +20,14 @@ export class LoginComponent {
       tap(() => {
         // Pokud přihlášení proběhlo úspěšně, přesměruj na dashboard
         this.loginFailed = false;
+
         this.router.navigate(['/dashboard']);
         //console.log("funguje to");
       }),
       catchError(error => {
         // Nastavení flagu loginFailed na true při neúspěchu
         this.loginFailed = true;
-        console.error('Chyba při přihlašování:', error);
+        //console.error('Chyba při přihlašování:', error);
         return of(null);
       })
     ).subscribe();

@@ -52,6 +52,10 @@ export class FriendService {
     return this.http.get<FriendRequest[]>(`${this.apiUrl}/requests`, this.httpOptions); // Endpoint pro získání žádostí
   }
 
+  getRequestsDTO(): Observable<String[]> {
+    return this.http.get<String[]>(`${this.apiUrl}/requests-dto`, this.httpOptions); // Endpoint pro získání žádostí
+  }
+
   removeFriend(friendId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${friendId}`,this.httpOptions);
   }
