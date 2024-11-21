@@ -7,19 +7,21 @@
     </h2>
     <div class="list-group">
       <div *ngFor="let friend of friends"
-           class="list-group-item list-group-item-action d-flex align-items-center justify-content-between">
-        <a routerLink="/statistics/{{ friend?.id }}" class="d-flex align-items-center text-decoration-none">
-          <i class="fas fa-user-circle me-2"></i>
-          <span>{{ friend?.login }}</span>
-        </a>
+           class="list-group-item list-group-item-action d-flex align-items-center justify-content-between"
+           [routerLink]="['/statistics', friend?.id]"> <!-- Nastavení routerLink na celý div -->
+        <div class="d-flex align-items-center">
+          <i class="fas fa-user-circle me-2 text-primary"></i> 
+          <span class="text-primary">{{ friend?.login }}</span> 
+        </div>
         <button class="btn btn-outline-danger btn-sm" 
-                (click)="removeFriend(friend.id!)" 
+                (click)="confirmAndRemoveFriend(friend.id!); $event.stopPropagation()" 
                 title="Remove friend">
           <i class="fas fa-user-minus"></i>
         </button>
       </div>
     </div>
   </div>
+
 
   <!-- Záložní blok se zprávou, pokud nejsou přítomni žádní přátelé -->
   <ng-template #noFriends>

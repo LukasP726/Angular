@@ -11,7 +11,6 @@ import { environment } from '../../environments/environment';
 export class AuthService {
 
   private loginUrl = `${environment.apiUrl}/auth/login`;
-  private statusUrl = `${environment.apiUrl}/auth/status`;
   private logoutUrl = `${environment.apiUrl}/auth/logout`;
   private registerUrl = `${environment.apiUrl}/register`;
   private isAdminUrl = `${environment.apiUrl}/users/is-admin`;
@@ -44,19 +43,7 @@ export class AuthService {
     });
   }
  
- /*
-  checkAuthentication(): void {
-    this.http.get<boolean>(this.statusUrl).pipe(
-      catchError(error => {
-        console.error('Error checking authentication status:', error);
-        return of(false); // Pokud dojde k chybě, vrátíme false
-      })
-    ).subscribe(isLoggedIn => {
-      console.log("Authentication status fetched: ", isLoggedIn); // Pro ladění
-      this.loggedIn.next(isLoggedIn);
-    });
-  }
-     */
+
 
   /**
    * Přihlášení uživatele (session-based autentizace)
@@ -97,24 +84,22 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
    
-    /*
-  isLoggedIn(): Observable<boolean> {
-    return this.http.get<boolean>(this.statusUrl);
-  }
- */
+
+ 
   /**
    * Ověření, zda je přihlášený uživatel administrátor
    */
 
+
   isLoggedAsAdmin(): Observable<boolean> {
-    return this.getCurrentUser().pipe(
-      map(user => user ? user.idRole === 1 : false), // Upravit 
+    return this.http.get<boolean>(this.isAdminUrl, this.httpOptions).pipe(
       catchError(error => {
-        console.error('Error fetching user info:', error);
-        return of(false); // Pokud dojde k chybě, vrátíme false
+        console.error('Error checking admin status:', error);
+        return of(false); // Při chybě vrátíme false
       })
     );
   }
+
 
   /*
   isLoggedAsAdmin(): Observable<boolean> {
@@ -140,14 +125,20 @@ export class AuthService {
   /**
    * Získání aktuálně přihlášeného uživatele
    */
-    getCurrentUser(): Observable<User | null> {
+
+  getCurrentUser(): Observable<User | null> {
     return this.http.get<User>(`${environment.apiUrl}/users/me`, this.httpOptions).pipe(
       catchError(error => {
-        console.error('Error fetching current user:', error);
-        return of(null);
+        if (error.status === 401) {
+          console.warn('User is not authenticated.');
+        } else {
+          console.error('Error fetching current user:', error);
+        }
+        return of(null); // Při chybě vrátíme null
       })
     );
   }
+  
 
   /**
    * Obsluha chyb
@@ -160,19 +151,6 @@ export class AuthService {
   }
 
 
-  isAuthenticated(): Observable<boolean> {
-    return this.http.get<User>(`${environment.apiUrl}/users/me`, this.httpOptions).pipe(
-      map(user => !!user), // Převádí objekt uživatele na true, pokud je přihlášený
-      catchError(error => {
-        if (error.status === 401) {
-          // Uživatele považujeme za nepřihlášeného bez vyhození chyby
-          return of(false);
-        } else {
-          //console.error('Neočekávaná chyba:', error);
-          return of(false);
-        }
-      })
-    );
-  }
+
   
 }

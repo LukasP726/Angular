@@ -42,7 +42,7 @@ import { ErrorComponent } from './features/error/error.component';
 
 
 @NgModule({
-
+/* */
   providers: [
     {
         provide: HTTP_INTERCEPTORS,

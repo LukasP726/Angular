@@ -17,19 +17,29 @@
           class="form-control" 
           (change)="onFilesSelected($event)"
           #fileInput
-          multiple
+          multiple  
         >
       </div>
-      <div *ngIf="filePreviews.length > 0">
-        <h4>Files to be uploaded:</h4>
-        <ul>
-          <li *ngFor="let filePreview of filePreviews; let i = index">
-            <span>{{ filePreview.file.name }}</span>
-            <button (click)="removeFile(i)">Remove</button>
+      <div *ngIf="filePreviews.length > 0" class="mt-4">
+        <h4 class="text-primary">
+          <i class="fas fa-file-upload me-2"></i> Files to be uploaded:
+        </h4>
+        <ul class="list-group">
+          <li *ngFor="let filePreview of filePreviews; let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <i class="fas fa-file me-2 text-secondary"></i>
+              <span class="text-dark">{{ filePreview.file.name }}</span>
+            </div>
+            <button class="btn btn-danger btn-sm" (click)="removeFile(i)" title="Remove file">
+              <i class="fas fa-trash-alt"></i> Remove
+            </button>
           </li>
         </ul>
-        <button class="btn btn-secondary mt-3" (click)="clearSelectedFiles()">Clear all files</button>
+        <button class="btn btn-outline-secondary mt-3" (click)="clearSelectedFiles()">
+          <i class="fas fa-trash me-2"></i> Clear all files
+        </button>
       </div>
+      
       <button class="btn btn-primary" (click)="addPost(); fileInput.value=''">
         <i class="fas fa-paper-plane"></i> Post
       </button>
@@ -50,8 +60,15 @@
       </small>
 
       <div *ngIf="isAdmin$ | async">
-        <button class="btn btn-warning btn-sm" (click)="editPost(post)">Edit</button>
-        <button class="btn btn-danger btn-sm" (click)="deletePost(post.id!)">Delete</button>
+        <button class="btn btn-warning btn-sm" 
+                (click)="editPost(post)">
+                <i class="fas fa-edit"></i>Edit
+        </button>
+
+        <button class="btn btn-danger btn-sm" 
+                (click)="deletePost(post.id!)">
+                <i class="fas fa-trash-alt"></i>Delete
+        </button>
       </div>
       
       <div *ngIf="post.id !== undefined && uploads[post.id]?.length">

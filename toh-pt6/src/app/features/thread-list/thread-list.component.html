@@ -1,11 +1,27 @@
 <app-create-thread></app-create-thread>
 
 <ul class="list-group mt-4">
-    <li *ngFor="let thread of threads" class="list-group-item d-flex justify-content-between align-items-center">
-      <a routerLink="/threads/{{thread.id}}" class="text-decoration-none">
-        <span class="badge bg-primary rounded-pill">{{thread.id}}</span> {{thread.name}}
-      </a>
-      <button type="button" class="btn btn-danger btn-sm" title="delete thread" (click)="delete(thread)">
+    <li *ngFor="let thread of threads"
+     class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+    [routerLink]="['/threads/', thread.id]"
+    >
+      <!--<a routerLink="/threads/{{thread.id}}" class="text-decoration-none">
+        <span class="badge bg-primary rounded-pill">{{thread.id}}</span>-->
+      <div class="d-flex align-items-center">
+        <i class="fas fa-stream me-2 text-primary"></i>
+        <span class="text-primary"> {{thread.name}}</span>
+      </div>
+      <!--</a>
+      <button type="button" 
+              class="btn btn-danger btn-sm" 
+              title="delete thread" 
+              (click)="delete(thread); $event.stopPropagation()">
+        <i class="fa fa-trash"></i>Remove
+      </button>-->
+
+      <button class="btn btn-outline-danger btn-sm" 
+              title="Remove thread"
+              (click)="delete(thread); $event.stopPropagation()">>
         <i class="fa fa-trash"></i>
       </button>
     </li>

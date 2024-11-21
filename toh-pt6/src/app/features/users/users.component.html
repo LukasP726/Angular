@@ -7,25 +7,47 @@
   </div>
 
   <ul class="list-group mt-4">
-    <li *ngFor="let user of users" class="list-group-item d-flex justify-content-between align-items-center">
+    <li *ngFor="let user of users" 
+        class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+        [routerLink]="['/detail/', user.id]">
       <div class="user-info d-flex align-items-center">
-        <span class="badge bg-primary rounded-pill me-2">{{user.id}}</span>
-        <a routerLink="/detail/{{user.id}}" class="text-decoration-none text-dark">
-          {{user.firstName}} {{user.lastName}}
-        </a>
+        <!--<i class="badge bg-primary rounded-pill me-2">{{ user.id }}</i>-->
+        <i class="fas fa-user-circle me-2 text-primary"></i> 
+        <span class="text-primary">{{ user.firstName }} {{ user.lastName }}</span>
       </div>
-
+  
       <div class="user-actions d-flex">
-        <button *ngIf="!user.isBanned" type="button" class="btn btn-warning btn-sm me-1" title="Ban User" (click)="banUser(user)">
-          <i class="fa fa-ban"></i> Ban
+        <button *ngIf="!user.isBanned" type="button" 
+                class="btn btn-warning btn-sm me-1" 
+                title="Ban User" 
+                (click)="banUser(user); $event.stopPropagation()">
+          <i class="fas fa-lock"></i>
+          <!--<i class="fa fa-ban"></i>--> Ban
         </button>
-        <button *ngIf="user.isBanned" type="button" class="btn btn-success btn-sm me-1" title="Unban User" (click)="unbanUser(user)">
-          <i class="fa fa-check"></i> Unban
+
+  
+        
+        <button *ngIf="user.isBanned" type="button" class="btn btn-success btn-sm me-1" 
+                title="Unban User" 
+                (click)="unbanUser(user); $event.stopPropagation()">
+                <i class="fas fa-lock-open"></i> Unban
         </button>
-        <button type="button" class="btn btn-danger btn-sm" title="Delete User" (click)="delete(user)">
+        
+
+        <button class="btn btn-outline-danger btn-sm" 
+        title="Delete User" 
+        (click)="delete(user); $event.stopPropagation()">Delete
+          <i class="fas fa-user-slash"></i>
+        </button>
+        <!--
+        <button type="button" class="btn btn-danger btn-sm" 
+                title="Delete User" 
+                (click)="delete(user); $event.stopPropagation()">
           <i class="fa fa-trash"></i> Delete
         </button>
+        -->
       </div>
     </li>
   </ul>
+  
 </div>

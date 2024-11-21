@@ -42,6 +42,13 @@ export class FriendsListComponent implements OnInit {
       }
     });
   }
+
+  confirmAndRemoveFriend(friendId: number): void {
+    const confirmation = confirm('Are you sure you want to remove this friend?');
+    if (confirmation) {
+      this.removeFriend(friendId);
+    }
+  }
   
    
 }
