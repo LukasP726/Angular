@@ -124,49 +124,7 @@ export class ThreadDetailComponent implements OnInit {
   
 
   
-/*
-  addPost(): void {
-    if (this.newPostContent.trim()) {
-      if (this.currentUserId === undefined) {
-        console.error('Current user ID is not defined');
-        return;
-      }
 
-      if (this.containsScript(this.newPostContent)) {
-        this.executeScript(this.newPostContent);
-        console.log("this.newPostContent-true: ",this.newPostContent);
-      } 
-      else{
-        console.log("this.newPostContent-false: ",this.newPostContent);
-
-      }
-
-      const newPost: Post = {
-        content: this.newPostContent,
-        idUser: this.currentUserId,
-        idThread: this.currentThreadId!,
-        createdAt: new Date(),
-        idUpload: null
-      };
-
-      this.postService.createPost(newPost).subscribe(
-        (post: Post) => {
-          if (post.id !== undefined) {
-            this.newPostId = post.id;
-            this.posts.unshift(post);  // Přidání nového příspěvku na začátek seznamu
-            this.newPostContent = '';
-            if (this.selectedFiles.length > 0) {
-              this.onUpload();
-            }
-          } else {
-            console.error('Post creation response does not contain an ID');
-          }
-        },
-        (error: any) => console.error('Error creating post:', error)
-      );
-    }
-  }
-*/
 addPost(): void {
   if (this.newPostContent.trim()) {
     if (this.currentUserId === undefined) {

@@ -47,9 +47,11 @@ export class SearchComponent implements OnInit {
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((term: string) => {
+        
         if (!term.trim()) {
           return of([]);
         }
+          
         let url = '';
         switch (this.searchType) {
           case 'users':
