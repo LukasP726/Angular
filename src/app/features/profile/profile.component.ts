@@ -6,6 +6,7 @@ import { RoleService } from '../../core/services/role.service';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { AuthService } from '../../core/services/auth.service';
+import { UserUpdateDTO } from '../../core/models/user-updateDTO';
 
 @Component({
   selector: 'app-profile',
@@ -15,7 +16,8 @@ import { AuthService } from '../../core/services/auth.service';
 export class ProfileComponent {
 
   user$: Observable<User | null> | null = null;
-  editableUser: User | null = null;
+  editableUser: UserUpdateDTO | null = null;
+
 
   currentPassword: string = '';
   newPassword: string = '';
@@ -34,11 +36,10 @@ export class ProfileComponent {
     if(this.user$ !=null){
     this.user$.subscribe(user => {
       if (user) {
-        this.editableUser = { ...user, 
-            login: user.login ?? '',
-            //password: user.password ?? '',
-            email: user.email ?? ''
-
+        this.editableUser = {
+          id: user.id,
+          login: user.login ?? '',
+          email: user.email ?? ''
         };
         console.log('User loaded:', user);
       } else {
@@ -54,7 +55,7 @@ export class ProfileComponent {
 
 save(): void {
   if (this.editableUser) {
-    this.userService.updateUser(this.editableUser)
+    this.userService.updateProfile(this.editableUser)
       .subscribe(() => this.goBack());
   }
 }
@@ -70,28 +71,22 @@ onSubmit(): void {
     return;
   }
 
-  this.userService.verifyCurrentPassword(this.currentPassword).subscribe(isMatch => {
-    if (isMatch) {
-      this.userService.updatePassword(this.currentPassword,this.newPassword, this.confirmPassword).subscribe(() => {
-        console.log("currentPassword: ", this.currentPassword);
-        console.log("newPassword: ",this.newPassword);
-        console.log("confirmPassword: ", this.confirmPassword);
+ //this.userService.verifyCurrentPassword(this.currentPassword).subscribe(isMatch => {
+    //if (isMatch) {
 
-        alert("Password changed successfully.");
-      }, error => {
-        alert("Failed to change password.");
-      });
-    } else {
-      alert("Current password is incorrect.");
-    }
-  });
-}
+    this.userService.updatePassword(this.currentPassword,this.newPassword, this.confirmPassword).subscribe(() => {
+      //console.log("currentPassword: ", this.currentPassword);
+      //console.log("newPassword: ",this.newPassword);
+      //console.log("confirmPassword: ", this.confirmPassword);
 
+      alert("Password changed successfully.");
+    }, error => {
+      alert("Failed to change password.");
+    });
 
-
-
-
-
-
+ // } else {
+  //  alert("Current password is incorrect.");
+  //}
+}//);
 
 }

@@ -48,6 +48,9 @@ export class CreateThreadComponent {
         response => {
           console.log('Thread created successfully:', response);
           this.threadForm.reset();
+          this.threadService.notifyThreadCreated(); // upozornění
+          
+          
         },
         error => {
           console.error('Error creating thread:', error);

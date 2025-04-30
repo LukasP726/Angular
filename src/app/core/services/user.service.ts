@@ -5,6 +5,7 @@ import { User } from '../models/user';
 import { environment } from '../../environments/environment';
 import { MessageService } from './message.service';
 import { AuthService } from './auth.service';
+import { UserUpdateDTO } from '../models/user-updateDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -45,6 +46,20 @@ export class UserService {
   // Aktualizace uživatele
   updateUser(user: User): Observable<any> {
     return this.http.put(`${this.usersUrl}/${user.id}`, user, this.httpOptions).pipe(
+      catchError(this.handleError<any>('updateUser'))
+    );
+  }
+/*
+  // Aktualizace profilu
+  updateProfile(user: User): Observable<any> {
+    return this.http.put(`${this.usersUrl}/profile`, user, this.httpOptions).pipe(
+      catchError(this.handleError<any>('updateUser'))
+    );
+  }
+*/
+
+  updateProfile(user: UserUpdateDTO): Observable<any> {
+    return this.http.put(`${this.usersUrl}/profile`, user, this.httpOptions).pipe(
       catchError(this.handleError<any>('updateUser'))
     );
   }

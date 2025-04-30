@@ -14,8 +14,10 @@ import { UserService } from '../../core/services/user.service';
 import { User } from '../../core/models/user';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
+
 import { Renderer2 } from '@angular/core';
 import { PostDTO } from '../../core/models/postDTO';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-thread-detail',
@@ -40,6 +42,7 @@ export class ThreadDetailComponent implements OnInit {
   currentUser: User | null = null;
   newPostId: number | undefined;
   //isLoggedIn$: Observable<boolean>;
+
 
   // Stránkovací proměnné
   itemsPerPage: number = 10;
@@ -205,22 +208,35 @@ addPost(): void {
       console.log('No files selected or newPostId not available');
       return;
     }
-
+  
+    let uploadCount = 0;
+    let totalUploads = this.selectedFiles.length;
+  
     this.selectedFiles.forEach(file => {
       const uploadData = new FormData();
       if (this.currentUserId === undefined) {
         console.error('Current user ID is not defined');
         return;
       }
-      
+  
       uploadData.append('file', file, file.name);
       uploadData.append('idUser', this.currentUserId.toString());
       uploadData.append('idPost', this.newPostId!.toString());
-
-      this.http.post('http://localhost:8080/api/uploads', uploadData, { responseType: 'text' })
+  
+      this.http.post(`${environment.apiUrl}/uploads`, uploadData, { responseType: 'text' })
         .pipe(
           tap(response => {
             console.log('Upload successful:', response);
+            uploadCount++;
+            if (uploadCount === totalUploads) {
+              // Všechny uploady hotové → načti uploady znovu
+              this.uploadService.getUploadsForPost(this.newPostId!).subscribe(
+                (uploads: Upload[]) => {
+                  this.uploads[this.newPostId!] = uploads;
+                },
+                (error: any) => console.error('Error reloading uploads:', error)
+              );
+            }
           }),
           catchError(error => {
             console.error('Upload error:', error);
@@ -230,6 +246,7 @@ addPost(): void {
         .subscribe();
     });
   }
+  
 
   loadUploadsForPosts(): void {
     this.posts.forEach(post => {
@@ -247,7 +264,7 @@ addPost(): void {
   }
 
   getFileUrl(uploadId: number): string {
-    return `http://localhost:8080/api/uploads/download/${uploadId}`;
+    return `${environment.apiUrl}/uploads/download/${uploadId}`;
   }
 
   scrollToHighlightedPost(): void {
@@ -263,7 +280,7 @@ addPost(): void {
   }
 
   sanitizerBypass(content: string) {
-    console.log(this.sanitizer.bypassSecurityTrustHtml(content));
+    //console.log(this.sanitizer.bypassSecurityTrustHtml(content));
     return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 

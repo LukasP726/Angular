@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FriendService } from '../../core/services/friend.service';
 import { Observable } from 'rxjs';
 import { FriendRequest } from '../../core/models/friend-request';
+import { FriendRequestDTO } from '../../core/models/friend-requestDTO';
 //import { FriendRequest }  // Předpokládáme, že máte model žádosti o přátelství
 
 @Component({
@@ -10,7 +11,7 @@ import { FriendRequest } from '../../core/models/friend-request';
   styleUrls: ['./friend-requests.component.css']
 })
 export class FriendRequestsComponent implements OnInit {
-  friendRequests$: Observable<FriendRequest[]> | undefined;
+  friendRequests$: Observable<FriendRequestDTO[]> | undefined;
 
 
   constructor(private friendService: FriendService) { }
@@ -28,7 +29,8 @@ export class FriendRequestsComponent implements OnInit {
       console.log(friendRequests);
     });
 */
-    this.friendRequests$ = this.friendService.getFriendRequests(); 
+    //this.friendRequests$ = this.friendService.getFriendRequests(); 
+    this.friendRequests$ = this.friendService.getRequestsDTO(); 
     
   }
 

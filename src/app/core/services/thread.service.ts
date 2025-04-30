@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { Thread } from "../models/thread";
 import { environment } from "../../environments/environment";
 
@@ -9,6 +9,13 @@ import { environment } from "../../environments/environment";
 })
 export class ThreadService {
 
+
+private threadCreatedSource = new Subject<void>();
+threadCreated$ = this.threadCreatedSource.asObservable();
+
+notifyThreadCreated(): void {
+  this.threadCreatedSource.next();
+}
 
 
 

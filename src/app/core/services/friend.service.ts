@@ -4,6 +4,7 @@ import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { User } from '../models/user';
 import { FriendRequest } from '../models/friend-request';
+import { FriendRequestDTO } from '../models/friend-requestDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -52,12 +53,14 @@ export class FriendService {
     return this.http.get<FriendRequest[]>(`${this.apiUrl}/requests`, this.httpOptions); // Endpoint pro získání žádostí
   }
 
-  getRequestsDTO(): Observable<String[]> {
-    return this.http.get<String[]>(`${this.apiUrl}/requests-dto`, this.httpOptions); // Endpoint pro získání žádostí
-  }
+
 
   removeFriend(friendId: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${friendId}`,this.httpOptions);
+  }
+
+  getRequestsDTO(): Observable<FriendRequestDTO[]> {
+    return this.http.get<FriendRequestDTO[]>(`${this.apiUrl}/requestsDTO`, this.httpOptions); // Endpoint pro získání žádostí
   }
   
 

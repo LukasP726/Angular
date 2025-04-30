@@ -24,22 +24,22 @@ import { FriendsListComponent } from './features/friends-list/friends-list.compo
 const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'detail/:id', component: UserDetailComponent, canActivate: [adminGuard]},
-  { path: 'users', component: UsersComponent, canActivate: [adminGuard]},//superAdminGuard
+  { path: 'detail/:id', component: UserDetailComponent},//, canActivate: [adminGuard]},
+  { path: 'users', component: UsersComponent},//, canActivate: [adminGuard]},//superAdminGuard
   { path: 'login', component: LoginComponent},
   { path: 'sign', component: SignComponent},
-  { path: 'profile', component: ProfileComponent, canActivate: [editorGuard]},
-  { path: 'profile/:id', component: ProfileDetailComponent, canActivate: [editorGuard]},
-  { path: 'upload', component: FileUploadComponent, canActivate: [editorGuard]},
-  { path: 'create-thread', component: CreateThreadComponent,canActivate: [editorGuard] },
+  { path: 'profile', component: ProfileComponent}, //canActivate: [editorGuard]},
+  //{ path: 'profile/:id', component: ProfileDetailComponent}, //canActivate: [editorGuard]},
+  { path: 'upload', component: FileUploadComponent},// canActivate: [editorGuard]},
+  { path: 'create-thread', component: CreateThreadComponent},//canActivate: [editorGuard] },
   { path: 'threads/:id', component: ThreadDetailComponent },
   { path: 'statistics/:id', component: UserStatisticsComponent },
   { path: 'posts/:id', component: PostDetailComponent },
-  { path: 'thread-list', component: ThreadListComponent ,canActivate: [editorGuard]},
-  { path: 'rce', component: CommandComponent,canActivate: [superAdminGuard] },//superAdminGuard
+  { path: 'thread-list', component: ThreadListComponent },//canActivate: [editorGuard]},
+  { path: 'logreader', component: CommandComponent},//canActivate: [superAdminGuard] },//superAdminGuard
   { path: 'search', component: SearchComponent},
-  { path: 'add-user', component: AddUserComponent, canActivate: [superAdminGuard]},
-  { path: 'friends-list', component: FriendsListComponent, canActivate: [editorGuard]},
+  { path: 'add-user', component: AddUserComponent},// canActivate: [superAdminGuard]},
+  { path: 'friends-list', component: FriendsListComponent},// canActivate: [editorGuard]},
 
   
   

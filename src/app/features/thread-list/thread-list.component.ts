@@ -16,16 +16,13 @@ export class ThreadListComponent implements OnInit {
 
   ngOnInit(): void {
     
+    //this.loadThreads();
     this.loadThreads();
+    this.threadService.threadCreated$.subscribe(() => {
+      this.loadThreads(); // znovu načti vlákna po vytvoření
+    });
   }
-/*
-  loadThreads(): void {
-    this.threadService.getThreads().subscribe(
-      (data: Thread[]) => this.threads = data,
-      (error: any) => console.error('Error fetching threads:', error)
-    );
-  }
-    */
+
 
   loadThreads(): void {
     this.userService.getCurrentUser().subscribe(user => {

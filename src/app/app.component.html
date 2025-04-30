@@ -29,6 +29,17 @@
           <a id="threads" class="nav-link" routerLink="/friends-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
             <i class="fa fa-comments"></i> Friends
           </a>
+        </li> 
+
+      
+      <li class="nav-item" *ngIf="isLoggedAsAdmin">
+        <a id="logs" class="nav-link" routerLink="/logreader" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <i class="fa fa-file-alt"></i> Logs
+        </a>
+      </li>
+
+
+
          <!--
         </li>
         <li class="nav-item" *ngIf="isLoggedAsEditor">

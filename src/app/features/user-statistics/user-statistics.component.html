@@ -1,34 +1,50 @@
-<div *ngIf="user" class="statistics-container container mt-4">
-    <h2 class="text-center my-4">Statistics of user <strong>{{ user.login }}</strong></h2>
-    <div class="card">
-        <div class="card-body">
-            <p class="card-text"><strong>Number of posts:</strong> {{ frequency }}</p>
-            <p class="card-text"><strong>Number of threads:</strong> {{ threadsCount }}</p>
-            <p class="card-text"><strong>Number of uploads:</strong> {{ uploadsCount }}</p>
-            
-            <!-- Kontrola, zda uživatel není přihlášený uživatel sám a není již přítel -->
-             <div *ngIf="currentUserId != -1">
-                <div *ngIf="(!isFriend && user.id !== currentUserId && currentUserId != -1); else alreadyFriend">
-                    <button 
-                        class="btn btn-primary" 
-                        (click)="user.id !== undefined ? sendFriendRequest(user.id) : null">
-                        <i class="fa fa-user-plus"></i> Send Friend Request
-                    </button>
-                </div>
-                
-                <!-- Zpráva, že už je uživatel přítel -->
-                <ng-template #alreadyFriend>
-                    <p class="text-success" *ngIf="user.id !== currentUserId">
-                        You are already friends with {{ user.login }}
-                    </p>
-                </ng-template>
-            </div>
-        
-                <button class="btn btn-secondary mt-3" (click)="goBack()">
-                    <i class="fa fa-arrow-left"></i> Back
-                </button>
-            
-            
+<div *ngIf="user" class="container my-5 statistics-container">
+    <div class="card shadow rounded-4 p-4">
+      <h2 class="text-center text-primary mb-4">
+        <i class="fa fa-chart-bar me-2"></i>Statistics of user <strong>{{ user.login }}</strong>
+      </h2>
+  
+      <div class="row text-center mb-4">
+        <div class="col-md-4 mb-3">
+          <div class="border rounded-3 p-3 bg-light">
+            <h5 class="text-muted mb-1">Posts</h5>
+            <h3 class="text-dark">{{ frequency }}</h3>
+          </div>
         </div>
+        <div class="col-md-4 mb-3">
+          <div class="border rounded-3 p-3 bg-light">
+            <h5 class="text-muted mb-1">Threads</h5>
+            <h3 class="text-dark">{{ threadsCount }}</h3>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="border rounded-3 p-3 bg-light">
+            <h5 class="text-muted mb-1">Uploads</h5>
+            <h3 class="text-dark">{{ uploadsCount }}</h3>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Přátelství -->
+      <div *ngIf="currentUserId !== -1">
+        <div *ngIf="!isFriend && user.id !== currentUserId; else alreadyFriend">
+          <button class="btn btn-success w-100 mb-3" 
+                  (click)="user.id !== undefined ? sendFriendRequest(user.id) : null">
+            <i class="fa fa-user-plus me-2"></i>Send Friend Request
+          </button>
+        </div>
+        <ng-template #alreadyFriend>
+          <p class="text-center text-success">
+            <i class="fa fa-check-circle me-2"></i>You are already friends with <strong>{{ user.login }}</strong>
+          </p>
+        </ng-template>
+      </div>
+  
+      <div class="text-center mt-3">
+        <button class="btn btn-outline-secondary" (click)="goBack()">
+          <i class="fa fa-arrow-left me-2"></i>Back
+        </button>
+      </div>
     </div>
-</div>
+  </div>
+  

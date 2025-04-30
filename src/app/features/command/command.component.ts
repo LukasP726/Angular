@@ -13,7 +13,7 @@ export class CommandComponent {
   logPath: string = '';
 
   // Předem definovaný seznam logů
-  availableLogs: string[] = ['application.log'];
+  availableLogs: string[] = ['spring.log'];
 
   constructor(private commandService: CommandService) {}
 

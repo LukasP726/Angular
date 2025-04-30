@@ -1,16 +1,22 @@
-<h2>Top Users</h2>
-<div class="user-menu mb-5"> <!-- Přidána třída pro spodní margin -->
-  <a *ngFor="let user of users"
-      routerLink="/statistics/{{user.id}}">
-      {{user.login}}
-  </a>
-</div>
+<div class="container my-5">
+  <h2 class="text-center text-primary mb-4">
+    <i class="fa fa-users me-2"></i>Top Users
+  </h2>
 
-<!-- Přidán margin nad slideshow -->
-<div class="slideshow-container">
-  <app-slideshow></app-slideshow>
-</div>
+  <div class="row justify-content-center g-3 mb-5">
+    <div class="col-auto" *ngFor="let user of users">
+      <a class="btn btn-outline-primary rounded-pill px-4 py-2 shadow-sm"
+         routerLink="/statistics/{{user.id}}">
+        <i class="fa fa-user me-1"></i>{{ user.login }}
+      </a>
+    </div>
+  </div>
 
-<!--
-<app-search></app-search>
--->
+  <div class="slideshow-container">
+    <app-slideshow></app-slideshow>
+  </div>
+
+  <!--
+  <app-search></app-search>
+  -->
+</div>
