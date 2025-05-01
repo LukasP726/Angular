@@ -5,18 +5,19 @@
 
   <div class="row justify-content-center g-3 mb-5">
     <div class="col-auto" *ngFor="let user of users">
-      <a class="btn btn-outline-primary rounded-pill px-4 py-2 shadow-sm"
+      <a class="btn btn-outline-primary rounded-pill px-4 py-2 shadow-sm user-button"
+         [attr.title]="user.login"
          routerLink="/statistics/{{user.id}}">
-        <i class="fa fa-user me-1"></i>{{ user.login }}
+        <i class="fa fa-user me-2"></i>
+        <span class="user-name">{{ user.login }}</span>
       </a>
     </div>
   </div>
+  
 
   <div class="slideshow-container">
     <app-slideshow></app-slideshow>
   </div>
 
-  <!--
-  <app-search></app-search>
-  -->
+
 </div>

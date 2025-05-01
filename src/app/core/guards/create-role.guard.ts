@@ -1,6 +1,6 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { UserService } from '../services/user.service';  // Upravte cestu podle umístění vašeho UserService
+import { UserService } from '../services/user.service';  
 import { Observable, catchError, map, of, switchMap, take } from 'rxjs';
 
 // Generická funkce guardu

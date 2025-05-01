@@ -10,9 +10,7 @@
     <li *ngFor="let user of users" 
         class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
         [routerLink]="['/detail/', user.id]">
-        <!--[routerLink]="['/detail/', user.id]"-->
       <div class="user-info d-flex align-items-center">
-        <!--<i class="badge bg-primary rounded-pill me-2">{{ user.id }}</i>-->
         <i class="fas fa-user-circle me-2 text-primary"></i> 
         <span class="text-primary">{{ user.firstName }} {{ user.lastName }}</span>
       </div>
@@ -23,7 +21,7 @@
                 title="Ban User" 
                 (click)="banUser(user); $event.stopPropagation()">
           <i class="fas fa-lock"></i>
-          <!--<i class="fa fa-ban"></i>--> Ban
+                Ban
         </button>
 
   
@@ -40,13 +38,7 @@
         (click)="delete(user); $event.stopPropagation()">Delete
           <i class="fas fa-user-slash"></i>
         </button>
-        <!--
-        <button type="button" class="btn btn-danger btn-sm" 
-                title="Delete User" 
-                (click)="delete(user); $event.stopPropagation()">
-          <i class="fa fa-trash"></i> Delete
-        </button>
-        -->
+ 
       </div>
     </li>
   </ul>

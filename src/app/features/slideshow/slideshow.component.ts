@@ -1,4 +1,3 @@
-// slideshow.component.ts
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -6,7 +5,6 @@ import { environment } from '../../environments/environment';
 interface Upload {
   id: number;
   filename: string;
-  // další vlastnosti dle potřeby
 }
 
 @Component({
@@ -25,7 +23,7 @@ export class SlideshowComponent implements OnInit {
   ngOnInit(): void {
     this.loadImages();
   }
-
+  // Načtení obrázků (uploadů) z API
   loadImages(): void {
     this.http.get<Upload[]>(this.imagesUrl).subscribe(
       (data) => {
@@ -37,6 +35,7 @@ export class SlideshowComponent implements OnInit {
     );
   }
 
+  // Generování URL pro stažení souboru podle jeho ID
   getFileUrl(id: number): string {
     return `${this.uploadsUrl}/download/${id}`;
 

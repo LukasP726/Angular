@@ -15,15 +15,13 @@ export class ThreadListComponent implements OnInit {
   constructor(private threadService: ThreadService, private userService: UserService) {}
 
   ngOnInit(): void {
-    
-    //this.loadThreads();
     this.loadThreads();
     this.threadService.threadCreated$.subscribe(() => {
       this.loadThreads(); // znovu načti vlákna po vytvoření
     });
   }
 
-
+  // Metoda pro načítání vláken pro aktuálního uživatele
   loadThreads(): void {
     this.userService.getCurrentUser().subscribe(user => {
       if(user!=null){
@@ -32,7 +30,8 @@ export class ThreadListComponent implements OnInit {
           (error: any) => console.error('Error fetching threads:', error)
     );}})
   }
-
+  
+  // Metoda pro smazání vlákna
   delete(thread: Thread): void {
     if (confirm(`Are you sure you want to delete thread "${thread.name}"?`)) {
       this.threadService.deleteThread(thread.id).subscribe(

@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'sign', component: SignComponent},
   { path: 'profile', component: ProfileComponent}, //canActivate: [editorGuard]},
-  //{ path: 'profile/:id', component: ProfileDetailComponent}, //canActivate: [editorGuard]},
+  { path: 'profile/:id', component: ProfileDetailComponent}, //canActivate: [editorGuard]},
   { path: 'upload', component: FileUploadComponent},// canActivate: [editorGuard]},
   { path: 'create-thread', component: CreateThreadComponent},//canActivate: [editorGuard] },
   { path: 'threads/:id', component: ThreadDetailComponent },

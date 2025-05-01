@@ -12,7 +12,8 @@ export class FileUploadComponent {
   selectedFile: File | null = null;
 
   constructor(private http: HttpClient) {}
-
+  
+  // Nastaví vybraný soubor při změně souboru ve vstupu
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -21,7 +22,8 @@ export class FileUploadComponent {
       this.selectedFile = null;
     }
   }
-
+  
+  // Odesílá soubor na server
   onUpload() {
     if (!this.selectedFile) {
       console.log('No file selected');
@@ -30,7 +32,6 @@ export class FileUploadComponent {
 
     const uploadData = new FormData();
     uploadData.append('file', this.selectedFile, this.selectedFile.name);
-    //'http://localhost:8080/api/uploads'
     this.http.post(`${environment.apiUrl}/uploads`, uploadData, { responseType: 'text' })
       .pipe(
         tap(response => {
@@ -45,4 +46,5 @@ export class FileUploadComponent {
       )
       .subscribe(); // Je stále platné, ale pouze pro spouštění Observable
   }
+
 }

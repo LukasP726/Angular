@@ -39,7 +39,6 @@ banUser(user: User): void {
 
   users: User[]  = [];
   roles: Role[] = [];
-  //selectedRole!: Role;
   selectedRole: any = null;
 
   constructor(private roleService: RoleService,private userService: UserService) { }
@@ -48,22 +47,18 @@ banUser(user: User): void {
     this.getUsers();
     this.getRoles();
     this.selectedRole = this.roles[0]
-    /*
-    if (this.roles.length > 0) {
-      this.selectedRole = this.roles[0];
-    }
-      */
 
   }
 
+  // Metoda pro načtení všech uživatelů
   getUsers(): void {
     this.userService.getUsers()
       .subscribe(users => this.users = users);
   }
-
+  
+  // Metoda pro načtení všech rolí a odstranění role s největší váhou
   getRoles(): void {
     this.roleService.getRoles().subscribe(roles => {
-      //console.log('Roles:', roles);
       const roleWithMaxWeight = roles.reduce((prev, current) => (prev.weight > current.weight) ? prev : current);
 
       // Odstranění role s největší váhou
@@ -73,7 +68,7 @@ banUser(user: User): void {
 
 
   
-
+  // Metoda pro smazání uživatele
   delete(user: User): void {
     if (user.id === undefined) {
       console.error('User ID is undefined. Cannot delete user.');
@@ -96,8 +91,7 @@ banUser(user: User): void {
       },
       error: (err) => {
         console.error('Failed to delete user:', err);
-        // Můžete přidat kód pro obnovu seznamu uživatelů, pokud odstranění selže
-        // this.users.push(user); // např. znovu přidat uživatele do seznamu
+    
       }
     });
   }

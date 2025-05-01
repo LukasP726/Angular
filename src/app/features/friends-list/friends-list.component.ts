@@ -10,7 +10,6 @@ import { User } from '../../core/models/user';
 })
 export class FriendsListComponent implements OnInit {
   friends$: Observable<User[]> | undefined;
-  //friends$: User[] | undefined;
 
 
   constructor(private friendService: FriendService) { }
@@ -20,17 +19,12 @@ export class FriendsListComponent implements OnInit {
     
   }
 
+  // Načtení seznamu přátel
   loadFriends() {
-    
     this.friends$ = this.friendService.getFriends(); // Předpokládáme, že máte metodu pro získání přátel
-    /*
-    this.friendService.getFriends().subscribe(friends => {
-      this.friends$ = friends;
-      console.log(friends);
-    });
-     */
   }
 
+   // Odebrání přítele podle jeho ID
   removeFriend(friendId: number): void {
     this.friendService.removeFriend(friendId).subscribe({
       next: () => {
@@ -43,6 +37,7 @@ export class FriendsListComponent implements OnInit {
     });
   }
 
+  // Potvrzení a následné odstranění přítele
   confirmAndRemoveFriend(friendId: number): void {
     const confirmation = confirm('Are you sure you want to remove this friend?');
     if (confirmation) {

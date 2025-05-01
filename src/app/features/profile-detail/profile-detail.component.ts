@@ -39,7 +39,6 @@ export class ProfileDetailComponent {
           if (user) {
             this.editableUser = { ...user, 
                 login: user.login ?? '',
-                //password: user.password ?? '',
                 email: user.email ?? ''
     
             };

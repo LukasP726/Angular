@@ -10,23 +10,26 @@ export class SearchService {
 
   constructor(private http: HttpClient) {}
 
+  // Vyhledá záznamy podle zadaného výrazu
   search<T>(url: string, term: string): Observable<T[]> {
     if (!term.trim()) {
-      // Pokud není vyhledávací termín, vrátí prázdné pole.
-      return of([]);
+      return of([]); // Pokud je term prázdný, vrátí prázdné pole
     }
     return this.http.get<T[]>(`${url}/?name=${term}`).pipe(
       tap(x => x.length ?
-         console.log(`found results matching "${term}"`) :
-         console.log(`no results matching "${term}"`)),
+        console.log(`found results matching "${term}"`) :
+        console.log(`no results matching "${term}"`)
+      ),
       catchError(this.handleError<T[]>('search', []))
     );
   }
 
+  // Obsluha chyb
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(error); // log to console instead
+      console.error(error); // log do konzole
       return of(result as T);
     };
   }
+
 }

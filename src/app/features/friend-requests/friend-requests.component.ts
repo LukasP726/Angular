@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FriendService } from '../../core/services/friend.service';
 import { Observable } from 'rxjs';
-import { FriendRequest } from '../../core/models/friend-request';
 import { FriendRequestDTO } from '../../core/models/friend-requestDTO';
-//import { FriendRequest }  // Předpokládáme, že máte model žádosti o přátelství
+
 
 @Component({
   selector: 'app-friend-requests',
@@ -16,24 +15,17 @@ export class FriendRequestsComponent implements OnInit {
 
   constructor(private friendService: FriendService) { }
 
+  // Načte žádosti o přátelství při inicializaci komponenty
   ngOnInit(): void {
     this.loadFriendRequests();
   }
 
+  // Načte žádosti o přátelství
   loadFriendRequests() {
-
-
-    /*
-    this.friendService.getFriendRequests().subscribe(friendRequests => {
-      this.friendRequests$  = friendRequests;
-      console.log(friendRequests);
-    });
-*/
-    //this.friendRequests$ = this.friendService.getFriendRequests(); 
     this.friendRequests$ = this.friendService.getRequestsDTO(); 
-    
   }
-
+  
+  // Akceptuje žádost o přátelství a znovu načte seznam žádostí
   acceptRequest(requestId: number) {
     this.friendService.acceptFriendRequest(requestId).subscribe(() => {
       this.loadFriendRequests(); // Znovu načteme žádosti po akceptaci

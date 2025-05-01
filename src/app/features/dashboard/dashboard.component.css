@@ -25,6 +25,25 @@ h2 {
   margin-bottom: 30px;
 }
 
+.user-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  max-width: 200px;
+  min-width: 120px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.user-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: 100%;
+}
+
 
 
 /* Zarovnání obsahu uživatelů a mezery mezi odkazy */
@@ -33,6 +52,7 @@ h2 {
   padding: 5px 0;
   text-decoration: none;
 }
+
 
 a {
   background-color: #3f525c;

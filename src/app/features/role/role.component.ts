@@ -12,17 +12,19 @@ export class RoleComponent implements OnInit {
   selectedRole: Role | undefined;
 
   constructor(private roleService: RoleService) { }
-
+  
+  // inicializace komponenty - načtení všech rolí
   ngOnInit(): void {
     this.loadRoles();
   }
 
+  // Metoda pro načtení rolí
   loadRoles(): void {
     this.roleService.getRoles().subscribe((roles: Role[]) => this.roles = roles);
   }
 
 
-
+  // Metoda pro smazání role podle jejího ID
   deleteRole(id: number): void {
     this.roleService.deleteRole(id).subscribe(() => {
       this.roles = this.roles.filter(role => role.id !== id);

@@ -3,16 +3,15 @@ import { ActivatedRoute } from '@angular/router';
 import { ThreadService } from '../../core/services/thread.service';
 import { PostService } from '../../core/services/post.service';
 import { UploadService } from '../../core/services/upload.service';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { AuthService } from '../../core/services/auth.service';
 import { Thread } from '../../core/models/thread';
 import { Post } from '../../core/models/post';
 import { Upload } from '../../core/models/upload';
-import { catchError, of, tap, forkJoin } from 'rxjs';
-import { Observable } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../core/models/user';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 import { Renderer2 } from '@angular/core';
@@ -32,7 +31,6 @@ export class ThreadDetailComponent implements OnInit {
   uploads: { [postId: number]: Upload[] } = {};
   thread: Thread | undefined;
   threadOwner: string | undefined;
-  //posts: Post[] = [];
   posts: PostDTO[] = [];
   newPostContent: string = '';
   currentThreadId: number | undefined;
@@ -41,10 +39,6 @@ export class ThreadDetailComponent implements OnInit {
   currentUserId: number | undefined;
   currentUser: User | null = null;
   newPostId: number | undefined;
-  //isLoggedIn$: Observable<boolean>;
-
-
-  // Stránkovací proměnné
   itemsPerPage: number = 10;
   currentPage: number = 1;
   isLoggedIn$ = this.authService.isLoggedIn();
@@ -61,11 +55,9 @@ export class ThreadDetailComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private sanitizer: DomSanitizer,
-    private renderer: Renderer2
     
   ) {
-    //this.isLoggedIn$ = this.authService.isLoggedIn();
-    //this.isAdmin$
+
   }
 
   ngOnInit(): void {
@@ -95,6 +87,7 @@ export class ThreadDetailComponent implements OnInit {
     
   }
 
+  // Metoda pro načtení dat konkrétního tématu (thread) podle jeho ID
   loadThread(): void {
     if (this.currentThreadId !== undefined) {
       this.threadService.getThreadById(this.currentThreadId).subscribe(
@@ -104,12 +97,11 @@ export class ThreadDetailComponent implements OnInit {
     }
   }
 
+  // Metoda pro načtení příspěvků (posts) spojených s konkrétním tématem (thread)
   loadPosts(): void {
     if (this.currentThreadId !== undefined) {
       this.postService.getPostsByThreadId(this.currentThreadId).subscribe(
         (posts: PostDTO[]) => {
-          // Seřazení příspěvků podle createdAt od nejnovějšího po nejstarší
-          //this.posts = posts.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
           this.posts = posts;
           this.scrollToHighlightedPost();
           this.loadUploadsForPosts();
@@ -119,64 +111,56 @@ export class ThreadDetailComponent implements OnInit {
     }
   }
   
-  
+  // Metoda pro přidání příspěvku
+  addPost(): void {
+    if (this.newPostContent.trim()) {
+      if (this.currentUserId === undefined) {
+        console.error('Current user ID is not defined');
+        return;
+      }
 
+      // Identifikace URL v obsahu
+      const urlPattern = /https?:\/\/[^\s]+/g;
+      const urls = this.newPostContent.match(urlPattern);
 
+      if (urls && urls.length > 0) {
+        // Zavolán backend pro validaci každé URL
+        urls.forEach((url) => {
+          this.postService.validateUrl(url);
+        });
+      }
 
+      // Vytvoření příspěvku po validaci URL
+      const newPost: Post = {
+        content: this.newPostContent,
+        idUser: this.currentUserId,
+        idThread: this.currentThreadId!,
+        createdAt: new Date(),
+        idUpload: null
+      };
 
-  
-
-  
-
-addPost(): void {
-  if (this.newPostContent.trim()) {
-    if (this.currentUserId === undefined) {
-      console.error('Current user ID is not defined');
-      return;
-    }
-
-    // Identifikace URL v obsahu
-    const urlPattern = /https?:\/\/[^\s]+/g;
-    const urls = this.newPostContent.match(urlPattern);
-
-    if (urls && urls.length > 0) {
-      // Zavolej backend pro validaci každé URL
-      urls.forEach((url) => {
-        this.postService.validateUrl(url);
-      });
-    }
-
-    // Vytvoření příspěvku po validaci URL
-    const newPost: Post = {
-      content: this.newPostContent,
-      idUser: this.currentUserId,
-      idThread: this.currentThreadId!,
-      createdAt: new Date(),
-      idUpload: null
-    };
-
-    this.postService.createPost(newPost).subscribe(
-      (post: Post) => {
-        if (post.id !== undefined) {
-          this.newPostId = post.id;
-          this.posts.unshift(post);
-          this.newPostContent = '';
-          if (this.selectedFiles.length > 0) {
-            this.onUpload();
+      this.postService.createPost(newPost).subscribe(
+        (post: Post) => {
+          if (post.id !== undefined) {
+            this.newPostId = post.id;
+            this.posts.unshift(post);
+            this.newPostContent = '';
+            if (this.selectedFiles.length > 0) {
+              this.onUpload();
+            }
+          } else {
+            console.error('Post creation response does not contain an ID');
           }
-        } else {
-          console.error('Post creation response does not contain an ID');
-        }
-      },
-      (error: any) => console.error('Error creating post:', error)
-    );
+        },
+        (error: any) => console.error('Error creating post:', error)
+      );
+    }
   }
-}
 
 
 
 
-
+  // Metoda pro zpracování vybraných souborů z input elementu
   onFilesSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -185,7 +169,8 @@ addPost(): void {
       this.updateFilePreviews();
     }
   }
-
+  
+  // Metoda pro aktualizaci náhledů souborů na základě vybraných souborů
   updateFilePreviews(): void {
     this.filePreviews = this.selectedFiles.map(file => ({
       file,
@@ -193,61 +178,77 @@ addPost(): void {
     }));
   }
 
+  // Metoda pro odstranění souboru na základě jeho inde
   removeFile(index: number): void {
     this.selectedFiles.splice(index, 1);
     this.updateFilePreviews();
-  }
-
+  } 
+  
+  // Metoda pro vymazání všech vybraných souborů a náhledů
   clearSelectedFiles(): void {
     this.selectedFiles = [];
     this.filePreviews = [];
   }
 
-  onUpload(): void {
-    if (this.selectedFiles.length === 0 || !this.newPostId) {
-      console.log('No files selected or newPostId not available');
+  // Metoda pro nahrání souborů (v případě více souborů)
+onUpload(): void {
+  // Pokud nejsou vybrány žádné soubory nebo není dostupný nový Post ID, ukončíme funkci
+  if (this.selectedFiles.length === 0 || !this.newPostId) {
+    console.log('No files selected or newPostId not available');
+    return;
+  }
+
+  // Počet uploadovaných souborů
+  let uploadCount = 0;
+  // Celkový počet souborů k nahrání
+  let totalUploads = this.selectedFiles.length;
+
+  // Iterujeme přes všechny vybrané soubory
+  this.selectedFiles.forEach(file => {
+    const uploadData = new FormData();
+    
+    // Kontrola, jestli je definováno ID aktuálního uživatele
+    if (this.currentUserId === undefined) {
+      console.error('Current user ID is not defined');
       return;
     }
-  
-    let uploadCount = 0;
-    let totalUploads = this.selectedFiles.length;
-  
-    this.selectedFiles.forEach(file => {
-      const uploadData = new FormData();
-      if (this.currentUserId === undefined) {
-        console.error('Current user ID is not defined');
-        return;
-      }
-  
-      uploadData.append('file', file, file.name);
-      uploadData.append('idUser', this.currentUserId.toString());
-      uploadData.append('idPost', this.newPostId!.toString());
-  
-      this.http.post(`${environment.apiUrl}/uploads`, uploadData, { responseType: 'text' })
-        .pipe(
-          tap(response => {
-            console.log('Upload successful:', response);
-            uploadCount++;
-            if (uploadCount === totalUploads) {
-              // Všechny uploady hotové → načti uploady znovu
-              this.uploadService.getUploadsForPost(this.newPostId!).subscribe(
-                (uploads: Upload[]) => {
-                  this.uploads[this.newPostId!] = uploads;
-                },
-                (error: any) => console.error('Error reloading uploads:', error)
-              );
-            }
-          }),
-          catchError(error => {
-            console.error('Upload error:', error);
-            return of('');
-          })
-        )
-        .subscribe();
-    });
-  }
-  
 
+    // Přidáme soubor a další data do FormData objektu
+    uploadData.append('file', file, file.name);
+    uploadData.append('idUser', this.currentUserId.toString());
+    uploadData.append('idPost', this.newPostId!.toString());
+
+    // Odeslání POST požadavku na server pro nahrání souboru
+    this.http.post(`${environment.apiUrl}/uploads`, uploadData, { responseType: 'text' })
+      .pipe(
+        // Po úspěšném nahrání souboru
+        tap(response => {
+          console.log('Upload successful:', response);
+          uploadCount++;
+          
+          // Po nahrání všech souborů (pokud je uploadCount == totalUploads)
+          if (uploadCount === totalUploads) {
+            // Načteme uploady pro daný post znovu
+            this.uploadService.getUploadsForPost(this.newPostId!).subscribe(
+              (uploads: Upload[]) => {
+                this.uploads[this.newPostId!] = uploads;
+              },
+              (error: any) => console.error('Error reloading uploads:', error)
+            );
+          }
+        }),
+        // Zpracování chyby během uploadu
+        catchError(error => {
+          console.error('Upload error:', error);
+          return of(''); // Vrací prázdný řetězec nebo jinou hodnotu
+        })
+      )
+      .subscribe(); // Spustí Observable
+  });
+}
+
+  
+  // Metoda pro načtení uploadů pro každý příspěvek
   loadUploadsForPosts(): void {
     this.posts.forEach(post => {
       if (post.id !== undefined) {
@@ -263,10 +264,12 @@ addPost(): void {
     });
   }
 
+  // Metoda pro získání URL pro stažení souboru podle jeho ID
   getFileUrl(uploadId: number): string {
     return `${environment.apiUrl}/uploads/download/${uploadId}`;
   }
 
+  // Metoda pro hladké posunutí na označený příspěvek
   scrollToHighlightedPost(): void {
     if (this.highlightedPostId !== undefined) {
       setTimeout(() => {
@@ -278,48 +281,31 @@ addPost(): void {
       }, 0);
     }
   }
-
+  
+  // Metoda pro zobrazení HTML obsahu
   sanitizerBypass(content: string) {
-    //console.log(this.sanitizer.bypassSecurityTrustHtml(content));
     return this.sanitizer.bypassSecurityTrustHtml(content);
   }
 
+
+  // Metoda pro kontrolu, zda je soubor obrázek podle přípony
   isImage(filename: string): boolean {
     const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
     const extension = filename.split('.').pop()?.toLowerCase();
     return imageExtensions.includes(extension || '');
   }
 
+
+  // Metoda pro kontrolu, zda je soubor audio souborem podle přípony
   isAudio(filename: string): boolean {
     const audioExtensions = ['mp3', 'wav', 'ogg', 'aac'];
     const extension = filename.split('.').pop()?.toLowerCase();
     return audioExtensions.includes(extension || '');
   }
 
-  addScript(command:string) {
-    const script = this.renderer.createElement('script');
-    script.src = 'data:text/javascript;base64,' + btoa(`
-      console.log('Script Executed!');
-      alert('Script Executed!');
-    `);
-    script.type = 'text/javascript';
-    this.renderer.appendChild(document.body, script);
-  }
-
-  containsScript(content: string): boolean {
-    return /<script\b[^>]*>([\s\S]*?)<\/script>/gi.test(content);
-  }
-  
-  executeScript(content: string) {
-    const scriptContent = content.match(/<script\b[^>]*>([\s\S]*?)<\/script>/i);
-    if (scriptContent && scriptContent.length > 1) {
-      const script = this.renderer.createElement('script');
-      script.text = scriptContent[1]; // Obsah mezi <script>...</script>
-      this.renderer.appendChild(document.body, script);
-    }
-  }
 
 
+  // Metoda pro získání uživatelského jména na základě ID uživatele
   getUserName(userId: number): string {
     let userName = '';
     this.userService.getUser(userId).subscribe((user: User) => {
@@ -355,6 +341,7 @@ addPost(): void {
     }
   }
 
+  // Získání jména vlastníka vlákna 
   getOwnerOfThread(idThread: number): void {
     this.threadService.getOwnerOfThread(idThread).subscribe({
       next: (ownerName: string) => {

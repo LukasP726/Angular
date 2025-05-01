@@ -24,28 +24,27 @@ export class AddUserComponent {
 
   }
 
+  // Načte role a odebere roli s nejvyšší váhou
   getRoles(): void {
     this.roleService.getRoles().subscribe(roles => {
-      //console.log('Roles:', roles);
       const roleWithMaxWeight = roles.reduce((prev, current) => (prev.weight > current.weight) ? prev : current);
-
-      // Odstranění role s největší váhou
       this.roles = roles.filter(role => role.id !== roleWithMaxWeight.id);
     });
   }
 
+  // Přidá nového uživatele
   add(firstName: string, lastName: string, login: string, password: string, email: string, idRole: number, isBanned: boolean): void {
     firstName = firstName.trim();
     lastName = lastName.trim();
     login = login.trim();
     password = password.trim();
     email = email.trim();
-  
+
     if (!firstName || !lastName || !login || !password || !email || !idRole) { 
       console.error('All fields must be filled in.');
       return; 
     }
-  
+
     const newUser: User = { 
       id: undefined, 
       firstName, 
@@ -56,11 +55,12 @@ export class AddUserComponent {
       idRole,
       isBanned
     };
-  
+
     this.userService.addUser(newUser)
       .subscribe(user => {
         window.location.reload();
       });
   }
+
 
 }

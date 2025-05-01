@@ -17,13 +17,12 @@ export class CommandComponent {
 
   constructor(private commandService: CommandService) {}
 
+  // Zavolá readLog s vybraným logem
   onExecuteCommand() {
     if (!this.logPath) {
       this.result = 'Vyberte prosím log z nabídky.';
       return;
-    }
-
-    // Zavolá readLog s vybraným logem
+    }    
     this.commandService.readLog(this.logPath).subscribe(
       (response) => this.result = response,
       (error) => this.result = 'Error executing command'

@@ -49,14 +49,7 @@ export class UserService {
       catchError(this.handleError<any>('updateUser'))
     );
   }
-/*
-  // Aktualizace profilu
-  updateProfile(user: User): Observable<any> {
-    return this.http.put(`${this.usersUrl}/profile`, user, this.httpOptions).pipe(
-      catchError(this.handleError<any>('updateUser'))
-    );
-  }
-*/
+
 
   updateProfile(user: UserUpdateDTO): Observable<any> {
     return this.http.put(`${this.usersUrl}/profile`, user, this.httpOptions).pipe(

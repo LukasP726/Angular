@@ -12,16 +12,16 @@ export class DashboardComponent implements OnInit {
 
 
   constructor(private userService: UserService) { }
-
+  // Inicializace komponenty – načte top uživatele
   ngOnInit(): void {
-   //this.getUsers();
    this.getTopUsers();
   }
-
+  // Načte seznam uživatelů a zobrazí pouze 4 od 2. do 5. uživatele
   getUsers():void{
     this.userService.getUsers()
     .subscribe(users =>this.users = users.slice(1,5))
   }
+  // Načte top uživatele
   getTopUsers():void{
     this.userService.getTopUsers().subscribe(users => this.users = users)
   }

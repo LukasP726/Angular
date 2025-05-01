@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ThreadService } from '../../core/services/thread.service';
 import { Thread } from '../../core/models/thread';
-import { tap } from 'rxjs/operators';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../core/models/user';
 
@@ -14,6 +13,7 @@ import { User } from '../../core/models/user';
 export class CreateThreadComponent {
   threadForm: FormGroup;
   user: User | null=null;
+  randomId: number=1;
 
 
   constructor(
@@ -23,24 +23,24 @@ export class CreateThreadComponent {
   ) {
     this.threadForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
-      userId: [null] //,Validators.required]
+      userId: [null] 
     });
   }
   
-
+  // Inicializace komponenty – načte aktuálního uživatele
   ngOnInit(): void {
     this.userService.getCurrentUser().subscribe(user => this.user = user);
     
   }
 
-
+  // Odeslání formuláře pro vytvoření vlákna
   onSubmit(): void {
     if (this.threadForm.valid) {
       console.log("id: ",this.user?.id!);
       const newThread: Thread = {
-        id: 2,
+        id: this.randomId,
         name: this.threadForm.get('name')?.value,
-        idUser: this.user?.id!, //1,//this.threadForm.get('userId')?.value,
+        idUser: this.user?.id!, 
         createdAt: new Date()
       };
 
@@ -58,4 +58,7 @@ export class CreateThreadComponent {
       );
     }
   }
+
+
+
 }

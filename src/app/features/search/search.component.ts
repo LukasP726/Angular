@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Observable, of, Subject, switchMap } from 'rxjs';
 import { SearchService } from '../../core/services/search.service';
-import { User } from '../../core/models/user';
-import { Post } from '../../core/models/post';
-import { Thread } from '../../core/models/thread';
-import { Upload } from '../../core/models/upload';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -16,8 +12,6 @@ export class SearchComponent implements OnInit {
 
   getFileUrl(uploadId: number): string {
      return `${environment.apiUrl}/uploads/download/${uploadId}`;
-
-   //`http://localhost:8080/api/uploads/download/${uploadId}`;
   }
 
   results$!: Observable<any[]>;
@@ -27,10 +21,12 @@ export class SearchComponent implements OnInit {
 
   constructor(private searchService: SearchService) {}
 
+  // Spuštění hledání s novým termínem
   search(term: string): void {
     this.searchTerms.next(term);
   }
 
+  // Nastavení typu hledání (users, posts, threads nebo uploads)
   setSearchType(type: 'users' | 'posts' | 'threads' | 'uploads'): void {
     this.searchType = type;
     this.searchTerms.next(''); // Vymaže aktuální výsledky
@@ -43,34 +39,38 @@ export class SearchComponent implements OnInit {
   
 
   ngOnInit(): void {
+    // Vytváří observable 'results$', které se mění při každé změně v 'searchTerms'
     this.results$ = this.searchTerms.pipe(
+      // 'debounceTime' čeká 300 ms po poslední změně, než provede další akci (prevence příliš častých požadavků)
       debounceTime(300),
+      // 'distinctUntilChanged' zajistí, že se budou zpracovávat pouze unikátní změny v termínu
       distinctUntilChanged(),
+      // 'switchMap' přepíná na nový observable při každé změně termínu
       switchMap((term: string) => {
         
+        // Pokud je termín prázdný, vrátí prázdný seznam
         if (!term.trim()) {
           return of([]);
         }
           
+        // Inicializuje URL pro API na základě typu hledání
         let url = '';
         switch (this.searchType) {
           case 'users':
-            //'http://localhost:8080/api/users'
             url = `${environment.apiUrl}/users`; 
             break;
           case 'posts':
-            // 'http://localhost:8080/api/posts'
             url = `${environment.apiUrl}/posts`; 
             break;
           case 'threads':
-            //'http://localhost:8080/api/threads'
             url = `${environment.apiUrl}/threads`; 
             break;
           case 'uploads':
-            //'http://localhost:8080/api/uploads'
             url = `${environment.apiUrl}/uploads`; 
             break;
         }
+        
+        // Volá searchService pro hledání dle URL a termínu
         return this.searchService.search<any>(url, term);
       })
     );

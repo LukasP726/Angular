@@ -10,18 +10,11 @@ export class CommandService {
 
   private baseUrl =`${environment.apiUrl}/execute`;
   private logUrl =`${environment.apiUrl}/logs`;
-  //private baseUrl = 'http://localhost:8080/execute'; // URL na backend
 
   constructor(private http: HttpClient) {}
 
-  executeCommand(command: string): Observable<string> {
-    return this.http.get(this.baseUrl, {
-      params: { command },
-      responseType: 'text'
-    });
-  }
 
-
+  // Načte obsah logovacího souboru ze serveru.
   readLog(logPath: string): Observable<string> {
     return this.http.get(this.logUrl, {
       params: { logPath },

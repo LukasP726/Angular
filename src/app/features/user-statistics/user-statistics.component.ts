@@ -48,24 +48,23 @@ export class UserStatisticsComponent {
   ){}
 
   ngOnInit(): void {
-    //this.currentUserId = parseInt(localStorage.getItem('id')!, 10); // nebo jiná metoda získání ID
     this.getCurrentUser();
-    ///console.log("currentUser: "+this.currentUserId);
     this.getUser();
     this.getUploads();
     this.getPosts();
     this.getThreads();
-    //this.checkIfFriend();
+
    
   }
 
-
+  // Metoda pro kontrolu, zda je aktuální uživatel přítelem daného uživatele
   checkIfFriend(): void {
       this.friendService.checkIfFriend(this.user!.id!).subscribe((result: boolean) => {
         this.isFriend = result;
       });
     
   }
+
   getCurrentUser(): void {
     // Odebíráme se k observable, abychom zjistili, zda je uživatel přihlášen
     this.authService.isLoggedIn().subscribe(isLoggedIn => {
@@ -95,10 +94,9 @@ export class UserStatisticsComponent {
     });
   }
 
+  // Metoda pro načtení uživatelských dat na základě ID z parametru URL
   getUser(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
-   //console.log("id: "+id);
-
     this.userService.getUser( id).subscribe({
       next: user => {
         if (user) {
@@ -113,7 +111,8 @@ export class UserStatisticsComponent {
 
 
   }
-
+  
+  // Metoda pro načtení všech uploadů uživatele
   getUploads(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     this.uploadService.getUploadsByUserId(id)
@@ -123,6 +122,7 @@ export class UserStatisticsComponent {
       });
   }
 
+  // Metoda pro načtení příspěvků uživatele
   getPosts(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     this.postService.getPostsByUserId(id)
@@ -131,7 +131,8 @@ export class UserStatisticsComponent {
         this.frequency = posts.length;
       });
   }
-
+  
+  // Metoda pro načtení diskuzních vláken uživatele
   getThreads(): void {
     const id = parseInt(this.route.snapshot.paramMap.get('id')!, 10);
     this.threadService.getThreadsByIdUser(id)
@@ -140,17 +141,18 @@ export class UserStatisticsComponent {
         this.threadsCount = threads.length;
       });
   }
-
+  
+  // Metoda pro navigaci zpět na předchozí stránku
   goBack(): void {
     this.location.back();
   }
 
-
+  
+  // Metoda pro navigaci zpět na předchozí stránku
   sendFriendRequest(userId: number): void {
     this.friendService.sendFriendRequest(userId).subscribe(
       response => {
         alert('Friend request sent!');
-        //this.checkIfFriend(); // Aktualizace stavu
       },
       error => {
         alert('Failed to send friend request');

@@ -13,6 +13,7 @@ export class SignComponent implements OnInit {
   registrationForm: FormGroup;
   registrationSuccess: boolean = false;
   registrationFailed: boolean = false;
+  defaultRole: number = 3;
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
     this.registrationForm = this.fb.group({
@@ -32,7 +33,7 @@ export class SignComponent implements OnInit {
     const confirmPassword = form.get('confirmPassword')?.value;
     return password === confirmPassword ? null : { passwordMismatch: true };
   }
-
+  // Přidání nového uživatele
   addNewUser(): void {
     if (this.registrationForm.valid) {
       const newUser: User = {
@@ -41,7 +42,7 @@ export class SignComponent implements OnInit {
         login: this.registrationForm.value.username,
         password: this.registrationForm.value.password,
         email: this.registrationForm.value.email,
-        idRole: 3, // Assign role ID, name a weight budou nahrazeny při backend operaci
+        idRole: this.defaultRole, // Assign role ID, name a weight budou nahrazeny při backend operaci
         isBanned: false,
       };
       

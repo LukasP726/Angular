@@ -30,24 +30,24 @@ export class AuthService {
    * Metoda pro kontrolu autentizace při načtení aplikace
    * Ověří, zda je uživatel přihlášen na základě session cookie
    */
- 
   checkAuthentication(): void {
-    //možná to budu moct vyměnit za endpoint status ať nefetchuju celýho uživatele
     this.getCurrentUser().subscribe(user => {
       console.log("User fetched during authentication check: ", user); // Pro ladění
-//!!user
       this.loggedIn.next(!!user);
     }, error => {
-      //console.error('Error during authentication check:', error);
       this.loggedIn.next(false);
     });
   }
  
 
 
-  /**
-   * Přihlášení uživatele (session-based autentizace)
-   */
+/**
+ * Přihlášení uživatele pomocí session-based autentizace.
+ *
+ * Odešle uživatelské jméno a heslo na backend, a pokud je přihlášení úspěšné,
+ * nastaví stav `loggedIn` na true.
+ *
+ */
   login(username: string, password: string): Observable<any> {
     const body = { username, password };
 
@@ -63,10 +63,11 @@ export class AuthService {
   }
 
   /**
-   * Odhlášení uživatele
-   * Informuje server o odhlášení a nastaví stav uživatele na nepřihlášený
+   * Odhlášení uživatele.
+   *
+   * Odešle požadavek na odhlášení serveru, aktualizuje stav `loggedIn` na false
+   * a přesměruje uživatele na přihlašovací stránku.
    */
-  
   logout(): void {
     this.http.post(this.logoutUrl, {}, this.httpOptions).subscribe(() => {
       this.loggedIn.next(false);
@@ -76,21 +77,15 @@ export class AuthService {
     });
   }
 
-  /**
-   * Ověření, zda je uživatel přihlášen
-   */
- 
+  // Vrací observable, který informuje o tom, zda je uživatel přihlášen
   isLoggedIn(): Observable<boolean> {
     return this.loggedIn.asObservable();
   }
    
 
  
-  /**
-   * Ověření, zda je přihlášený uživatel administrátor
-   */
 
-
+  // Ověření, zda je aktuálně přihlášený uživatel administrátor.
   isLoggedAsAdmin(): Observable<boolean> {
     return this.http.get<boolean>(this.isAdminUrl, this.httpOptions).pipe(
       catchError(error => {
@@ -99,33 +94,19 @@ export class AuthService {
       })
     );
   }
-
-
-  /*
-  isLoggedAsAdmin(): Observable<boolean> {
-    return this.http.get<boolean>(this.isAdminUrl).pipe(
-      catchError(error => {
-        console.error('Error fetching admin status:', error);
-        return of(false); // Pokud dojde k chybě, vrátíme false
-      })
-    );
-  }
-        */
   
 
-  /**
-   * Registrace nového uživatele
-   */
+  
+  // Registrace nového uživatele.
   register(user: User): Observable<User> {
     return this.http.post<User>(this.registerUrl, user, this.httpOptions).pipe(
       catchError(this.handleError<User>('register'))
     );
   }
 
-  /**
-   * Získání aktuálně přihlášeného uživatele
-   */
 
+  
+  // Získání aktuálně přihlášeného uživatele.
   getCurrentUser(): Observable<User | null> {
     return this.http.get<User>(`${environment.apiUrl}/users/me`, this.httpOptions).pipe(
       catchError(error => {
@@ -139,10 +120,8 @@ export class AuthService {
     );
   }
   
-
-  /**
-   * Obsluha chyb
-   */
+  
+  // Obecná metoda pro zpracování chyb.
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
       console.error(error); // log to console instead
